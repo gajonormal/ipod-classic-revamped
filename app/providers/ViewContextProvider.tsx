@@ -114,15 +114,19 @@ interface Props {
 }
 
 const ViewContextProvider = ({ children }: Props) => {
-  const baseView: ScreenViewInstance<"home"> = {
+  const homeView: ScreenViewInstance<"home"> = {
     type: "screen",
     id: "home",
   };
+  const coverFlowView: ScreenViewInstance<"coverFlow"> = {
+    type: "screen",
+    id: "coverFlow",
+  };
 
-  const viewStack: ViewInstance[] = [baseView];
+  const viewStack: ViewInstance[] = [homeView, coverFlowView];
   const [viewContextState, setViewContextState] = useState<ViewContextState>({
     viewStack,
-    headerTitle: VIEW_REGISTRY.home.title,
+    headerTitle: VIEW_REGISTRY.coverFlow.title,
     preview: SplitScreenPreview.Music,
   });
 

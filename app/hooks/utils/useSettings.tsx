@@ -136,7 +136,7 @@ export const SettingsProvider = ({ children }: Props) => {
     youtubeToken: undefined,
     isOffline: false,
     colorScheme: "default",
-    deviceTheme: "silver",
+    deviceTheme: "black",
     shuffleMode: "off",
     repeatMode: "off",
     hapticsEnabled: true,
@@ -149,7 +149,7 @@ export const SettingsProvider = ({ children }: Props) => {
       colorScheme:
         (localStorage.getItem(COLOR_SCHEME_KEY) as ColorScheme) ?? "default",
       deviceTheme:
-        (localStorage.getItem(DEVICE_COLOR_KEY) as DeviceThemeName) ?? "silver",
+        (localStorage.getItem(DEVICE_COLOR_KEY) as DeviceThemeName) ?? "black",
       shuffleMode:
         (localStorage.getItem(SHUFFLE_MODE_KEY) as ShuffleMode) ?? "off",
       repeatMode:
