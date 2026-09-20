@@ -84,9 +84,17 @@ export const AudioPlayerProvider = ({ children }: Props) => {
             setVolumeState(savedVol * 100);
           },
           onStateChange: (event: any) => {
-            const isPlaying = event.data === (window as any).YT.PlayerState.PLAYING;
-            const isPaused = event.data === (window as any).YT.PlayerState.PAUSED;
-            setPlaybackInfo((prev) => ({ ...prev, isPlaying, isPaused }));
+            const YTState = (window as any).YT.PlayerState;
+            const state = event.data;
+
+            if (state === YTState.PLAYING) {
+              setPlaybackInfo((prev) => ({ ...prev, isPlaying: true, isPaused: false }));
+            } else if (state === YTState.PAUSED) {
+              setPlaybackInfo((prev) => ({ ...prev, isPlaying: false, isPaused: true }));
+            } else if (state === YTState.BUFFERING) {
+              // Keep showing play icon during buffering to prevent flashing
+              setPlaybackInfo((prev) => ({ ...prev, isPlaying: true, isPaused: false }));
+            }
 
             // Auto-advance
             if (event.data === (window as any).YT.PlayerState.ENDED) {
@@ -159,9 +167,12 @@ export const AudioPlayerProvider = ({ children }: Props) => {
   const togglePlayPause = useCallback(async () => {
     if (!player) return;
     const state = player.getPlayerState();
-    if (state === (window as any).YT.PlayerState.PLAYING) {
+    const YTState = (window as any).YT.PlayerState;
+    if (state === YTState.PLAYING || state === YTState.BUFFERING) {
+      setPlaybackInfo((prev) => ({ ...prev, isPlaying: false, isPaused: true }));
       player.pauseVideo();
     } else {
+      setPlaybackInfo((prev) => ({ ...prev, isPlaying: true, isPaused: false }));
       player.playVideo();
     }
   }, [player]);
