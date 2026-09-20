@@ -286,6 +286,51 @@ export const AudioPlayerProvider = ({ children }: Props) => {
   useEventListener<IpodEvent>("forwardclick", handleSkipNext);
   useEventListener<IpodEvent>("backwardclick", handleSkipPrevious);
 
+  // Enviar estado do player para o iframe parent
+  useEffect(() => {
+    if (window.parent !== window) {
+      window.parent.postMessage({
+        type: "IPOD_STATE_CHANGE",
+        payload: {
+          isPlaying: playbackInfo.isPlaying,
+          track: nowPlayingItem?.title ?? "",
+          artist: nowPlayingItem?.artist ?? ""
+        }
+      }, "*");
+    }
+  }, [playbackInfo.isPlaying, nowPlayingItem]);
+
+  // Escutar comandos vindos do iframe parent
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (!event.data || !event.data.type) return;
+
+      switch (event.data.type) {
+        case "IPOD_PLAY":
+          if (player && typeof player.playVideo === "function") {
+            setPlaybackInfo((prev) => ({ ...prev, isPlaying: true, isPaused: false }));
+            player.playVideo();
+          }
+          break;
+        case "IPOD_PAUSE":
+          if (player && typeof player.pauseVideo === "function") {
+            setPlaybackInfo((prev) => ({ ...prev, isPlaying: false, isPaused: true }));
+            player.pauseVideo();
+          }
+          break;
+        case "IPOD_NEXT":
+          skipNextRef.current();
+          break;
+        case "IPOD_PREV":
+          skipPrevious();
+          break;
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, [player, skipPrevious]);
+
   return (
     <AudioPlayerContext.Provider
       value={{
