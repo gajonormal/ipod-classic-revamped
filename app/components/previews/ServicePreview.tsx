@@ -4,8 +4,11 @@ import styled from "styled-components";
 import { Unit } from "@/utils/constants";
 import appleMusicIcon from "@public/apple_music_icon.svg";
 import spotifyIcon from "@public/spotify_icon.svg";
+import { previewSlideRight } from "@/animation";
 
 const Container = styled(motion.div)`
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -47,7 +50,7 @@ const ServicePreview = () => {
   const text = strings[service ?? "none"];
 
   return (
-    <Container>
+    <Container {...previewSlideRight}>
       <Image alt="Service" src={imgUrl.src} />
       <Text>{text}</Text>
       <Subtext>{strings.selected}</Subtext>

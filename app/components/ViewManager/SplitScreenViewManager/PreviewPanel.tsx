@@ -38,11 +38,9 @@ const PreviewPanel = ({ $isHidden: isHidden }: Props) => {
 
   return (
     <Container $isHidden={isHidden}>
-      <AnimatePresence>
-        {/* Music preview slides in, whereas the other previews simply appear. */}
-        {preview === SplitScreenPreview.Music && <PreviewComponent />}
+      <AnimatePresence mode="wait">
+        <PreviewComponent key={preview} />
       </AnimatePresence>
-      {preview !== SplitScreenPreview.Music && <PreviewComponent />}
     </Container>
   );
 };

@@ -2,8 +2,11 @@ import { motion } from "motion/react";
 import styled from "styled-components";
 import { Unit } from "@/utils/constants";
 import { APP_URL } from "@/utils/constants/api";
+import { previewSlideRight } from "@/animation";
 
 const Container = styled(motion.div)`
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -33,7 +36,7 @@ const Subtext = styled.h3`
 
 const SettingsPreview = () => {
   return (
-    <Container>
+    <Container {...previewSlideRight}>
       <Image alt="React logo" src={`${APP_URL}/react_logo.svg`} />
       <Text>iPod.js</Text>
       <Subtext>by Tanner V</Subtext>
