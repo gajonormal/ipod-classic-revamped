@@ -6,10 +6,8 @@ import {
   useState,
 } from "react";
 import { ColorScheme } from "@/utils/colorScheme";
-import { SELECTED_SERVICE_KEY } from "@/utils/service";
 import { DeviceThemeName } from "@/utils/themes";
 
-type StreamingService = "apple" | "spotify";
 export type ShuffleMode = "off" | "songs" | "albums";
 export type RepeatMode = "off" | "one" | "all";
 
@@ -21,7 +19,6 @@ export const REPEAT_MODE_KEY = "ipodRepeatMode";
 export const HAPTICS_ENABLED_KEY = "ipodHapticsEnabled";
 
 export interface SettingsState {
-  service?: StreamingService;
   youtubeToken?: string;
   isYoutubeAuthorized: boolean;
   isOffline: boolean;
@@ -45,7 +42,6 @@ export const SettingsContext = createContext<SettingsContextType>([
 export type SettingsHook = SettingsState & {
   isAuthorized: boolean;
   setYoutubeToken: (token?: string) => void;
-  setService: (service?: StreamingService) => void;
   setColorScheme: (colorScheme?: ColorScheme) => void;
   setDeviceTheme: (deviceTheme: DeviceThemeName) => void;
   setShuffleMode: (mode: ShuffleMode) => void;
@@ -63,26 +59,6 @@ export const useSettings = (): SettingsHook => {
         youtubeToken: token,
         isYoutubeAuthorized: !!token,
       })),
-    [setState]
-  );
-
-  const setService = useCallback(
-    (service?: StreamingService) => {
-      if (typeof window === "undefined") {
-        return;
-      }
-
-      setState((prevState) => ({
-        ...prevState,
-        service,
-      }));
-
-      if (service) {
-        localStorage.setItem(SELECTED_SERVICE_KEY, service);
-      } else {
-        localStorage.removeItem(SELECTED_SERVICE_KEY);
-      }
-    },
     [setState]
   );
 
@@ -142,7 +118,6 @@ export const useSettings = (): SettingsHook => {
     isAuthorized: true, // Always true for Hybrid Mode (Guest + User)
     isOffline: false, // Bypass offline check for Guest Mode
     setYoutubeToken,
-    setService,
     setColorScheme,
     setDeviceTheme,
     setShuffleMode,
@@ -160,7 +135,6 @@ export const SettingsProvider = ({ children }: Props) => {
     isYoutubeAuthorized: false,
     youtubeToken: undefined,
     isOffline: false,
-    service: undefined,
     colorScheme: "default",
     deviceTheme: "silver",
     shuffleMode: "off",
@@ -172,9 +146,6 @@ export const SettingsProvider = ({ children }: Props) => {
     setSettingsState((prevState) => ({
       ...prevState,
       isOffline: !navigator.onLine,
-      service:
-        (localStorage.getItem(SELECTED_SERVICE_KEY) as StreamingService) ??
-        undefined,
       colorScheme:
         (localStorage.getItem(COLOR_SCHEME_KEY) as ColorScheme) ?? "default",
       deviceTheme:

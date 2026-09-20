@@ -97,23 +97,23 @@ const mockFetcher: DataFetcher = {
 };
 
 const useResolvedFetcher = () => {
-  const { service, isYoutubeAuthorized, youtubeToken } = useSettings();
+  const { isYoutubeAuthorized, youtubeToken } = useSettings();
   const enabled = true;
   
   const fetcher = isYoutubeAuthorized && youtubeToken 
     ? getYouTubeFetcher(youtubeToken) 
     : mockFetcher;
 
-  return { fetcher, service, enabled, isYoutubeAuthorized };
+  return { fetcher, enabled, isYoutubeAuthorized };
 };
 
 export const useFetchAlbum = (
   options: CommonFetcherProps & AlbumFetcherProps
 ) => {
-  const { fetcher, service, enabled, isYoutubeAuthorized } = useResolvedFetcher();
+  const { fetcher, enabled, isYoutubeAuthorized } = useResolvedFetcher();
 
   return useQuery({
-    queryKey: [service, "album", isYoutubeAuthorized, { id: options.id }],
+    queryKey: ["album", isYoutubeAuthorized, { id: options.id }],
     queryFn: () => fetcher.fetchAlbum(options.id, options.inLibrary),
     staleTime: STALE_TIME.detail,
     enabled: enabled && !options.lazy,
@@ -123,10 +123,10 @@ export const useFetchAlbum = (
 export const useFetchAlbums = (
   options: CommonFetcherProps & AlbumsFetcherProps
 ) => {
-  const { fetcher, service, enabled, isYoutubeAuthorized } = useResolvedFetcher();
+  const { fetcher, enabled, isYoutubeAuthorized } = useResolvedFetcher();
 
   return useInfiniteQuery({
-    queryKey: [service, "albums", isYoutubeAuthorized],
+    queryKey: ["albums", isYoutubeAuthorized],
     queryFn: ({ pageParam }) =>
       fetcher.fetchAlbums({ pageParam, limit: 50 }),
     staleTime: STALE_TIME.library,
@@ -137,10 +137,10 @@ export const useFetchAlbums = (
 };
 
 export const useFetchArtists = (options: CommonFetcherProps) => {
-  const { fetcher, service, enabled, isYoutubeAuthorized } = useResolvedFetcher();
+  const { fetcher, enabled, isYoutubeAuthorized } = useResolvedFetcher();
 
   return useInfiniteQuery({
-    queryKey: [service, "artists", isYoutubeAuthorized],
+    queryKey: ["artists", isYoutubeAuthorized],
     queryFn: ({ pageParam }) =>
       fetcher.fetchArtists({ pageParam, limit: 20 }),
     staleTime: STALE_TIME.library,
@@ -153,10 +153,10 @@ export const useFetchArtists = (options: CommonFetcherProps) => {
 export const useFetchArtistAlbums = (
   options: CommonFetcherProps & ArtistFetcherProps
 ) => {
-  const { fetcher, service, enabled, isYoutubeAuthorized } = useResolvedFetcher();
+  const { fetcher, enabled, isYoutubeAuthorized } = useResolvedFetcher();
 
   return useQuery({
-    queryKey: [service, "artistAlbums", isYoutubeAuthorized, { id: options.id }],
+    queryKey: ["artistAlbums", isYoutubeAuthorized, { id: options.id }],
     queryFn: () => fetcher.fetchArtistAlbums(options.id, options.inLibrary),
     staleTime: STALE_TIME.detail,
     enabled: enabled && !options.lazy,
@@ -164,10 +164,10 @@ export const useFetchArtistAlbums = (
 };
 
 export const useFetchPlaylists = (options: CommonFetcherProps) => {
-  const { fetcher, service, enabled, isYoutubeAuthorized } = useResolvedFetcher();
+  const { fetcher, enabled, isYoutubeAuthorized } = useResolvedFetcher();
 
   return useInfiniteQuery({
-    queryKey: [service, "playlists", isYoutubeAuthorized],
+    queryKey: ["playlists", isYoutubeAuthorized],
     queryFn: ({ pageParam }) =>
       fetcher.fetchPlaylists({ pageParam, limit: 20 }),
     staleTime: STALE_TIME.library,
@@ -180,10 +180,10 @@ export const useFetchPlaylists = (options: CommonFetcherProps) => {
 export const useFetchPlaylist = (
   options: CommonFetcherProps & PlaylistFetcherProps
 ) => {
-  const { fetcher, service, enabled, isYoutubeAuthorized } = useResolvedFetcher();
+  const { fetcher, enabled, isYoutubeAuthorized } = useResolvedFetcher();
 
   return useQuery({
-    queryKey: [service, "playlist", isYoutubeAuthorized, { id: options.id }],
+    queryKey: ["playlist", isYoutubeAuthorized, { id: options.id }],
     queryFn: () => fetcher.fetchPlaylist(options.id, options.inLibrary),
     staleTime: STALE_TIME.detail,
     enabled: enabled && !options.lazy,
@@ -193,10 +193,10 @@ export const useFetchPlaylist = (
 export const useFetchSearchResults = (
   options: CommonFetcherProps & SearchFetcherProps
 ) => {
-  const { fetcher, service, enabled, isYoutubeAuthorized } = useResolvedFetcher();
+  const { fetcher, enabled, isYoutubeAuthorized } = useResolvedFetcher();
 
   return useQuery({
-    queryKey: [service, "search", isYoutubeAuthorized, { query: options.query }],
+    queryKey: ["search", isYoutubeAuthorized, { query: options.query }],
     queryFn: () => fetcher.fetchSearchResults(options.query),
     staleTime: STALE_TIME.search,
     enabled: enabled && !options.lazy,

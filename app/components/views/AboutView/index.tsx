@@ -2,7 +2,7 @@ import { SelectableList, SelectableListOption } from "@/components";
 import { useSelectableList } from "@/hooks";
 import styled from "styled-components";
 import { Unit } from "@/utils/constants";
-import { APP_URL } from "@/utils/constants/api";
+import { APP_URL } from "@/utils/constants";
 
 const Container = styled.div`
   display: flex;

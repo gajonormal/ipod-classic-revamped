@@ -12,7 +12,7 @@ import {
   useSettings,
 } from "@/hooks";
 import { useFetchSearchResults } from "@/hooks/utils/useDataFetcher";
-import { APP_URL } from "@/utils/constants/api";
+import { APP_URL } from "@/utils/constants";
 import { pluralize } from "@/utils/strings";
 
 const SearchView = () => {

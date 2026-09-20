@@ -30,7 +30,6 @@ const SettingsView = () => {
   const {
     isAuthorized,
     isOffline,
-    service,
     deviceTheme,
     setDeviceTheme,
 

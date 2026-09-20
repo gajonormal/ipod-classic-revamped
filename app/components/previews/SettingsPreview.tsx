@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import styled from "styled-components";
 import { Unit } from "@/utils/constants";
-import { APP_URL } from "@/utils/constants/api";
+import { APP_URL } from "@/utils/constants";
 import { previewSlideRight } from "@/animation";
 
 const Container = styled(motion.div)`

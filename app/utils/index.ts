@@ -1,5 +1,5 @@
 import { SelectableListOption } from "@/components/SelectableList";
-import { DEFAULT_ARTWORK_URL } from "@/utils/constants/api";
+import { DEFAULT_ARTWORK_URL } from "@/utils/constants";
 
 /** Accepts a url with '{w}' and '{h}' and replaces them with the specified size */
 export const getArtwork = (size: number | string, url?: string) => {
@@ -11,9 +11,9 @@ export const getArtwork = (size: number | string, url?: string) => {
   return urlWithSize;
 };
 
-export const setDocumentSongTitle = (song?: AppleMusicApi.Song) => {
+export const setDocumentSongTitle = (song?: MediaApi.Song) => {
   document.title = song
-    ? `${song.attributes?.name ?? "Music"} – iPod.js`
+    ? `${song.name ?? "Music"} – iPod.js`
     : "iPod.js";
 };
 
