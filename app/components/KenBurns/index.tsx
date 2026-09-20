@@ -15,20 +15,11 @@ const Image = styled.img<ImageProps>`
   z-index: ${(props) => props.$zIndex};
   position: absolute;
   height: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
   right: 0;
-  animation: ${(props) => props.$startedAnimation && "kenBurns"} 20s;
   opacity: ${(props) => props.$isHidden && 0};
   transition: opacity 2s;
-
-  @keyframes kenBurns {
-    0% {
-      transform: translateX(0%);
-    }
-
-    100% {
-      transform: translateX(10%);
-    }
-  }
 `;
 
 interface Props {
