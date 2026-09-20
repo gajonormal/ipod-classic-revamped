@@ -115,7 +115,19 @@ const CoverFlow = ({ albums }: Props) => {
     }
   }, []);
 
-  useEffect(updateMidpoint, [updateMidpoint]);
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    updateMidpoint();
+
+    const observer = new ResizeObserver(() => {
+      updateMidpoint();
+    });
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [updateMidpoint]);
 
   useEventListener<IpodEvent>("centerclick", selectAlbum);
   useEventListener<IpodEvent>("menuclick", handleMenuClick);
