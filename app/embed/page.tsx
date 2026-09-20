@@ -17,7 +17,7 @@ export default function EmbedPage() {
       }}
     >
       <Suspense fallback={null}>
-        <Ipod showReflection={false} />
+        <Ipod showReflection={false} disableAnimation={true} />
       </Suspense>
     </div>
   );

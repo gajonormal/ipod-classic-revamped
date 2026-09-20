@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Screen, Unit } from "@/utils/constants";
 import { DeviceThemeName, getTheme } from "@/utils/themes";
 
-export const Shell = styled.div<{ $deviceTheme: DeviceThemeName; $showReflection?: boolean }>`
+export const Shell = styled.div<{ $deviceTheme: DeviceThemeName; $showReflection?: boolean; $disableAnimation?: boolean }>`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -14,7 +14,7 @@ export const Shell = styled.div<{ $deviceTheme: DeviceThemeName; $showReflection
   background: ${({ $deviceTheme }) => getTheme($deviceTheme).body.background};
   -webkit-box-reflect: ${({ $showReflection }) => 
     $showReflection ? "below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(50%, transparent), to(rgba(250, 250, 250, 0.3)))" : "none"};
-  animation: descend 1.5s ease;
+  animation: ${({ $disableAnimation }) => ($disableAnimation ? "none" : "descend 1.5s ease")};
   overflow: hidden;
   
   /* Pseudo-element for inner shadow to avoid Chrome scaling bugs and translateZ side-effects */

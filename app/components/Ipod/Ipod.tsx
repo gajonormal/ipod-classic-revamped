@@ -24,9 +24,10 @@ import { ResponsiveWrapper } from "./ResponsiveWrapper";
 
 interface IpodProps {
   showReflection?: boolean;
+  disableAnimation?: boolean;
 }
 
-const Ipod: React.FC<IpodProps> = ({ showReflection = false }) => {
+const Ipod: React.FC<IpodProps> = ({ showReflection = false, disableAnimation = false }) => {
   const [queryClient] = useState(() => new QueryClient());
   const [isLoading, setIsLoading] = useState(true);
 
@@ -49,7 +50,7 @@ const Ipod: React.FC<IpodProps> = ({ showReflection = false }) => {
               <SettingsContext.Consumer>
                 {([{ deviceTheme }]) => (
                   <ResponsiveWrapper showReflection={showReflection}>
-                    <Shell $deviceTheme={deviceTheme} $showReflection={showReflection}>
+                    <Shell $deviceTheme={deviceTheme} $showReflection={showReflection} $disableAnimation={disableAnimation}>
                       <Sticker $deviceTheme={deviceTheme} />
                       <Sticker2 $deviceTheme={deviceTheme} />
                       <Sticker3 $deviceTheme={deviceTheme} />
