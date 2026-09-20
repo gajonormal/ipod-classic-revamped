@@ -28,6 +28,12 @@ export const GlobalStyles = createGlobalStyle`
 
   * {
     box-sizing: border-box;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+
+  *::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
   }
 
   @media (display-mode: standalone) {
