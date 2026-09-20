@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Screen, Unit } from "@/utils/constants";
 import { DeviceThemeName, getTheme } from "@/utils/themes";
 
-export const Shell = styled.div<{ $deviceTheme: DeviceThemeName }>`
+export const Shell = styled.div<{ $deviceTheme: DeviceThemeName; $showReflection?: boolean }>`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -13,7 +13,8 @@ export const Shell = styled.div<{ $deviceTheme: DeviceThemeName }>`
   border-radius: 30px;
   box-shadow: inset 0 0 2.4em #555;
   background: ${({ $deviceTheme }) => getTheme($deviceTheme).body.background};
-  -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(50%, transparent), to(rgba(250, 250, 250, 0.3)));
+  -webkit-box-reflect: ${({ $showReflection }) => 
+    $showReflection ? "below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(50%, transparent), to(rgba(250, 250, 250, 0.3)))" : "none"};
   animation: descend 1.5s ease;
   overflow: hidden;
   transform: translateZ(0); /* Fix for inset shadow disappearing inside scaled parent in Chrome */

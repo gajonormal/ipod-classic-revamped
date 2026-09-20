@@ -22,7 +22,11 @@ import { GlobalStyles } from "@/components/Ipod/GlobalStyles";
 import Script from "next/script";
 import { ResponsiveWrapper } from "./ResponsiveWrapper";
 
-const Ipod = () => {
+interface IpodProps {
+  showReflection?: boolean;
+}
+
+const Ipod: React.FC<IpodProps> = ({ showReflection = false }) => {
   const [queryClient] = useState(() => new QueryClient());
   const [isLoading, setIsLoading] = useState(true);
 
@@ -44,8 +48,8 @@ const Ipod = () => {
               <div id="youtube-player" style={{ display: "none", width: 0, height: 0 }}></div>
               <SettingsContext.Consumer>
                 {([{ deviceTheme }]) => (
-                  <ResponsiveWrapper>
-                    <Shell $deviceTheme={deviceTheme}>
+                  <ResponsiveWrapper showReflection={showReflection}>
+                    <Shell $deviceTheme={deviceTheme} $showReflection={showReflection}>
                       <Sticker $deviceTheme={deviceTheme} />
                       <Sticker2 $deviceTheme={deviceTheme} />
                       <Sticker3 $deviceTheme={deviceTheme} />

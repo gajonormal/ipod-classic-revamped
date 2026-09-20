@@ -28,8 +28,9 @@ const Scaler = styled.div<{ $scale: number }>`
   left: 0;
 `;
 
-export const ResponsiveWrapper: React.FC<{ children: React.ReactNode }> = ({
+export const ResponsiveWrapper: React.FC<{ children: React.ReactNode; showReflection?: boolean }> = ({
   children,
+  showReflection = false,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
@@ -42,7 +43,7 @@ export const ResponsiveWrapper: React.FC<{ children: React.ReactNode }> = ({
 
         const originalWidth = 370;
         const originalHeight = 592;
-        const reflectionHeight = 150;
+        const reflectionHeight = showReflection ? 150 : 0;
         const totalHeight = originalHeight + reflectionHeight;
         
         const scaleX = width / originalWidth;
@@ -53,9 +54,8 @@ export const ResponsiveWrapper: React.FC<{ children: React.ReactNode }> = ({
         // If height is 0 (e.g., auto-height flex container), we only rely on width.
         const newScale = height > 0 ? Math.min(scaleX, scaleY) : scaleX;
         
-        // Let's cap the maximum scale to 1.2 to avoid it being absurdly huge on 4k screens, 
-        // but still allow it to grow a bit if the user wants.
-        setScale(Math.min(newScale, 1.2));
+        // Allow it to grow indefinitely to fit the container
+        setScale(newScale);
       }
     });
 
@@ -64,12 +64,16 @@ export const ResponsiveWrapper: React.FC<{ children: React.ReactNode }> = ({
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [showReflection]);
 
   // On initial render (SSR), use scale 1
+  const originalHeight = 592;
+  const reflectionHeight = showReflection ? 150 : 0;
+  const totalHeight = originalHeight + reflectionHeight;
+
   return (
     <OuterContainer ref={containerRef}>
-      <InnerContainer $width={370 * scale} $height={742 * scale}>
+      <InnerContainer $width={370 * scale} $height={totalHeight * scale}>
         <Scaler $scale={scale}>{children}</Scaler>
       </InnerContainer>
     </OuterContainer>
