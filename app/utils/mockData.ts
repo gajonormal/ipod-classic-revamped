@@ -2,7 +2,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "UgI0sKebLSk",
     "name": "Bada Bing",
-    "artistName": "Isak - Topic",
+    "artistName": "Isak, Zigarro, Armando Teles",
     "albumName": "Jon",
     "duration": 0,
     "trackNumber": 1,
@@ -14,7 +14,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "3mb12apHe00",
     "name": "Bar Da Praia",
-    "artistName": "Isak - Topic",
+    "artistName": "Isak, Zigarro, Armando Teles",
     "albumName": "Jon",
     "duration": 0,
     "trackNumber": 2,
@@ -26,7 +26,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "ZZRu7w7PxkE",
     "name": "Sergio Tacchini",
-    "artistName": "Isak - Topic",
+    "artistName": "Isak, Zigarro, Armando Teles",
     "albumName": "Jon",
     "duration": 0,
     "trackNumber": 3,
@@ -38,7 +38,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "Rlzzf_J0BqY",
     "name": "Binde Pa Festa",
-    "artistName": "Isak - Topic",
+    "artistName": "Isak, Zigarro, Armando Teles",
     "albumName": "Jon",
     "duration": 0,
     "trackNumber": 4,
@@ -50,7 +50,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "8xWBKQszwbY",
     "name": "Juicy Couture",
-    "artistName": "Isak - Topic",
+    "artistName": "Isak, Zigarro, Armando Teles",
     "albumName": "Jon",
     "duration": 0,
     "trackNumber": 5,
@@ -62,7 +62,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "wWwjDiQETvY",
     "name": "Puta Da Mania",
-    "artistName": "Isak - Topic",
+    "artistName": "Isak, Zigarro, Armando Teles",
     "albumName": "Jon",
     "duration": 0,
     "trackNumber": 6,
@@ -74,7 +74,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "-q8xQ4YJ6-M",
     "name": "Sete Vidas",
-    "artistName": "Isak - Topic",
+    "artistName": "Isak, Zigarro, Armando Teles",
     "albumName": "Jon",
     "duration": 0,
     "trackNumber": 7,
@@ -86,7 +86,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "i2rbspYdjnw",
     "name": "Baby Boo",
-    "artistName": "Isak - Topic",
+    "artistName": "Isak, Zigarro, Armando Teles",
     "albumName": "Jon",
     "duration": 0,
     "trackNumber": 8,
@@ -98,8 +98,8 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "OTZzjAU0Kg0",
     "name": "Intro",
-    "artistName": "Kanye West - Topic",
-    "albumName": "Kanye West- The College Dropout (Explicit)",
+    "artistName": "Kanye West",
+    "albumName": "The College Dropout",
     "duration": 0,
     "trackNumber": 1,
     "url": "OTZzjAU0Kg0",
@@ -110,8 +110,8 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "0Tdpq3FRGhY",
     "name": "We Don't Care",
-    "artistName": "Kanye West - Topic",
-    "albumName": "Kanye West- The College Dropout (Explicit)",
+    "artistName": "Kanye West",
+    "albumName": "The College Dropout",
     "duration": 0,
     "trackNumber": 2,
     "url": "0Tdpq3FRGhY",
@@ -122,8 +122,8 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "tbmNuB7spmA",
     "name": "Graduation Day",
-    "artistName": "Kanye West - Topic",
-    "albumName": "Kanye West- The College Dropout (Explicit)",
+    "artistName": "Kanye West",
+    "albumName": "The College Dropout",
     "duration": 0,
     "trackNumber": 3,
     "url": "tbmNuB7spmA",
@@ -134,8 +134,8 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "uHcP8XX5IJA",
     "name": "All Falls Down",
-    "artistName": "Kanye West - Topic",
-    "albumName": "Kanye West- The College Dropout (Explicit)",
+    "artistName": "Kanye West",
+    "albumName": "The College Dropout",
     "duration": 0,
     "trackNumber": 4,
     "url": "uHcP8XX5IJA",
@@ -146,8 +146,8 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "psb2dFToHLA",
     "name": "I'll Fly Away",
-    "artistName": "Kanye West - Topic",
-    "albumName": "Kanye West- The College Dropout (Explicit)",
+    "artistName": "Kanye West",
+    "albumName": "The College Dropout",
     "duration": 0,
     "trackNumber": 5,
     "url": "psb2dFToHLA",
@@ -158,8 +158,8 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "mn77gzjBl1U",
     "name": "Spaceship",
-    "artistName": "Kanye West - Topic",
-    "albumName": "Kanye West- The College Dropout (Explicit)",
+    "artistName": "Kanye West",
+    "albumName": "The College Dropout",
     "duration": 0,
     "trackNumber": 6,
     "url": "mn77gzjBl1U",
@@ -170,8 +170,8 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "1fpkdSfPzio",
     "name": "Jesus Walks",
-    "artistName": "Kanye West - Topic",
-    "albumName": "Kanye West- The College Dropout (Explicit)",
+    "artistName": "Kanye West",
+    "albumName": "The College Dropout",
     "duration": 0,
     "trackNumber": 7,
     "url": "1fpkdSfPzio",
@@ -182,8 +182,8 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "p4NvOKy7GOU",
     "name": "Never Let Me Down",
-    "artistName": "Kanye West - Topic",
-    "albumName": "Kanye West- The College Dropout (Explicit)",
+    "artistName": "Kanye West",
+    "albumName": "The College Dropout",
     "duration": 0,
     "trackNumber": 8,
     "url": "p4NvOKy7GOU",
@@ -194,8 +194,8 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "UHpaLbhk8vM",
     "name": "Get Em High",
-    "artistName": "Kanye West - Topic",
-    "albumName": "Kanye West- The College Dropout (Explicit)",
+    "artistName": "Kanye West",
+    "albumName": "The College Dropout",
     "duration": 0,
     "trackNumber": 9,
     "url": "UHpaLbhk8vM",
@@ -206,8 +206,8 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "hLeS2By_zPE",
     "name": "Workout Plan",
-    "artistName": "Kanye West - Topic",
-    "albumName": "Kanye West- The College Dropout (Explicit)",
+    "artistName": "Kanye West",
+    "albumName": "The College Dropout",
     "duration": 0,
     "trackNumber": 10,
     "url": "hLeS2By_zPE",
@@ -218,8 +218,8 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "IzNunT2AOO4",
     "name": "The New Workout Plan",
-    "artistName": "Kanye West - Topic",
-    "albumName": "Kanye West- The College Dropout (Explicit)",
+    "artistName": "Kanye West",
+    "albumName": "The College Dropout",
     "duration": 0,
     "trackNumber": 11,
     "url": "IzNunT2AOO4",
@@ -230,8 +230,8 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "pwkYUhePecQ",
     "name": "Slow Jamz",
-    "artistName": "Twista - Topic",
-    "albumName": "Kanye West- The College Dropout (Explicit)",
+    "artistName": "Kanye West",
+    "albumName": "The College Dropout",
     "duration": 0,
     "trackNumber": 12,
     "url": "pwkYUhePecQ",
@@ -242,8 +242,8 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "E3dWKq3s6u0",
     "name": "Breathe In Breathe Out",
-    "artistName": "Kanye West - Topic",
-    "albumName": "Kanye West- The College Dropout (Explicit)",
+    "artistName": "Kanye West",
+    "albumName": "The College Dropout",
     "duration": 0,
     "trackNumber": 13,
     "url": "E3dWKq3s6u0",
@@ -254,8 +254,8 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "g9xopViBKOQ",
     "name": "School Spirit Skit 1",
-    "artistName": "Kanye West - Topic",
-    "albumName": "Kanye West- The College Dropout (Explicit)",
+    "artistName": "Kanye West",
+    "albumName": "The College Dropout",
     "duration": 0,
     "trackNumber": 14,
     "url": "g9xopViBKOQ",
@@ -266,8 +266,8 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "-MOIPnu50O4",
     "name": "School Spirit",
-    "artistName": "Kanye West - Topic",
-    "albumName": "Kanye West- The College Dropout (Explicit)",
+    "artistName": "Kanye West",
+    "albumName": "The College Dropout",
     "duration": 0,
     "trackNumber": 15,
     "url": "-MOIPnu50O4",
@@ -278,8 +278,8 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "7xL9VLARq8k",
     "name": "School Spirit Skit 2",
-    "artistName": "Kanye West - Topic",
-    "albumName": "Kanye West- The College Dropout (Explicit)",
+    "artistName": "Kanye West",
+    "albumName": "The College Dropout",
     "duration": 0,
     "trackNumber": 16,
     "url": "7xL9VLARq8k",
@@ -290,8 +290,8 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "ufN8MxyMlEQ",
     "name": "Lil Jimmy Skit",
-    "artistName": "Kanye West - Topic",
-    "albumName": "Kanye West- The College Dropout (Explicit)",
+    "artistName": "Kanye West",
+    "albumName": "The College Dropout",
     "duration": 0,
     "trackNumber": 17,
     "url": "ufN8MxyMlEQ",
@@ -302,8 +302,8 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "cgo2IKS4inU",
     "name": "Two Words",
-    "artistName": "Kanye West - Topic",
-    "albumName": "Kanye West- The College Dropout (Explicit)",
+    "artistName": "Kanye West",
+    "albumName": "The College Dropout",
     "duration": 0,
     "trackNumber": 18,
     "url": "cgo2IKS4inU",
@@ -314,8 +314,8 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "AE8y25CcE6s",
     "name": "Through The Wire",
-    "artistName": "Kanye West - Topic",
-    "albumName": "Kanye West- The College Dropout (Explicit)",
+    "artistName": "Kanye West",
+    "albumName": "The College Dropout",
     "duration": 0,
     "trackNumber": 19,
     "url": "AE8y25CcE6s",
@@ -326,8 +326,8 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "JwAjANmjajc",
     "name": "Family Business",
-    "artistName": "Kanye West - Topic",
-    "albumName": "Kanye West- The College Dropout (Explicit)",
+    "artistName": "Kanye West",
+    "albumName": "The College Dropout",
     "duration": 0,
     "trackNumber": 20,
     "url": "JwAjANmjajc",
@@ -338,8 +338,8 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "cpbeS15sHZ0",
     "name": "Last Call",
-    "artistName": "Kanye West - Topic",
-    "albumName": "Kanye West- The College Dropout (Explicit)",
+    "artistName": "Kanye West",
+    "albumName": "The College Dropout",
     "duration": 0,
     "trackNumber": 21,
     "url": "cpbeS15sHZ0",
@@ -458,7 +458,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "xEQ_946TO_g",
     "name": "Start",
-    "artistName": "Frank Ocean - Topic",
+    "artistName": "Frank Ocean",
     "albumName": "channel ORANGE",
     "duration": 0,
     "trackNumber": 1,
@@ -470,7 +470,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "6JHu3b-pbh8",
     "name": "Thinkin Bout You",
-    "artistName": "Frank Ocean - Topic",
+    "artistName": "Frank Ocean",
     "albumName": "channel ORANGE",
     "duration": 0,
     "trackNumber": 2,
@@ -482,7 +482,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "T4o-rrRLka0",
     "name": "Fertilizer",
-    "artistName": "Frank Ocean - Topic",
+    "artistName": "Frank Ocean",
     "albumName": "channel ORANGE",
     "duration": 0,
     "trackNumber": 3,
@@ -494,7 +494,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "kgplNxRbbaM",
     "name": "Sierra Leone",
-    "artistName": "Frank Ocean - Topic",
+    "artistName": "Frank Ocean",
     "albumName": "channel ORANGE",
     "duration": 0,
     "trackNumber": 4,
@@ -506,7 +506,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "y14F2RQW7h4",
     "name": "Sweet Life",
-    "artistName": "Frank Ocean - Topic",
+    "artistName": "Frank Ocean",
     "albumName": "channel ORANGE",
     "duration": 0,
     "trackNumber": 5,
@@ -518,7 +518,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "ix-ownkEPE8",
     "name": "Not Just Money",
-    "artistName": "Frank Ocean - Topic",
+    "artistName": "Frank Ocean",
     "albumName": "channel ORANGE",
     "duration": 0,
     "trackNumber": 6,
@@ -530,7 +530,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "0XCQNpjWmRE",
     "name": "Super Rich Kids",
-    "artistName": "Frank Ocean - Topic",
+    "artistName": "Frank Ocean",
     "albumName": "channel ORANGE",
     "duration": 0,
     "trackNumber": 7,
@@ -542,7 +542,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "azgDZ-TBCzk",
     "name": "Pilot Jones",
-    "artistName": "Frank Ocean - Topic",
+    "artistName": "Frank Ocean",
     "albumName": "channel ORANGE",
     "duration": 0,
     "trackNumber": 8,
@@ -554,7 +554,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "IVzzw7Vkiyg",
     "name": "Crack Rock",
-    "artistName": "Frank Ocean - Topic",
+    "artistName": "Frank Ocean",
     "albumName": "channel ORANGE",
     "duration": 0,
     "trackNumber": 9,
@@ -566,7 +566,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "dMV31MWIjLE",
     "name": "Pyramids",
-    "artistName": "Frank Ocean - Topic",
+    "artistName": "Frank Ocean",
     "albumName": "channel ORANGE",
     "duration": 0,
     "trackNumber": 10,
@@ -578,7 +578,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "J3DWAJGaf7o",
     "name": "Lost",
-    "artistName": "Frank Ocean - Topic",
+    "artistName": "Frank Ocean",
     "albumName": "channel ORANGE",
     "duration": 0,
     "trackNumber": 11,
@@ -590,7 +590,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "ifF6560hkn8",
     "name": "White",
-    "artistName": "Frank Ocean - Topic",
+    "artistName": "Frank Ocean",
     "albumName": "channel ORANGE",
     "duration": 0,
     "trackNumber": 12,
@@ -602,7 +602,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "HFVlEft9uEs",
     "name": "Monks",
-    "artistName": "Frank Ocean - Topic",
+    "artistName": "Frank Ocean",
     "albumName": "channel ORANGE",
     "duration": 0,
     "trackNumber": 13,
@@ -614,7 +614,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "JMpypbtrcCg",
     "name": "Bad Religion",
-    "artistName": "Frank Ocean - Topic",
+    "artistName": "Frank Ocean",
     "albumName": "channel ORANGE",
     "duration": 0,
     "trackNumber": 14,
@@ -626,7 +626,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "uaLV003llhY",
     "name": "Pink Matter",
-    "artistName": "Frank Ocean - Topic",
+    "artistName": "Frank Ocean",
     "albumName": "channel ORANGE",
     "duration": 0,
     "trackNumber": 15,
@@ -638,7 +638,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "BqSro-8_gpU",
     "name": "Forrest Gump",
-    "artistName": "Frank Ocean - Topic",
+    "artistName": "Frank Ocean",
     "albumName": "channel ORANGE",
     "duration": 0,
     "trackNumber": 16,
@@ -650,7 +650,7 @@ export const mockSongs: MediaApi.Song[] = [
   {
     "id": "sIROWXH8xWU",
     "name": "End",
-    "artistName": "Frank Ocean - Topic",
+    "artistName": "Frank Ocean",
     "albumName": "channel ORANGE",
     "duration": 0,
     "trackNumber": 17,
@@ -665,7 +665,7 @@ export const mockAlbums: MediaApi.Album[] = [
   {
     "id": "OLAK5uy_koptchAUS0R95-tUoLfozEuwoaHZKMH8A",
     "name": "Jon",
-    "artistName": "Unknown Artist",
+    "artistName": "Isak, Zigarro, Armando Teles",
     "url": "OLAK5uy_koptchAUS0R95-tUoLfozEuwoaHZKMH8A",
     "artwork": {
       "url": "https://i9.ytimg.com/s_p/OLAK5uy_koptchAUS0R95-tUoLfozEuwoaHZKMH8A/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICI63wNEGEAE=&rs=AOn4CLAq4xOwP56FWm8Ee5laiwgtrE6s8g&v=1781537678"
@@ -683,8 +683,8 @@ export const mockAlbums: MediaApi.Album[] = [
   },
   {
     "id": "PLeO-rHNGADqzCkDOyEUZbJMnuu5s9yIGh",
-    "name": "Kanye West- The College Dropout (Explicit)",
-    "artistName": "Cool Cat Studios",
+    "name": "The College Dropout",
+    "artistName": "Kanye West",
     "url": "PLeO-rHNGADqzCkDOyEUZbJMnuu5s9yIGh",
     "artwork": {
       "url": "https://i.ytimg.com/vi/OTZzjAU0Kg0/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLCAEvDMFWhK7Q377s_knHSCGmLbtQ"
@@ -736,7 +736,7 @@ export const mockAlbums: MediaApi.Album[] = [
   {
     "id": "OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg",
     "name": "channel ORANGE",
-    "artistName": "Unknown Artist",
+    "artistName": "Frank Ocean",
     "url": "OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg",
     "artwork": {
       "url": "https://i9.ytimg.com/s_p/OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICLbDqb0GEAE=&rs=AOn4CLDhjflLDMiZ9uMw0wC_Z8m1ZVQHIg&v=1739219382"
@@ -766,11 +766,10 @@ export const mockAlbums: MediaApi.Album[] = [
 export const mockArtists: MediaApi.Artist[] = [
   {
     "id": "artist-0",
-    "name": "Unknown Artist",
+    "name": "Isak, Zigarro, Armando Teles",
     "url": "artist-0",
     "albums": [
-      mockAlbums.find(a => a.id === "OLAK5uy_koptchAUS0R95-tUoLfozEuwoaHZKMH8A") as MediaApi.Album,
-      mockAlbums.find(a => a.id === "OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg") as MediaApi.Album
+      mockAlbums.find(a => a.id === "OLAK5uy_koptchAUS0R95-tUoLfozEuwoaHZKMH8A") as MediaApi.Album
     ],
     "artwork": {
       "url": "https://i9.ytimg.com/s_p/OLAK5uy_koptchAUS0R95-tUoLfozEuwoaHZKMH8A/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICI63wNEGEAE=&rs=AOn4CLAq4xOwP56FWm8Ee5laiwgtrE6s8g&v=1781537678"
@@ -778,7 +777,7 @@ export const mockArtists: MediaApi.Artist[] = [
   },
   {
     "id": "artist-1",
-    "name": "Cool Cat Studios",
+    "name": "Kanye West",
     "url": "artist-1",
     "albums": [
       mockAlbums.find(a => a.id === "PLeO-rHNGADqzCkDOyEUZbJMnuu5s9yIGh") as MediaApi.Album
@@ -796,6 +795,17 @@ export const mockArtists: MediaApi.Artist[] = [
     ],
     "artwork": {
       "url": "https://i.ytimg.com/vi/6RKEhXenZDU/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLAUaLSJ99Pb4zFoOuP2Z_5Jo-9h7g"
+    }
+  },
+  {
+    "id": "artist-3",
+    "name": "Frank Ocean",
+    "url": "artist-3",
+    "albums": [
+      mockAlbums.find(a => a.id === "OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg") as MediaApi.Album
+    ],
+    "artwork": {
+      "url": "https://i9.ytimg.com/s_p/OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICLbDqb0GEAE=&rs=AOn4CLDhjflLDMiZ9uMw0wC_Z8m1ZVQHIg&v=1739219382"
     }
   }
 ];
