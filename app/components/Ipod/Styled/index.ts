@@ -11,26 +11,37 @@ export const Shell = styled.div<{ $deviceTheme: DeviceThemeName; $showReflection
   max-height: 37em;
   margin: auto;
   border-radius: 30px;
-  box-shadow: inset 0 0 2.4em #555;
   background: ${({ $deviceTheme }) => getTheme($deviceTheme).body.background};
   -webkit-box-reflect: ${({ $showReflection }) => 
     $showReflection ? "below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(50%, transparent), to(rgba(250, 250, 250, 0.3)))" : "none"};
   animation: descend 1.5s ease;
   overflow: hidden;
-  transform: translateZ(0); /* Fix for inset shadow disappearing inside scaled parent in Chrome */
+  
+  /* Pseudo-element for inner shadow to avoid Chrome scaling bugs and translateZ side-effects */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 30px;
+    box-shadow: inset 0 0 2.4em #555;
+    pointer-events: none;
+    z-index: 10;
+  }
 
   @media (prefers-color-scheme: dark) {
-    box-shadow: inset 0 0 2.4em black;
+    &::before {
+      box-shadow: inset 0 0 2.4em black;
+    }
   }
 
   @keyframes descend {
     0% {
-      transform: scale(0.3) translateZ(0);
+      transform: scale(0.3);
       opacity: 0;
     }
 
     100% {
-      transform: scale(1) translateZ(0);
+      transform: scale(1);
       opacity: 1;
     }
   }
