@@ -60,6 +60,7 @@ export const AudioPlayerProvider = ({ children }: Props) => {
   
   const [queue, setQueue] = useState<MediaApi.Song[]>([]);
   const [queueIndex, setQueueIndex] = useState(0);
+  const [isMuted, setIsMuted] = useState(false);
 
   const { triggerHaptics } = useHapticFeedback();
   const lastSeekTimeRef = useRef(0);
@@ -294,11 +295,12 @@ export const AudioPlayerProvider = ({ children }: Props) => {
         payload: {
           isPlaying: playbackInfo.isPlaying,
           track: nowPlayingItem?.name ?? "",
-          artist: nowPlayingItem?.artistName ?? ""
+          artist: nowPlayingItem?.artistName ?? "",
+          isMuted
         }
       }, "*");
     }
-  }, [playbackInfo.isPlaying, nowPlayingItem]);
+  }, [playbackInfo.isPlaying, nowPlayingItem, isMuted]);
 
   // Escutar comandos vindos do iframe parent
   useEffect(() => {
@@ -323,6 +325,17 @@ export const AudioPlayerProvider = ({ children }: Props) => {
           break;
         case "IPOD_PREV":
           skipPrevious();
+          break;
+        case "IPOD_TOGGLE_MUTE":
+          if (player) {
+            if (typeof player.isMuted === "function" && player.isMuted()) {
+              player.unMute();
+              setIsMuted(false);
+            } else if (typeof player.mute === "function") {
+              player.mute();
+              setIsMuted(true);
+            }
+          }
           break;
       }
     };
