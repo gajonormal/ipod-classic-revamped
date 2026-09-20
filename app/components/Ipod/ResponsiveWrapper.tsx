@@ -20,12 +20,12 @@ const InnerContainer = styled.div<{ $width: number; $height: number }>`
 
 const Scaler = styled.div<{ $scale: number }>`
   transform: scale(${({ $scale }) => $scale});
-  transform-origin: top left;
+  transform-origin: center center;
   width: 370px;
   height: 592px;
-  position: absolute;
-  top: 0;
-  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const ResponsiveWrapper: React.FC<{ children: React.ReactNode; showReflection?: boolean }> = ({
@@ -44,17 +44,17 @@ export const ResponsiveWrapper: React.FC<{ children: React.ReactNode; showReflec
         const originalWidth = 370;
         const originalHeight = 592;
         const reflectionHeight = showReflection ? 150 : 0;
-        const totalHeight = originalHeight + reflectionHeight;
         
-        const scaleX = width / originalWidth;
+        // Add 60px of padding for the outer shadow to be visible without clipping
+        const padding = 60;
+        const totalWidth = originalWidth + padding;
+        const totalHeight = originalHeight + reflectionHeight + padding;
+        
+        const scaleX = width / totalWidth;
         const scaleY = height > 0 ? height / totalHeight : scaleX;
         
-        // We only scale down if it doesn't fit, or we can allow scaling up too.
-        // Usually we want to fit within the container. 
-        // If height is 0 (e.g., auto-height flex container), we only rely on width.
         const newScale = height > 0 ? Math.min(scaleX, scaleY) : scaleX;
         
-        // Allow it to grow indefinitely to fit the container
         setScale(newScale);
       }
     });
@@ -66,14 +66,16 @@ export const ResponsiveWrapper: React.FC<{ children: React.ReactNode; showReflec
     return () => observer.disconnect();
   }, [showReflection]);
 
-  // On initial render (SSR), use scale 1
+  const originalWidth = 370;
   const originalHeight = 592;
   const reflectionHeight = showReflection ? 150 : 0;
-  const totalHeight = originalHeight + reflectionHeight;
+  const padding = 60;
+  const totalWidth = originalWidth + padding;
+  const totalHeight = originalHeight + reflectionHeight + padding;
 
   return (
     <OuterContainer ref={containerRef}>
-      <InnerContainer $width={370 * scale} $height={totalHeight * scale}>
+      <InnerContainer $width={totalWidth * scale} $height={totalHeight * scale}>
         <Scaler $scale={scale}>{children}</Scaler>
       </InnerContainer>
     </OuterContainer>

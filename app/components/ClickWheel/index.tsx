@@ -58,11 +58,6 @@ const RootContainer = styled(motion.div)<RootContainerProps>`
     height: ${size}px;
     background-color: ${getTheme($deviceTheme).clickwheel.background};
     border: 1px solid ${getTheme($deviceTheme).clickwheel.centerButton.outline};
-
-    ${Screen.XS.MediaQuery} {
-      width: ${size * 0.8}px;
-      height: ${size * 0.8}px;
-    }
   `}
 `;
 
