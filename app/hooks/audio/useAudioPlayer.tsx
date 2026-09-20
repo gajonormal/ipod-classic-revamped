@@ -293,8 +293,8 @@ export const AudioPlayerProvider = ({ children }: Props) => {
         type: "IPOD_STATE_CHANGE",
         payload: {
           isPlaying: playbackInfo.isPlaying,
-          track: nowPlayingItem?.title ?? "",
-          artist: nowPlayingItem?.artist ?? ""
+          track: nowPlayingItem?.name ?? "",
+          artist: nowPlayingItem?.artistName ?? ""
         }
       }, "*");
     }
