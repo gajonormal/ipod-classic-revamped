@@ -44,17 +44,17 @@ const AboutView = () => {
     {
       type: "link",
       label: "GitHub Repo",
+      url: "https://github.com/gajonormal/ipod-classic-revamped",
+    },
+    {
+      type: "link",
+      label: "Original Repo",
       url: "https://github.com/tvillarete/ipod-classic-js",
     },
     {
       type: "link",
-      label: "My Website",
+      label: "Tanner's Website",
       url: "http://tannerv.com",
-    },
-    {
-      type: "link",
-      label: "LinkedIn",
-      url: "https://linkedin.com/in/tvillarete",
     },
   ];
 
@@ -65,14 +65,11 @@ const AboutView = () => {
       <ListContainer>
         <TitleContainer>
           <Image alt="iPod" src={`${APP_URL}/ipod_logo.svg`} />
-          <Title>iPod.js</Title>
+          <Title>iPod.js Revamped</Title>
         </TitleContainer>
         <Description>
-          Made with{" "}
-          <span aria-label="heart" role="img">
-            ❤️
-          </span>{" "}
-          by Tanner Villarete
+          Revamped by Bernardo<br />
+          <span style={{ fontSize: "11px", opacity: 0.7 }}>Original by Tanner Villarete</span>
         </Description>
         <SelectableList options={options} activeIndex={scrollIndex} />
       </ListContainer>

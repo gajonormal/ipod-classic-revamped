@@ -38,8 +38,8 @@ const SettingsPreview = () => {
   return (
     <Container {...previewSlideRight}>
       <Image alt="React logo" src={`${APP_URL}/react_logo.svg`} />
-      <Text>iPod.js</Text>
-      <Subtext>by Tanner V</Subtext>
+      <Text>iPod.js Revamped</Text>
+      <Subtext>by Bernardo</Subtext>
     </Container>
   );
 };
