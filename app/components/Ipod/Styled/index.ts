@@ -60,8 +60,8 @@ export const ScreenContainer = styled.div`
     z-index: 9999;
     
     /* LCD Scanlines */
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.04) 50%),
-                linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.02) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.01), rgba(0, 255, 0, 0.005), rgba(0, 0, 255, 0.01));
     background-size: 100% 3px, 3px 100%;
     
     /* Screen bezel depth */
@@ -75,7 +75,7 @@ export const ScreenContainer = styled.div`
     pointer-events: none;
     z-index: 9998;
     /* Subtle screen glare */
-    background: linear-gradient(115deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.02) 40%, transparent 40%);
+    background: linear-gradient(115deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.01) 40%, transparent 40%);
   }
 
   @keyframes fadeFromBlack {
