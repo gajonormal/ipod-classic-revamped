@@ -29,6 +29,10 @@ export const useLongPressHandler = ({
 
   const handlePointerDown = useCallback((e: React.PointerEvent) => {
     startPosRef.current = { x: e.clientX, y: e.clientY };
+    
+    // Clear any existing timeout first just in case
+    handleClearTimeout();
+
     timeoutRef.current = setTimeout(() => {
       wasLongPressActivated.current = true;
       triggerHaptics(); // Trigger haptic when long press activates
@@ -51,6 +55,17 @@ export const useLongPressHandler = ({
     handleClearTimeout();
   }, [handleClearTimeout, onPress]);
 
+  const handlePointerMove = useCallback((e: React.PointerEvent) => {
+    if (timeoutRef.current) {
+      const dx = e.clientX - startPosRef.current.x;
+      const dy = e.clientY - startPosRef.current.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      if (distance >= 15) {
+        handleClearTimeout();
+      }
+    }
+  }, [handleClearTimeout]);
+
   const handlePointerCancel = useCallback(() => {
     handleClearTimeout();
   }, [handleClearTimeout]);
@@ -58,6 +73,7 @@ export const useLongPressHandler = ({
   return {
     onPointerDown: handlePointerDown,
     onPointerUp: handlePointerUp,
+    onPointerMove: handlePointerMove,
     onPointerCancel: handlePointerCancel,
   };
 };

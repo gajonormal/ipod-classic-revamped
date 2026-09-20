@@ -103,6 +103,12 @@ const HomeView = () => {
         ],
         preview: SplitScreenPreview.Music,
       }),
+      ...getConditionalOption(!!nowPlayingItem, {
+        type: "view",
+        label: strings.nowPlaying,
+        viewId: "nowPlaying",
+        preview: SplitScreenPreview.NowPlaying,
+      }),
       ...getConditionalOption(!isYoutubeAuthorized, {
         type: "actionSheet",
         id: "signin-popup",
@@ -117,12 +123,7 @@ const HomeView = () => {
         listOptions: signOutOptions,
         preview: SplitScreenPreview.Service,
       }),
-      ...getConditionalOption(!!nowPlayingItem, {
-        type: "view",
-        label: strings.nowPlaying,
-        viewId: "nowPlaying",
-        preview: SplitScreenPreview.NowPlaying,
-      }),
+
       {
         type: "view",
         label: "Settings",
