@@ -62,6 +62,7 @@ export const AudioPlayerProvider = ({ children }: Props) => {
   const [queueIndex, setQueueIndex] = useState(0);
 
   const { triggerHaptics } = useHapticFeedback();
+  const lastSeekTimeRef = useRef(0);
 
   const skipNextRef = useRef<() => Promise<void>>(async () => {});
 
@@ -116,6 +117,8 @@ export const AudioPlayerProvider = ({ children }: Props) => {
     let interval: any;
     if (playbackInfo.isPlaying && player) {
       interval = setInterval(() => {
+        if (performance.now() - lastSeekTimeRef.current < 1500) return;
+
         const currentTime = player.getCurrentTime() || 0;
         const duration = player.getDuration() || 0;
         const timeRemaining = duration - currentTime;
@@ -222,7 +225,19 @@ export const AudioPlayerProvider = ({ children }: Props) => {
 
   const seekToTime = useCallback(async (time: number) => {
     if (player) {
+      lastSeekTimeRef.current = performance.now();
       player.seekTo(time, true);
+      setPlaybackInfo(prev => {
+        const duration = prev.duration;
+        const timeRemaining = duration - time;
+        const percent = duration > 0 ? (time / duration) * 100 : 0;
+        return {
+          ...prev,
+          currentTime: time,
+          timeRemaining,
+          percent
+        };
+      });
     }
   }, [player]);
 

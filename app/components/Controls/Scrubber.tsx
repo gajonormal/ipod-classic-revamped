@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, useRef } from "react";
 
 import { useAudioPlayer, useEventListener } from "@/hooks";
 import styled from "styled-components";
@@ -47,6 +47,8 @@ const Scrubber = ({ isScrubbing }: Props) => {
   const { playbackInfo, seekToTime, nowPlayingItem } = useAudioPlayer();
   const { currentTime, duration } = playbackInfo;
   const [scrubberTime, setScrubberTime] = useState(currentTime);
+  const scrubberTimeRef = useRef(currentTime);
+
   const scrubberPercent = useMemo(
     () => (duration > 0 ? Math.round((scrubberTime / duration) * 100) : 0),
     [duration, scrubberTime]
@@ -70,27 +72,35 @@ const Scrubber = ({ isScrubbing }: Props) => {
   );
 
   const scrubForward = useCallback(() => {
-    if (!isScrubbing || scrubberTime >= duration) return;
-    const newTime = Math.min(scrubberTime + 1, duration);
+    if (!isScrubbing || scrubberTimeRef.current >= duration) return;
+    
+    // Jump by 1% of duration, minimum 1 second, maximum 5 seconds per tick
+    const jumpAmount = Math.min(Math.max(1, duration * 0.01), 5);
+    const newTime = Math.min(scrubberTimeRef.current + jumpAmount, duration);
 
     setIsActive(true);
-    handleSeek(newTime);
+    scrubberTimeRef.current = newTime;
     setScrubberTime(newTime);
-  }, [scrubberTime, duration, isScrubbing, handleSeek]);
+    handleSeek(newTime);
+  }, [duration, isScrubbing, handleSeek]);
 
   const scrubBackward = useCallback(() => {
-    if (!isScrubbing || scrubberTime <= 0) return;
-    const newTime = Math.max(scrubberTime - 1, 0);
+    if (!isScrubbing || scrubberTimeRef.current <= 0) return;
+    
+    const jumpAmount = Math.min(Math.max(1, duration * 0.01), 5);
+    const newTime = Math.max(scrubberTimeRef.current - jumpAmount, 0);
 
     setIsActive(true);
-    handleSeek(newTime);
+    scrubberTimeRef.current = newTime;
     setScrubberTime(newTime);
-  }, [scrubberTime, handleSeek, isScrubbing]);
+    handleSeek(newTime);
+  }, [duration, isScrubbing, handleSeek]);
 
   // Sync scrubber time with actual playback time when not actively scrubbing
   useEffect(() => {
     if (!isActive) {
       setScrubberTime(currentTime);
+      scrubberTimeRef.current = currentTime;
     }
   }, [currentTime, isActive]);
 
