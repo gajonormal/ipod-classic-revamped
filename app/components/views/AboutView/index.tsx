@@ -68,7 +68,7 @@ const AboutView = () => {
           <Title>iPod.js Revamped</Title>
         </TitleContainer>
         <Description>
-          Revamped by Bernardo<br />
+          Revamped by gajonormal<br />
           <span style={{ fontSize: "11px", opacity: 0.7 }}>Original by Tanner Villarete</span>
         </Description>
         <SelectableList options={options} activeIndex={scrollIndex} />

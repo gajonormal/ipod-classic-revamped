@@ -39,7 +39,7 @@ const SettingsPreview = () => {
     <Container {...previewSlideRight}>
       <Image alt="React logo" src={`${APP_URL}/react_logo.svg`} />
       <Text>iPod.js Revamped</Text>
-      <Subtext>by Bernardo</Subtext>
+      <Subtext>by gajonormal</Subtext>
     </Container>
   );
 };
