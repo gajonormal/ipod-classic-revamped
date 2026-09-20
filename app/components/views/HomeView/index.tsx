@@ -121,7 +121,7 @@ const HomeView = () => {
         id: "sign-out-popup",
         label: "Sign out",
         listOptions: signOutOptions,
-        preview: SplitScreenPreview.Service,
+        preview: SplitScreenPreview.Music,
       }),
 
       {
