@@ -22,26 +22,7 @@ export const getMediaOptions = (
   type: "album" | "song" | "playlist",
   id: string
 ): SelectableListOption[] => {
-  const music = window.MusicKit.getInstance();
-
-  return [
-    {
-      type: "action",
-      label: "Play Next",
-      onSelect: () =>
-        music.playNext({
-          [type]: id,
-        }),
-    },
-    {
-      type: "action",
-      label: "Play Later",
-      onSelect: () =>
-        music.playLater({
-          [type]: id,
-        }),
-    },
-  ];
+  return [];
 };
 
 export const formatPlaybackTime = (seconds: number) => {

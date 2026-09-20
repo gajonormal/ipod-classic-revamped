@@ -2,6 +2,10 @@ import { createGlobalStyle } from "styled-components";
 import { Screen } from "@/utils/constants";
 
 export const GlobalStyles = createGlobalStyle`
+  html, body {
+    background: transparent !important;
+  }
+  
   body {
     height: 100dvh;
     display: grid;
@@ -35,9 +39,6 @@ export const GlobalStyles = createGlobalStyle`
   @media (prefers-color-scheme: dark) {
     html {
       color-scheme: dark;
-    }
-    body {
-      background: black;
     }
   }
 `;

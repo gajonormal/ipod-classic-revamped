@@ -55,6 +55,7 @@ const Container = styled.div<{ $isActive?: boolean }>`
 const Image = styled.img`
   height: 3rem;
   width: 3rem;
+  object-fit: cover;
   margin-right: ${Unit.XXS};
 `;
 

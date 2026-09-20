@@ -5,11 +5,17 @@ import * as Utils from "@/utils";
 
 const Container = styled(motion.div)`
   height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 `;
 
 const Artwork = styled.img`
   height: 100%;
-  width: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  box-shadow: -10px 0 20px rgba(0, 0, 0, 0.2);
 `;
 
 const NowPlayingPreview = () => {

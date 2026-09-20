@@ -79,6 +79,7 @@ const Artwork = styled.img`
   position: absolute;
   height: 8em;
   width: 8em;
+  object-fit: cover;
   transition: opacity 0.5s;
 `;
 

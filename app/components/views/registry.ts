@@ -7,10 +7,7 @@ import AlbumView from "./AlbumView";
 import AlbumsView from "./AlbumsView";
 import ArtistView from "./ArtistView";
 import ArtistsView from "./ArtistsView";
-import BrickGameView from "./BrickGameView";
 import CoverFlowView from "./CoverFlowView";
-import SolitaireGameView from "./SolitaireGameView";
-import GamesView from "./GamesView";
 import HomeView from "./HomeView";
 import MusicView from "./MusicView";
 import NowPlayingView from "./NowPlayingView";
@@ -27,7 +24,6 @@ import SongsView from "./SongsView";
 export type ViewProps = {
   home: undefined;
   music: undefined;
-  games: undefined;
   settings: undefined;
   about: undefined;
   artists: {
@@ -43,8 +39,6 @@ export type ViewProps = {
   playlists: { playlists?: MediaApi.Playlist[]; inLibrary?: boolean };
   playlist: { id: string; inLibrary?: boolean };
   search: { initialQuery?: string };
-  brickGame: undefined;
-  solitaireGame: undefined;
   coverFlow: undefined;
 };
 
@@ -84,14 +78,6 @@ export const VIEW_REGISTRY = {
     isSplitScreen: true,
     preview: SplitScreenPreview.Music,
   } as ViewConfig<"music">,
-
-  games: {
-    component: GamesView,
-    type: "split",
-    title: "Games",
-    isSplitScreen: true,
-    preview: SplitScreenPreview.Games,
-  } as ViewConfig<"games">,
 
   settings: {
     component: SettingsView,
@@ -171,22 +157,6 @@ export const VIEW_REGISTRY = {
     title: "Search",
     preview: SplitScreenPreview.Music,
   } as ViewConfig<"search">,
-
-  brickGame: {
-    component: BrickGameView,
-    type: "full",
-    title: "Brick",
-    preview: SplitScreenPreview.Games,
-    disableLongPress: true,
-  } as ViewConfig<"brickGame">,
-
-  solitaireGame: {
-    component: SolitaireGameView,
-    type: "full",
-    title: "Solitaire",
-    preview: SplitScreenPreview.Games,
-    disableLongPress: true,
-  } as ViewConfig<"solitaireGame">,
 
   // CoverFlow View
   coverFlow: {

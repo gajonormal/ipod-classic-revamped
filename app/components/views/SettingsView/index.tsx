@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from "react";
+import { useGoogleLogin } from "@react-oauth/google";
 
 import { getConditionalOption } from "@/components/SelectableList";
 import SelectableList, {
@@ -7,17 +8,14 @@ import SelectableList, {
 import { SplitScreenPreview } from "@/components/previews";
 import {
   useAudioPlayer,
-  useMusicKit,
   useSelectableList,
   useSettings,
-  useSpotifySDK,
 } from "@/hooks";
 
 const THEMES = ["silver", "black", "u2"] as const;
 
 const SERVICE_LABELS = {
-  apple: "Apple Music",
-  spotify: "Spotify",
+  youtube: "YouTube",
 } as const;
 
 const formatCurrentLabel = (label: string, isCurrent: boolean) =>
@@ -31,8 +29,8 @@ const getThemeLabel = (theme: (typeof THEMES)[number]) => {
 const SettingsView = () => {
   const {
     isAuthorized,
-    isAppleAuthorized,
-    isSpotifyAuthorized,
+    isYoutubeAuthorized,
+    setYoutubeToken,
     isOffline,
     service,
     deviceTheme,
@@ -42,15 +40,14 @@ const SettingsView = () => {
     hapticsEnabled,
     setHapticsEnabled,
   } = useSettings();
-  const { setShuffleMode, setRepeatMode } = useAudioPlayer();
-  const {
-    signIn: signInWithApple,
-    signOut: signOutApple,
-    isConfigured: isMkConfigured,
-  } = useMusicKit();
-  const { signOut: signOutSpotify, signIn: signInWithSpotify } =
-    useSpotifySDK();
-  const { reset } = useAudioPlayer();
+  const { setShuffleMode, setRepeatMode, reset } = useAudioPlayer();
+
+  const login = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      setYoutubeToken(tokenResponse.access_token);
+    },
+    scope: "https://www.googleapis.com/auth/youtube.readonly",
+  });
 
   const createResetHandler = useCallback(
     (handler: () => void | Promise<void>) => () => {
@@ -71,63 +68,26 @@ const SettingsView = () => {
     [deviceTheme, setDeviceTheme]
   );
 
-  const serviceOptions: SelectableListOption[] = useMemo(
-    () => [
-      {
-        type: "action",
-        isSelected: service === "apple",
-        label: formatCurrentLabel(SERVICE_LABELS.apple, service === "apple"),
-        onSelect: createResetHandler(signInWithApple),
-      },
-      {
-        type: "action",
-        isSelected: service === "spotify",
-        label: formatCurrentLabel(
-          SERVICE_LABELS.spotify,
-          service === "spotify"
-        ),
-        onSelect: createResetHandler(signInWithSpotify),
-      },
-    ],
-    [service, createResetHandler, signInWithApple, signInWithSpotify]
-  );
-
   const signInOptions: SelectableListOption[] = useMemo(
     () => [
-      ...getConditionalOption(isMkConfigured, {
-        type: "action",
-        label: SERVICE_LABELS.apple,
-        onSelect: signInWithApple,
-      }),
       {
         type: "action",
-        label: SERVICE_LABELS.spotify,
-        onSelect: signInWithSpotify,
+        label: "Sign in with YouTube",
+        onSelect: () => login(),
       },
     ],
-    [isMkConfigured, signInWithApple, signInWithSpotify]
+    [login]
   );
 
   const signOutOptions: SelectableListOption[] = useMemo(
     () => [
-      ...getConditionalOption(isAppleAuthorized, {
+      {
         type: "action",
-        label: SERVICE_LABELS.apple,
-        onSelect: createResetHandler(signOutApple),
-      }),
-      ...getConditionalOption(isSpotifyAuthorized, {
-        type: "action",
-        label: SERVICE_LABELS.spotify,
-        onSelect: createResetHandler(signOutSpotify),
-      }),
+        label: "Sign out of YouTube",
+        onSelect: createResetHandler(() => setYoutubeToken(undefined)),
+      },
     ],
-    [
-      isAppleAuthorized,
-      isSpotifyAuthorized,
-      createResetHandler,
-      signOutApple,
-      signOutSpotify,
-    ]
+    [createResetHandler, setYoutubeToken]
   );
 
   const options: SelectableListOption[] = useMemo(
@@ -138,15 +98,6 @@ const SettingsView = () => {
         viewId: "about",
         preview: SplitScreenPreview.Settings,
       },
-      /** Add an option to select between services signed into more than one. */
-      ...getConditionalOption(isAuthorized && !isOffline, {
-        type: "actionSheet",
-        id: "service-type-action-sheet",
-        label: "Choose service",
-        listOptions: serviceOptions,
-        preview: SplitScreenPreview.Service,
-      }),
-      /** Add shuffle mode options */
       ...getConditionalOption(isAuthorized, {
         type: "actionSheet",
         id: "shuffle-mode-action-sheet",
@@ -173,7 +124,6 @@ const SettingsView = () => {
         ],
         preview: SplitScreenPreview.Settings,
       }),
-      /** Add repeat mode options */
       ...getConditionalOption(isAuthorized, {
         type: "actionSheet",
         id: "repeat-mode-action-sheet",
@@ -227,16 +177,14 @@ const SettingsView = () => {
         ],
         preview: SplitScreenPreview.Settings,
       },
-      /** Show the sign in option if not signed into any service. */
-      ...getConditionalOption(!isAuthorized && !isOffline, {
+      ...getConditionalOption(!isYoutubeAuthorized, {
         type: "actionSheet",
         id: "signin-popup",
         label: "Sign in",
         listOptions: signInOptions,
         preview: SplitScreenPreview.Music,
       }),
-      /** Show the signout option for any services that are authenticated. */
-      ...getConditionalOption(isAuthorized && !isOffline, {
+      ...getConditionalOption(isYoutubeAuthorized, {
         type: "actionSheet",
         id: "sign-out-popup",
         label: "Sign out",
@@ -246,8 +194,7 @@ const SettingsView = () => {
     ],
     [
       isAuthorized,
-      isOffline,
-      serviceOptions,
+      isYoutubeAuthorized,
       themeOptions,
       signInOptions,
       signOutOptions,

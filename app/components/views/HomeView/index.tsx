@@ -8,10 +8,8 @@ import { SplitScreenPreview } from "@/components/previews";
 import {
   useAudioPlayer,
   useEventListener,
-  useMusicKit,
   useSelectableList,
   useSettings,
-  useSpotifySDK,
   useViewContext,
 } from "@/hooks";
 import { IpodEvent } from "@/utils/events";
@@ -22,10 +20,7 @@ const strings = {
 
 const HomeView = () => {
   const { isAuthorized, isOffline } = useSettings();
-  const { signIn: signInWithApple, isConfigured: isMkConfigured } =
-    useMusicKit();
   const { nowPlayingItem } = useAudioPlayer();
-  const { signIn: signInWithSpotify } = useSpotifySDK();
   const { showView, viewStack } = useViewContext();
 
   const options: SelectableListOption[] = useMemo(
@@ -42,19 +37,13 @@ const HomeView = () => {
         viewId: "music",
         preview: SplitScreenPreview.Music,
       },
-      {
-        type: "view",
-        label: "Games",
-        viewId: "games",
-        preview: SplitScreenPreview.Games,
-      },
+
       {
         type: "view",
         label: "Settings",
         viewId: "settings",
         preview: SplitScreenPreview.Settings,
       },
-      // Show the sign in buttons if the user is not logged in and online.
       ...getConditionalOption(!isAuthorized && !isOffline, {
         type: "actionSheet",
         id: "signin-popup",
@@ -62,13 +51,8 @@ const HomeView = () => {
         listOptions: [
           {
             type: "action",
-            label: "Apple Music",
-            onSelect: signInWithApple,
-          },
-          {
-            type: "action",
-            label: "Spotify",
-            onSelect: signInWithSpotify,
+            label: "YouTube (Em Breve)",
+            onSelect: () => {},
           },
         ],
         preview: SplitScreenPreview.Music,
@@ -80,7 +64,7 @@ const HomeView = () => {
         preview: SplitScreenPreview.NowPlaying,
       }),
     ],
-    [isAuthorized, isOffline, nowPlayingItem, signInWithApple, signInWithSpotify]
+    [isAuthorized, isOffline, nowPlayingItem]
   );
 
   const { activeIndex: scrollIndex } = useSelectableList({ viewId: "home", options });
@@ -94,7 +78,6 @@ const HomeView = () => {
       activeView.id !== "coverFlow" &&
       activeView.id !== "keyboard";
 
-    // Only show the now playing view if we're playing a song and not already on that view.
     if (shouldShowNowPlaying) {
       showView("nowPlaying");
     }

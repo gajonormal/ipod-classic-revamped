@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "pnpm@10.30.3",
   "scripts": {
-    "dev": "NODE_OPTIONS='--inspect' next dev",
+    "dev": "next dev",
     "build": "next build && serwist build",
     "bundle-report": "ANALYZE=true pnpm build",
     "lint": "eslint .",
@@ -14,6 +14,7 @@
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
+    "@react-oauth/google": "^0.13.5",
     "@tanstack/react-query": "^5.100.4",
     "he": "^1.2.0",
     "ios-haptics": "^0.1.4",

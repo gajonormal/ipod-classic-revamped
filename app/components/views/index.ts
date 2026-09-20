@@ -1,12 +1,9 @@
-// View component exports
 export { default as AboutView } from "./AboutView";
 export { default as AlbumView } from "./AlbumView";
 export { default as AlbumsView } from "./AlbumsView";
 export { default as ArtistsView } from "./ArtistsView";
 export { default as ArtistView } from "./ArtistView";
-export { default as BrickGameView } from "./BrickGameView";
 export { default as CoverFlowView } from "./CoverFlowView";
-export { default as GamesView } from "./GamesView";
 export { default as HomeView } from "./HomeView";
 export { default as MusicView } from "./MusicView";
 export { default as NowPlayingView } from "./NowPlayingView";

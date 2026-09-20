@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 
 import { Controls } from "@/components";
-import { useAudioPlayer, useEffectOnce, useMKEventListener } from "@/hooks";
+import { useAudioPlayer, useEffectOnce } from "@/hooks";
 import styled from "styled-components";
 import { Unit } from "@/utils/constants";
 import * as Utils from "@/utils";
@@ -59,6 +59,7 @@ const ArtworkContainer = styled.div<ArtworkContainerProps>`
 const Artwork = styled.img`
   height: 100%;
   width: 100%;
+  object-fit: cover;
   border: 1px solid #f3f3f3;
 `;
 
@@ -104,22 +105,16 @@ const NowPlaying = ({ hideArtwork, onHide }: Props) => {
     repeatMode,
   } = useAudioPlayer();
 
-  const handlePlaybackChange = useCallback(
-    ({ state }: { state: MusicKit.PlaybackStates }) => {
-      /** Hide the now playing view if the playback state is "Completed" */
-      if (state === MusicKit.PlaybackStates.completed) {
-        onHide();
-      }
-    },
-    [onHide]
-  );
+  const handlePlaybackChange = useCallback(() => {
+    // To be implemented for YouTube
+  }, []);
 
   useEffectOnce(() => {
     updateNowPlayingItem();
     updatePlaybackInfo();
   });
 
-  useMKEventListener("playbackStateDidChange", handlePlaybackChange);
+  // useMKEventListener("playbackStateDidChange", handlePlaybackChange);
 
   const artworkUrl = Utils.getArtwork(300, nowPlayingItem?.artwork?.url);
 

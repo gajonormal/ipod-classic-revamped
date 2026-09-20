@@ -22,8 +22,8 @@ export const HAPTICS_ENABLED_KEY = "ipodHapticsEnabled";
 
 export interface SettingsState {
   service?: StreamingService;
-  isSpotifyAuthorized: boolean;
-  isAppleAuthorized: boolean;
+  youtubeToken?: string;
+  isYoutubeAuthorized: boolean;
   isOffline: boolean;
   colorScheme: ColorScheme;
   deviceTheme: DeviceThemeName;
@@ -44,8 +44,7 @@ export const SettingsContext = createContext<SettingsContextType>([
 
 export type SettingsHook = SettingsState & {
   isAuthorized: boolean;
-  setIsSpotifyAuthorized: (val: boolean) => void;
-  setIsAppleAuthorized: (val: boolean) => void;
+  setYoutubeToken: (token?: string) => void;
   setService: (service?: StreamingService) => void;
   setColorScheme: (colorScheme?: ColorScheme) => void;
   setDeviceTheme: (deviceTheme: DeviceThemeName) => void;
@@ -57,20 +56,12 @@ export type SettingsHook = SettingsState & {
 export const useSettings = (): SettingsHook => {
   const [state, setState] = useContext(SettingsContext);
 
-  const setIsSpotifyAuthorized = useCallback(
-    (val: boolean) =>
+  const setYoutubeToken = useCallback(
+    (token?: string) =>
       setState((prevState) => ({
         ...prevState,
-        isSpotifyAuthorized: val,
-      })),
-    [setState]
-  );
-
-  const setIsAppleAuthorized = useCallback(
-    (val: boolean) =>
-      setState((prevState) => ({
-        ...prevState,
-        isAppleAuthorized: val,
+        youtubeToken: token,
+        isYoutubeAuthorized: !!token,
       })),
     [setState]
   );
@@ -148,9 +139,9 @@ export const useSettings = (): SettingsHook => {
 
   return {
     ...state,
-    isAuthorized: state.isAppleAuthorized || state.isSpotifyAuthorized,
-    setIsSpotifyAuthorized,
-    setIsAppleAuthorized,
+    isAuthorized: true, // Always true for Hybrid Mode (Guest + User)
+    isOffline: false, // Bypass offline check for Guest Mode
+    setYoutubeToken,
     setService,
     setColorScheme,
     setDeviceTheme,
@@ -166,8 +157,8 @@ interface Props {
 
 export const SettingsProvider = ({ children }: Props) => {
   const [settingsState, setSettingsState] = useState<SettingsState>({
-    isAppleAuthorized: false,
-    isSpotifyAuthorized: false,
+    isYoutubeAuthorized: false,
+    youtubeToken: undefined,
     isOffline: false,
     service: undefined,
     colorScheme: "default",

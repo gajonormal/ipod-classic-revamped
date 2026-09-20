@@ -1,5 +1,5 @@
 "use client";
-import { memo, useCallback, useState } from "react";
+import { memo, useState } from "react";
 import {
   AudioPlayerProvider,
   SettingsContext,
@@ -16,41 +16,16 @@ import {
   Sticker3,
 } from "@/components/Ipod/Styled";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SpotifySDKProvider } from "@/providers/SpotifySdkProvider";
-import { MusicKitProvider } from "@/providers/MusicKitProvider";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import ViewContextProvider from "@/providers/ViewContextProvider";
-import { useRouter, useSearchParams } from "next/navigation";
 import { GlobalStyles } from "@/components/Ipod/GlobalStyles";
 import Script from "next/script";
-import { API_URL } from "@/utils/constants/api";
-import { SELECTED_SERVICE_KEY } from "@/utils/service";
 
-type Props = {
-  appleAccessToken: string;
-};
-
-const Ipod = ({ appleAccessToken }: Props) => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+const Ipod = () => {
   const [queryClient] = useState(() => new QueryClient());
   const [isLoading, setIsLoading] = useState(true);
 
-  const handleSpotifyCallback = useCallback(
-    async (code: string) => {
-      await fetch(`${API_URL}/spotify/callback?code=${code}`);
-      localStorage.setItem(SELECTED_SERVICE_KEY, "spotify");
-      setIsLoading(false);
-      router.replace("/");
-    },
-    [router]
-  );
-
   useEffectOnce(() => {
-    const spotifyCallbackCode = searchParams.get("code");
-    if (spotifyCallbackCode) {
-      handleSpotifyCallback(spotifyCallbackCode);
-      return;
-    }
     setIsLoading(false);
   });
 
@@ -59,38 +34,37 @@ const Ipod = ({ appleAccessToken }: Props) => {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <GlobalStyles />
-      <SettingsProvider>
-        <ViewContextProvider>
-          <SpotifySDKProvider>
-            <MusicKitProvider token={appleAccessToken}>
-              <AudioPlayerProvider>
-                <SettingsContext.Consumer>
-                  {([{ deviceTheme }]) => (
-                    <Shell $deviceTheme={deviceTheme}>
-                      <Sticker $deviceTheme={deviceTheme} />
-                      <Sticker2 $deviceTheme={deviceTheme} />
-                      <Sticker3 $deviceTheme={deviceTheme} />
-                      <ScreenContainer>
-                        <ViewManager />
-                      </ScreenContainer>
-                      <ClickWheelContainer>
-                        <ClickWheel />
-                      </ClickWheelContainer>
-                    </Shell>
-                  )}
-                </SettingsContext.Consumer>
-              </AudioPlayerProvider>
-            </MusicKitProvider>
-          </SpotifySDKProvider>
-        </ViewContextProvider>
-      </SettingsProvider>
-      <Script
-        src="https://sdk.scdn.co/spotify-player.js"
-        strategy="lazyOnload"
-      />
-    </QueryClientProvider>
+    <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
+      <QueryClientProvider client={queryClient}>
+        <GlobalStyles />
+        <SettingsProvider>
+          <ViewContextProvider>
+            <AudioPlayerProvider>
+              <div id="youtube-player" style={{ display: "none", width: 0, height: 0 }}></div>
+              <SettingsContext.Consumer>
+                {([{ deviceTheme }]) => (
+                  <Shell $deviceTheme={deviceTheme}>
+                    <Sticker $deviceTheme={deviceTheme} />
+                    <Sticker2 $deviceTheme={deviceTheme} />
+                    <Sticker3 $deviceTheme={deviceTheme} />
+                    <ScreenContainer>
+                      <ViewManager />
+                    </ScreenContainer>
+                    <ClickWheelContainer>
+                      <ClickWheel />
+                    </ClickWheelContainer>
+                  </Shell>
+                )}
+              </SettingsContext.Consumer>
+            </AudioPlayerProvider>
+          </ViewContextProvider>
+        </SettingsProvider>
+        <Script
+          src="https://www.youtube.com/iframe_api"
+          strategy="lazyOnload"
+        />
+      </QueryClientProvider>
+    </GoogleOAuthProvider>
   );
 };
 

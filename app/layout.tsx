@@ -1,4 +1,4 @@
-import { getRootAppUrl } from "@/api/spotify/utils";
+const getRootAppUrl = () => process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 import StyledComponentsRegistry from "@/lib/registry";
 import { SerwistProvider } from "@/lib/serwist-provider";
 import { Metadata, Viewport } from "next";
@@ -66,18 +66,12 @@ export default function RootLayout({
   return (
     <html>
       <head>
-        <link rel="preconnect" href="https://sdk.scdn.co" crossOrigin="" />
-        <link rel="preconnect" href="https://js-cdn.music.apple.com" crossOrigin="" />
       </head>
       <body>
         <SerwistProvider swUrl="/ipod/sw.js" options={{ scope: "/ipod/" }}>
           <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
         </SerwistProvider>
       </body>
-      <Script
-        src="https://js-cdn.music.apple.com/musickit/v3/musickit.js"
-        strategy="lazyOnload"
-      />
     </html>
   );
 }

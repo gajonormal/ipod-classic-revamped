@@ -11,7 +11,7 @@ import {
 } from "@/hooks";
 
 const MusicView = () => {
-  const { isAppleAuthorized } = useSettings();
+  const { isYoutubeAuthorized } = useSettings();
   const { nowPlayingItem } = useAudioPlayer();
 
   const options: SelectableListOption[] = useMemo(() => {
@@ -48,7 +48,7 @@ const MusicView = () => {
       },
     ];
 
-    if (isAppleAuthorized && !!nowPlayingItem) {
+    if (!!nowPlayingItem) {
       arr.push({
         type: "view",
         label: "Now playing",
@@ -58,7 +58,7 @@ const MusicView = () => {
     }
 
     return arr;
-  }, [isAppleAuthorized, nowPlayingItem]);
+  }, [nowPlayingItem]);
 
   const { activeIndex: scrollIndex } = useSelectableList({ viewId: "music", options });
 
