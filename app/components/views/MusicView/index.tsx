@@ -28,12 +28,7 @@ const MusicView = () => {
         viewId: "playlists",
         preview: SplitScreenPreview.Music,
       },
-      {
-        type: "view",
-        label: "Artists",
-        viewId: "artists",
-        preview: SplitScreenPreview.Music,
-      },
+
       {
         type: "view",
         label: "Albums",
