@@ -20,6 +20,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import ViewContextProvider from "@/providers/ViewContextProvider";
 import { GlobalStyles } from "@/components/Ipod/GlobalStyles";
 import Script from "next/script";
+import { ResponsiveWrapper } from "./ResponsiveWrapper";
 
 const Ipod = () => {
   const [queryClient] = useState(() => new QueryClient());
@@ -43,17 +44,19 @@ const Ipod = () => {
               <div id="youtube-player" style={{ display: "none", width: 0, height: 0 }}></div>
               <SettingsContext.Consumer>
                 {([{ deviceTheme }]) => (
-                  <Shell $deviceTheme={deviceTheme}>
-                    <Sticker $deviceTheme={deviceTheme} />
-                    <Sticker2 $deviceTheme={deviceTheme} />
-                    <Sticker3 $deviceTheme={deviceTheme} />
-                    <ScreenContainer>
-                      <ViewManager />
-                    </ScreenContainer>
-                    <ClickWheelContainer>
-                      <ClickWheel />
-                    </ClickWheelContainer>
-                  </Shell>
+                  <ResponsiveWrapper>
+                    <Shell $deviceTheme={deviceTheme}>
+                      <Sticker $deviceTheme={deviceTheme} />
+                      <Sticker2 $deviceTheme={deviceTheme} />
+                      <Sticker3 $deviceTheme={deviceTheme} />
+                      <ScreenContainer>
+                        <ViewManager />
+                      </ScreenContainer>
+                      <ClickWheelContainer>
+                        <ClickWheel />
+                      </ClickWheelContainer>
+                    </Shell>
+                  </ResponsiveWrapper>
                 )}
               </SettingsContext.Consumer>
             </AudioPlayerProvider>

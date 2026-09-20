@@ -16,27 +16,20 @@ export const Shell = styled.div<{ $deviceTheme: DeviceThemeName }>`
   -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(50%, transparent), to(rgba(250, 250, 250, 0.3)));
   animation: descend 1.5s ease;
   overflow: hidden;
+  transform: translateZ(0); /* Fix for inset shadow disappearing inside scaled parent in Chrome */
 
   @media (prefers-color-scheme: dark) {
     box-shadow: inset 0 0 2.4em black;
   }
 
-  ${Screen.SM.MediaQuery} {
-    animation: none;
-    width: 100vw;
-    max-height: unset;
-    border-radius: 0;
-    -webkit-box-reflect: unset;
-  }
-
   @keyframes descend {
     0% {
-      transform: scale(0.3);
+      transform: scale(0.3) translateZ(0);
       opacity: 0;
     }
 
     100% {
-      transform: scale(1);
+      transform: scale(1) translateZ(0);
       opacity: 1;
     }
   }
@@ -82,10 +75,6 @@ export const ScreenContainer = styled.div`
     0% {
       filter: brightness(0);
     }
-  }
-
-  ${Screen.SM.MediaQuery} {
-    margin: calc(${Unit.MD} + env(safe-area-inset-top)) ${Unit.MD} 0;
   }
 `;
 
