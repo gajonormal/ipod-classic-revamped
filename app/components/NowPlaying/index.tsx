@@ -2,6 +2,7 @@ import { useCallback } from "react";
 
 import { Controls } from "@/components";
 import { useAudioPlayer, useEffectOnce } from "@/hooks";
+import { motion, AnimatePresence } from "motion/react";
 import styled from "styled-components";
 import { Unit } from "@/utils/constants";
 import * as Utils from "@/utils";
@@ -39,6 +40,7 @@ interface ArtworkContainerProps {
 }
 
 const ArtworkContainer = styled.div<ArtworkContainerProps>`
+  position: relative;
   height: 8em;
   width: 8em;
   margin: auto ${Unit.SM};
@@ -56,7 +58,10 @@ const ArtworkContainer = styled.div<ArtworkContainerProps>`
   opacity: ${(props) => (props.$isHidden ? 0 : 1)};
 `;
 
-const Artwork = styled.img`
+const Artwork = styled(motion.img)`
+  position: absolute;
+  top: 0;
+  left: 0;
   height: 100%;
   width: 100%;
   object-fit: cover;
@@ -127,14 +132,21 @@ const NowPlaying = ({ hideArtwork, onHide }: Props) => {
       </StatusBar>
       <MetadataContainer>
         <ArtworkContainer $isHidden={hideArtwork}>
-          <Artwork
-            src={artworkUrl}
-            alt={
-              nowPlayingItem?.name
-                ? `${nowPlayingItem.name} album artwork`
-                : "Album artwork"
-            }
-          />
+          <AnimatePresence initial={false}>
+            <Artwork
+              key={nowPlayingItem?.id ?? "empty"}
+              initial={{ opacity: 0, x: "50%" }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: "-50%" }}
+              transition={{ type: "tween", ease: "easeInOut", duration: 0.35 }}
+              src={artworkUrl}
+              alt={
+                nowPlayingItem?.name
+                  ? `${nowPlayingItem.name} album artwork`
+                  : "Album artwork"
+              }
+            />
+          </AnimatePresence>
         </ArtworkContainer>
         <InfoContainer>
           <Text>{nowPlayingItem?.name}</Text>

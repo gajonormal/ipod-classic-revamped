@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { useAudioPlayer } from "@/hooks";
 import styled from "styled-components";
 import * as Utils from "@/utils";
@@ -6,12 +6,12 @@ import * as Utils from "@/utils";
 const Container = styled(motion.div)`
   height: 100%;
   width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  position: relative;
 `;
 
-const Artwork = styled.img`
+const Artwork = styled(motion.img)`
+  position: absolute;
+  right: 0;
   height: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
@@ -23,10 +23,17 @@ const NowPlayingPreview = () => {
 
   return nowPlayingItem ? (
     <Container>
-      <Artwork
-        src={Utils.getArtwork(300, nowPlayingItem.artwork?.url)}
-        alt="now playing artwork"
-      />
+      <AnimatePresence initial={false}>
+        <Artwork
+          key={nowPlayingItem?.id ?? "empty"}
+          initial={{ opacity: 0, x: "50%" }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: "-50%" }}
+          transition={{ type: "tween", ease: "easeInOut", duration: 0.35 }}
+          src={Utils.getArtwork(300, nowPlayingItem.artwork?.url)}
+          alt="now playing artwork"
+        />
+      </AnimatePresence>
     </Container>
   ) : null;
 };

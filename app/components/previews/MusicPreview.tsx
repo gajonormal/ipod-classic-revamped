@@ -2,11 +2,12 @@ import { useMemo } from "react";
 
 import { AuthPrompt, KenBurns, LoadingScreen } from "@/components";
 import { motion } from "motion/react";
-import { useSettings } from "@/hooks";
+import { useSettings, useAudioPlayer } from "@/hooks";
 import styled from "styled-components";
 import { useFetchAlbums } from "@/hooks/utils/useDataFetcher";
 import { previewSlideRight } from "@/animation";
 import { getArtwork } from "@/utils";
+import NowPlayingPreview from "./NowPlayingPreview";
 
 const Container = styled(motion.div)`
   z-index: 1;
@@ -19,6 +20,7 @@ const Container = styled(motion.div)`
 
 const MusicPreview = () => {
   const { isYoutubeAuthorized } = useSettings();
+  const { nowPlayingItem } = useAudioPlayer();
 
   const {
     data: albums,
@@ -40,6 +42,10 @@ const MusicPreview = () => {
 
     return [];
   }, [albums, error]);
+
+  if (nowPlayingItem) {
+    return <NowPlayingPreview />;
+  }
 
   return (
     <Container {...previewSlideRight}>
