@@ -110,8 +110,8 @@ const CoverFlow = ({ albums }: Props) => {
 
   const updateMidpoint = useCallback(() => {
     if (containerRef.current) {
-      const { width, height } = containerRef.current.getBoundingClientRect();
-      setMidpoint({ x: width / 2, y: height / 2 });
+      const { offsetWidth, offsetHeight } = containerRef.current;
+      setMidpoint({ x: offsetWidth / 2, y: offsetHeight / 2 });
     }
   }, []);
 
