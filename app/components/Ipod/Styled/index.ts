@@ -16,7 +16,6 @@ export const Shell = styled.div<{ $deviceTheme: DeviceThemeName; $showReflection
     $showReflection ? "below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(50%, transparent), to(rgba(250, 250, 250, 0.3)))" : "none"};
   animation: descend 1.5s ease;
   overflow: hidden;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
   
   /* Pseudo-element for inner shadow to avoid Chrome scaling bugs and translateZ side-effects */
   &::before {
@@ -29,7 +28,6 @@ export const Shell = styled.div<{ $deviceTheme: DeviceThemeName; $showReflection
   }
 
   @media (prefers-color-scheme: dark) {
-    box-shadow: 0 10px 40px rgba(0,0,0,0.8);
     &::before {
       box-shadow: inset 0 0 2.4em black;
     }
