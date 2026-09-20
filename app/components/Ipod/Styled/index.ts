@@ -52,6 +52,32 @@ export const ScreenContainer = styled.div`
   background: white;
   animation: fadeFromBlack 0.5s;
 
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    
+    /* LCD Scanlines */
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.04) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+    background-size: 100% 3px, 3px 100%;
+    
+    /* Screen bezel depth */
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.5), inset 0 -2px 10px rgba(0,0,0,0.2);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9998;
+    /* Subtle screen glare */
+    background: linear-gradient(115deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.02) 40%, transparent 40%);
+  }
+
   @keyframes fadeFromBlack {
     0% {
       filter: brightness(0);
