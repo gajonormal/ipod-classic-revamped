@@ -8,7 +8,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 1,
     "url": "UgI0sKebLSk",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_koptchAUS0R95-tUoLfozEuwoaHZKMH8A/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICI63wNEGEAE=&rs=AOn4CLAq4xOwP56FWm8Ee5laiwgtrE6s8g&v=1781537678"
+      "url": "https://i.ytimg.com/vi/UgI0sKebLSk/hqdefault.jpg"
     }
   },
   {
@@ -20,7 +20,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 2,
     "url": "3mb12apHe00",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_koptchAUS0R95-tUoLfozEuwoaHZKMH8A/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICI63wNEGEAE=&rs=AOn4CLAq4xOwP56FWm8Ee5laiwgtrE6s8g&v=1781537678"
+      "url": "https://i.ytimg.com/vi/UgI0sKebLSk/hqdefault.jpg"
     }
   },
   {
@@ -32,7 +32,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 3,
     "url": "ZZRu7w7PxkE",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_koptchAUS0R95-tUoLfozEuwoaHZKMH8A/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICI63wNEGEAE=&rs=AOn4CLAq4xOwP56FWm8Ee5laiwgtrE6s8g&v=1781537678"
+      "url": "https://i.ytimg.com/vi/UgI0sKebLSk/hqdefault.jpg"
     }
   },
   {
@@ -44,7 +44,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 4,
     "url": "Rlzzf_J0BqY",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_koptchAUS0R95-tUoLfozEuwoaHZKMH8A/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICI63wNEGEAE=&rs=AOn4CLAq4xOwP56FWm8Ee5laiwgtrE6s8g&v=1781537678"
+      "url": "https://i.ytimg.com/vi/UgI0sKebLSk/hqdefault.jpg"
     }
   },
   {
@@ -56,7 +56,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 5,
     "url": "8xWBKQszwbY",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_koptchAUS0R95-tUoLfozEuwoaHZKMH8A/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICI63wNEGEAE=&rs=AOn4CLAq4xOwP56FWm8Ee5laiwgtrE6s8g&v=1781537678"
+      "url": "https://i.ytimg.com/vi/UgI0sKebLSk/hqdefault.jpg"
     }
   },
   {
@@ -68,7 +68,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 6,
     "url": "wWwjDiQETvY",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_koptchAUS0R95-tUoLfozEuwoaHZKMH8A/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICI63wNEGEAE=&rs=AOn4CLAq4xOwP56FWm8Ee5laiwgtrE6s8g&v=1781537678"
+      "url": "https://i.ytimg.com/vi/UgI0sKebLSk/hqdefault.jpg"
     }
   },
   {
@@ -80,7 +80,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 7,
     "url": "-q8xQ4YJ6-M",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_koptchAUS0R95-tUoLfozEuwoaHZKMH8A/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICI63wNEGEAE=&rs=AOn4CLAq4xOwP56FWm8Ee5laiwgtrE6s8g&v=1781537678"
+      "url": "https://i.ytimg.com/vi/UgI0sKebLSk/hqdefault.jpg"
     }
   },
   {
@@ -92,7 +92,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 8,
     "url": "i2rbspYdjnw",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_koptchAUS0R95-tUoLfozEuwoaHZKMH8A/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICI63wNEGEAE=&rs=AOn4CLAq4xOwP56FWm8Ee5laiwgtrE6s8g&v=1781537678"
+      "url": "https://i.ytimg.com/vi/UgI0sKebLSk/hqdefault.jpg"
     }
   },
   {
@@ -464,7 +464,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 1,
     "url": "xEQ_946TO_g",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICLbDqb0GEAE=&rs=AOn4CLDhjflLDMiZ9uMw0wC_Z8m1ZVQHIg&v=1739219382"
+      "url": "https://upload.wikimedia.org/wikipedia/en/2/28/Channel_ORANGE.jpg"
     }
   },
   {
@@ -476,7 +476,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 2,
     "url": "6JHu3b-pbh8",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICLbDqb0GEAE=&rs=AOn4CLDhjflLDMiZ9uMw0wC_Z8m1ZVQHIg&v=1739219382"
+      "url": "https://upload.wikimedia.org/wikipedia/en/2/28/Channel_ORANGE.jpg"
     }
   },
   {
@@ -488,7 +488,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 3,
     "url": "T4o-rrRLka0",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICLbDqb0GEAE=&rs=AOn4CLDhjflLDMiZ9uMw0wC_Z8m1ZVQHIg&v=1739219382"
+      "url": "https://upload.wikimedia.org/wikipedia/en/2/28/Channel_ORANGE.jpg"
     }
   },
   {
@@ -500,7 +500,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 4,
     "url": "kgplNxRbbaM",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICLbDqb0GEAE=&rs=AOn4CLDhjflLDMiZ9uMw0wC_Z8m1ZVQHIg&v=1739219382"
+      "url": "https://upload.wikimedia.org/wikipedia/en/2/28/Channel_ORANGE.jpg"
     }
   },
   {
@@ -512,7 +512,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 5,
     "url": "y14F2RQW7h4",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICLbDqb0GEAE=&rs=AOn4CLDhjflLDMiZ9uMw0wC_Z8m1ZVQHIg&v=1739219382"
+      "url": "https://upload.wikimedia.org/wikipedia/en/2/28/Channel_ORANGE.jpg"
     }
   },
   {
@@ -524,7 +524,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 6,
     "url": "ix-ownkEPE8",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICLbDqb0GEAE=&rs=AOn4CLDhjflLDMiZ9uMw0wC_Z8m1ZVQHIg&v=1739219382"
+      "url": "https://upload.wikimedia.org/wikipedia/en/2/28/Channel_ORANGE.jpg"
     }
   },
   {
@@ -536,7 +536,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 7,
     "url": "0XCQNpjWmRE",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICLbDqb0GEAE=&rs=AOn4CLDhjflLDMiZ9uMw0wC_Z8m1ZVQHIg&v=1739219382"
+      "url": "https://upload.wikimedia.org/wikipedia/en/2/28/Channel_ORANGE.jpg"
     }
   },
   {
@@ -548,7 +548,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 8,
     "url": "azgDZ-TBCzk",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICLbDqb0GEAE=&rs=AOn4CLDhjflLDMiZ9uMw0wC_Z8m1ZVQHIg&v=1739219382"
+      "url": "https://upload.wikimedia.org/wikipedia/en/2/28/Channel_ORANGE.jpg"
     }
   },
   {
@@ -560,7 +560,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 9,
     "url": "IVzzw7Vkiyg",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICLbDqb0GEAE=&rs=AOn4CLDhjflLDMiZ9uMw0wC_Z8m1ZVQHIg&v=1739219382"
+      "url": "https://upload.wikimedia.org/wikipedia/en/2/28/Channel_ORANGE.jpg"
     }
   },
   {
@@ -572,7 +572,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 10,
     "url": "dMV31MWIjLE",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICLbDqb0GEAE=&rs=AOn4CLDhjflLDMiZ9uMw0wC_Z8m1ZVQHIg&v=1739219382"
+      "url": "https://upload.wikimedia.org/wikipedia/en/2/28/Channel_ORANGE.jpg"
     }
   },
   {
@@ -584,7 +584,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 11,
     "url": "J3DWAJGaf7o",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICLbDqb0GEAE=&rs=AOn4CLDhjflLDMiZ9uMw0wC_Z8m1ZVQHIg&v=1739219382"
+      "url": "https://upload.wikimedia.org/wikipedia/en/2/28/Channel_ORANGE.jpg"
     }
   },
   {
@@ -596,7 +596,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 12,
     "url": "ifF6560hkn8",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICLbDqb0GEAE=&rs=AOn4CLDhjflLDMiZ9uMw0wC_Z8m1ZVQHIg&v=1739219382"
+      "url": "https://upload.wikimedia.org/wikipedia/en/2/28/Channel_ORANGE.jpg"
     }
   },
   {
@@ -608,7 +608,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 13,
     "url": "HFVlEft9uEs",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICLbDqb0GEAE=&rs=AOn4CLDhjflLDMiZ9uMw0wC_Z8m1ZVQHIg&v=1739219382"
+      "url": "https://upload.wikimedia.org/wikipedia/en/2/28/Channel_ORANGE.jpg"
     }
   },
   {
@@ -620,7 +620,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 14,
     "url": "JMpypbtrcCg",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICLbDqb0GEAE=&rs=AOn4CLDhjflLDMiZ9uMw0wC_Z8m1ZVQHIg&v=1739219382"
+      "url": "https://upload.wikimedia.org/wikipedia/en/2/28/Channel_ORANGE.jpg"
     }
   },
   {
@@ -632,7 +632,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 15,
     "url": "uaLV003llhY",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICLbDqb0GEAE=&rs=AOn4CLDhjflLDMiZ9uMw0wC_Z8m1ZVQHIg&v=1739219382"
+      "url": "https://upload.wikimedia.org/wikipedia/en/2/28/Channel_ORANGE.jpg"
     }
   },
   {
@@ -644,7 +644,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 16,
     "url": "BqSro-8_gpU",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICLbDqb0GEAE=&rs=AOn4CLDhjflLDMiZ9uMw0wC_Z8m1ZVQHIg&v=1739219382"
+      "url": "https://upload.wikimedia.org/wikipedia/en/2/28/Channel_ORANGE.jpg"
     }
   },
   {
@@ -656,7 +656,7 @@ export const mockSongs: MediaApi.Song[] = [
     "trackNumber": 17,
     "url": "sIROWXH8xWU",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICLbDqb0GEAE=&rs=AOn4CLDhjflLDMiZ9uMw0wC_Z8m1ZVQHIg&v=1739219382"
+      "url": "https://upload.wikimedia.org/wikipedia/en/2/28/Channel_ORANGE.jpg"
     }
   }
 ];
@@ -668,7 +668,7 @@ export const mockAlbums: MediaApi.Album[] = [
     "artistName": "Isak, Zigarro, Armando Teles",
     "url": "OLAK5uy_koptchAUS0R95-tUoLfozEuwoaHZKMH8A",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_koptchAUS0R95-tUoLfozEuwoaHZKMH8A/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICI63wNEGEAE=&rs=AOn4CLAq4xOwP56FWm8Ee5laiwgtrE6s8g&v=1781537678"
+      "url": "https://i.ytimg.com/vi/UgI0sKebLSk/hqdefault.jpg"
     },
     "songs": [
       mockSongs.find(s => s.id === "UgI0sKebLSk") as MediaApi.Song,
@@ -739,7 +739,7 @@ export const mockAlbums: MediaApi.Album[] = [
     "artistName": "Frank Ocean",
     "url": "OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg",
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICLbDqb0GEAE=&rs=AOn4CLDhjflLDMiZ9uMw0wC_Z8m1ZVQHIg&v=1739219382"
+      "url": "https://upload.wikimedia.org/wikipedia/en/2/28/Channel_ORANGE.jpg"
     },
     "songs": [
       mockSongs.find(s => s.id === "xEQ_946TO_g") as MediaApi.Song,
@@ -772,7 +772,7 @@ export const mockArtists: MediaApi.Artist[] = [
       mockAlbums.find(a => a.id === "OLAK5uy_koptchAUS0R95-tUoLfozEuwoaHZKMH8A") as MediaApi.Album
     ],
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_koptchAUS0R95-tUoLfozEuwoaHZKMH8A/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICI63wNEGEAE=&rs=AOn4CLAq4xOwP56FWm8Ee5laiwgtrE6s8g&v=1781537678"
+      "url": "https://i.ytimg.com/vi/UgI0sKebLSk/hqdefault.jpg"
     }
   },
   {
@@ -805,7 +805,7 @@ export const mockArtists: MediaApi.Artist[] = [
       mockAlbums.find(a => a.id === "OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg") as MediaApi.Album
     ],
     "artwork": {
-      "url": "https://i9.ytimg.com/s_p/OLAK5uy_mAGTQmYeosOR-Pp17OnnzkKHPeEbzSFOg/maxresdefault.jpg?sqp=CNSDwNUGir7X7AMICLbDqb0GEAE=&rs=AOn4CLDhjflLDMiZ9uMw0wC_Z8m1ZVQHIg&v=1739219382"
+      "url": "https://upload.wikimedia.org/wikipedia/en/2/28/Channel_ORANGE.jpg"
     }
   }
 ];
