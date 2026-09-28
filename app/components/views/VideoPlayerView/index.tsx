@@ -2,6 +2,8 @@ import React, { useEffect, useState, useCallback, useRef } from "react";
 import styled from "styled-components";
 import { useAudioPlayer, useEventListener, useVolumeHandler } from "@/hooks";
 import useMenuHideView from "@/hooks/navigation/useMenuHideView";
+import VolumeBar from "@/components/Controls/VolumeBar";
+import ProgressBar from "@/components/Controls/ProgressBar";
 import { IpodEvent } from "@/utils/events";
 
 interface Props {
@@ -26,76 +28,56 @@ const IframeWrapper = styled.div`
   top: 0;
   left: 0;
   
-  /* The iframe will be injected here by YouTube */
   iframe {
     position: absolute;
-    top: -80px; /* Push top UI out of bounds */
+    top: -80px;
     left: 0;
-    
-    /* SCALE TRICK: Render at 400% (1280px wide) to force Desktop UI, 
-       which does NOT have a central pause button when controls=1. */
     width: 400%;
-    height: calc(400% + 640px); /* 4x of (100% + 160px) */
+    height: calc(400% + 640px);
     transform: scale(0.25);
     transform-origin: top left;
-    
     border: none;
-    pointer-events: none; /* Let the ClickWheel handle all interactions */
+    pointer-events: none;
   }
 `;
 
 const VideoControlsOverlay = styled.div<{ $isVisible: boolean }>`
   position: absolute;
   bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 85%;
-  background: rgba(0, 0, 0, 0.7);
-  border-radius: 8px;
-  padding: 8px 12px;
-  opacity: ${props => props.$isVisible ? 1 : 0};
+  left: 10%;
+  right: 10%;
+  background: linear-gradient(to bottom, #f4f4f4, #d4d4d4);
+  border: 1px solid #777;
+  border-radius: 6px;
+  padding: 6px 8px;
+  opacity: ${props => props.$isVisible ? 0.95 : 0};
   transition: opacity 0.3s;
   z-index: 20;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  backdrop-filter: blur(4px);
+  gap: 2px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.6);
 `;
 
-const ControlsText = styled.div`
-  color: white;
-  font-size: 10px;
-  font-weight: bold;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-`;
-
-const ProgressBarContainer = styled.div`
+const ScrubberGrid = styled.div`
+  display: grid;
+  grid-template-columns: 35px 1fr 35px;
+  gap: 8px;
+  align-items: center;
   width: 100%;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 3px;
-  overflow: hidden;
+  height: 16px;
 `;
 
-const ProgressFill = styled.div`
-  height: 100%;
-  background: white;
-  border-radius: 3px;
-  transition: width 0.1s linear;
-`;
-
-const TimeText = styled.div`
-  display: flex;
-  justify-content: space-between;
-  color: white;
-  font-size: 10px;
+const TimeText = styled.div<{ $align: 'left' | 'right' }>`
+  font-size: 11px;
+  font-weight: bold;
+  color: #333;
+  text-align: ${p => p.$align};
   font-variant-numeric: tabular-nums;
 `;
 
 const VideoPlayerView = ({ videoId }: Props) => {
-  const { pause, playbackInfo, volume } = useAudioPlayer();
+  const { pause, playbackInfo, volume: globalVolume } = useAudioPlayer();
   const [isPlaying, setIsPlaying] = useState(true);
   const [player, setPlayer] = useState<any>(null);
   const playerRef = useRef<any>(null);
@@ -104,14 +86,12 @@ const VideoPlayerView = ({ videoId }: Props) => {
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Pause background music when video view is mounted
   useEffect(() => {
     if (playbackInfo.isPlaying) {
       pause();
     }
   }, [pause, playbackInfo.isPlaying]);
 
-  // Sync volume with global audio player
   useEffect(() => {
     if (player && typeof player.setVolume === 'function') {
       player.setVolume(globalVolume * 100);
@@ -121,7 +101,6 @@ const VideoPlayerView = ({ videoId }: Props) => {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // Create the target div manually to hide it from React
     const targetDiv = document.createElement("div");
     targetDiv.id = `video-player-${videoId}`;
     containerRef.current.appendChild(targetDiv);
@@ -171,9 +150,6 @@ const VideoPlayerView = ({ videoId }: Props) => {
         playerRef.current.destroy();
       }
       if (containerRef.current && containerRef.current.contains(targetDiv)) {
-        // If YT API hasn't replaced the div, remove it.
-        // If YT API replaced it with an iframe, the iframe is still a child of containerRef,
-        // but it's a different node. We should just clean up all children to be safe.
         containerRef.current.innerHTML = '';
       }
     };
@@ -181,7 +157,6 @@ const VideoPlayerView = ({ videoId }: Props) => {
 
   const handlePlayPauseClick = useCallback(() => {
     if (!player) return;
-    
     if (isPlaying) {
       player.pauseVideo();
     } else {
@@ -201,7 +176,7 @@ const VideoPlayerView = ({ videoId }: Props) => {
     player.seekTo(Math.max(0, currentTime - 10), true);
   }, [player]);
 
-  const { increaseVolume, decreaseVolume, volume: globalVolume, active: volumeActive, setEnabled: setVolumeEnabled } = useVolumeHandler();
+  const { increaseVolume, decreaseVolume, volume, active: volumeActive, setEnabled: setVolumeEnabled } = useVolumeHandler();
   const [isScrubbing, setIsScrubbing] = useState(false);
   const [scrubberActive, setScrubberActive] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -209,17 +184,14 @@ const VideoPlayerView = ({ videoId }: Props) => {
   
   const scrubberTimeoutRef = useRef<any>(null);
 
-  // Poll for current time
   useEffect(() => {
     if (!player || !isPlaying) return;
-    
     const interval = setInterval(() => {
       if (!isScrubbing) {
         setCurrentTime(player.getCurrentTime() || 0);
         setDuration(player.getDuration() || 0);
       }
     }, 1000);
-    
     return () => clearInterval(interval);
   }, [player, isPlaying, isScrubbing]);
 
@@ -277,7 +249,7 @@ const VideoPlayerView = ({ videoId }: Props) => {
   useEventListener<IpodEvent>("forwardscroll", handleForwardScroll);
   useEventListener<IpodEvent>("backwardscroll", handleBackwardScroll);
 
-  const percent = duration > 0 ? (currentTime / duration) * 100 : 0;
+  const percent = duration > 0 ? Math.round((currentTime / duration) * 100) : 0;
   const isOverlayVisible = (!isScrubbing && volumeActive) || (isScrubbing && scrubberActive);
 
   return (
@@ -285,17 +257,16 @@ const VideoPlayerView = ({ videoId }: Props) => {
       <IframeWrapper ref={containerRef} />
       
       <VideoControlsOverlay $isVisible={isOverlayVisible}>
-        <ControlsText>
-          {isScrubbing ? "Scrubbing" : "Volume"}
-        </ControlsText>
-        <ProgressBarContainer>
-          <ProgressFill style={{ width: `${isScrubbing ? percent : globalVolume * 100}%` }} />
-        </ProgressBarContainer>
-        {isScrubbing && (
-          <TimeText>
-            <span>{formatTime(currentTime)}</span>
-            <span>-{formatTime(duration - currentTime)}</span>
-          </TimeText>
+        {isScrubbing ? (
+          <ScrubberGrid>
+            <TimeText $align="left">{formatTime(currentTime)}</TimeText>
+            <ProgressBar percent={percent} isScrubber />
+            <TimeText $align="right">-{formatTime(duration - currentTime)}</TimeText>
+          </ScrubberGrid>
+        ) : (
+          <div style={{ padding: '0 4px' }}>
+            <VolumeBar percent={volume * 100} />
+          </div>
         )}
       </VideoControlsOverlay>
     </Container>
