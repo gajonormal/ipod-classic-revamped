@@ -6,16 +6,17 @@ import styled from "styled-components";
 
 interface ContainerProps {
   $isHidden: boolean;
+  $isVideoPlayer: boolean;
 }
 
 const Container = styled.div<ContainerProps>`
   z-index: 3;
   display: grid;
-  grid-template-rows: 20px 1fr;
+  grid-template-rows: ${(props) => props.$isVideoPlayer ? "1fr" : "20px 1fr"};
   position: absolute;
   height: 100%;
   width: 100%;
-  background: white;
+  background: ${(props) => props.$isVideoPlayer ? "black" : "white"};
   transition: all 0.35s;
   transform: ${(props) => props.$isHidden && "translateX(100%)"};
 `;
@@ -30,10 +31,12 @@ interface Props {
 
 const FullScreenViewManager = ({ viewStack }: Props) => {
   const isHidden = viewStack.length === 0;
+  const currentView = viewStack[viewStack.length - 1];
+  const isVideoPlayer = currentView?.id === "videoPlayer";
 
   return (
-    <Container data-stack-type="fullscreen" $isHidden={isHidden}>
-      <Header />
+    <Container data-stack-type="fullscreen" $isHidden={isHidden} $isVideoPlayer={isVideoPlayer}>
+      {!isVideoPlayer && <Header />}
       <ContentContainer>
         <AnimatePresence>
           {viewStack.map((view, index) => (
