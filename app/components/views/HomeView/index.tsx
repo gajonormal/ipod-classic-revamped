@@ -75,6 +75,12 @@ const HomeView = () => {
         viewId: "music",
         preview: SplitScreenPreview.Music,
       },
+      {
+        type: "view",
+        label: "Videos",
+        viewId: "videos",
+        preview: SplitScreenPreview.Settings,
+      },
 
 
       ...getConditionalOption(isAuthorized, {

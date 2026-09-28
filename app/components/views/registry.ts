@@ -16,6 +16,8 @@ import PlaylistsView from "./PlaylistsView";
 import SearchView from "./SearchView";
 import SettingsView from "./SettingsView";
 import SongsView from "./SongsView";
+import VideosView from "./VideosView";
+import VideoPlayerView from "./VideoPlayerView";
 
 /**
  * Defines the props required by each view.
@@ -40,6 +42,8 @@ export type ViewProps = {
   playlist: { id: string; inLibrary?: boolean };
   search: { initialQuery?: string };
   coverFlow: undefined;
+  videos: undefined;
+  videoPlayer: { videoId: string };
 };
 
 export type ViewId = keyof ViewProps;
@@ -165,4 +169,17 @@ export const VIEW_REGISTRY = {
     title: "Cover Flow",
     preview: SplitScreenPreview.Music,
   } as ViewConfig<"coverFlow">,
+
+  videos: {
+    component: VideosView,
+    type: "full",
+    title: "Videos",
+    preview: SplitScreenPreview.Settings,
+  } as ViewConfig<"videos">,
+
+  videoPlayer: {
+    component: VideoPlayerView,
+    type: "full",
+    title: "Now Playing",
+  } as ViewConfig<"videoPlayer">,
 } as const;

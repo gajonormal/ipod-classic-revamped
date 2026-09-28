@@ -12,6 +12,8 @@ export { default as PlaylistsView } from "./PlaylistsView";
 export { default as SearchView } from "./SearchView";
 export { default as SettingsView } from "./SettingsView";
 export { default as SongsView } from "./SongsView";
+export { default as VideosView } from "./VideosView";
+export { default as VideoPlayerView } from "./VideoPlayerView";
 
 // NOTE: Registry is NOT exported here to avoid circular dependencies
 // Import registry directly from './registry' when needed
