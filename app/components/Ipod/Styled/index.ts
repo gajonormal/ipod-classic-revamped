@@ -53,7 +53,7 @@ export const ScreenContainer = styled.div`
   border: 4px solid black;
   border-radius: ${Unit.XS};
   overflow: hidden;
-  background: white;
+  background: black;
   animation: fadeFromBlack 0.5s;
 
   &::after {

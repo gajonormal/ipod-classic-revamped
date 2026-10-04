@@ -76,7 +76,7 @@ const ViewManager = () => {
   useEventListener<IpodEvent>("menulongpress", handleMenuLongPress);
 
   return (
-    <div>
+    <div style={{ width: "100%", height: "100%", background: "white" }}>
       <CoverFlowViewManager view={coverFlowView} />
       <SplitScreenViewManager
         viewStack={splitScreenViews}
