@@ -1,0 +1,196 @@
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { ColorScheme } from "@/utils/colorScheme";
+import { DeviceThemeName } from "@/utils/themes";
+
+export type ShuffleMode = "off" | "songs" | "albums";
+export type RepeatMode = "off" | "one" | "all";
+
+export const VOLUME_KEY = "ipodVolume";
+export const COLOR_SCHEME_KEY = "ipodColorScheme";
+export const DEVICE_COLOR_KEY = "ipodSelectedDeviceTheme";
+export const SHUFFLE_MODE_KEY = "ipodShuffleMode";
+export const REPEAT_MODE_KEY = "ipodRepeatMode";
+export const HAPTICS_ENABLED_KEY = "ipodHapticsEnabled";
+
+export interface SettingsState {
+  youtubeToken?: string;
+  isYoutubeAuthorized: boolean;
+  hasGoogleAuth: boolean;
+  isOffline: boolean;
+  colorScheme: ColorScheme;
+  deviceTheme: DeviceThemeName;
+  shuffleMode: ShuffleMode;
+  repeatMode: RepeatMode;
+  hapticsEnabled: boolean;
+}
+
+type SettingsContextType = [
+  SettingsState,
+  React.Dispatch<React.SetStateAction<SettingsState>>,
+];
+
+export const SettingsContext = createContext<SettingsContextType>([
+  {} as any,
+  () => {},
+]);
+
+export type SettingsHook = SettingsState & {
+  isAuthorized: boolean;
+  setYoutubeToken: (token?: string) => void;
+  setColorScheme: (colorScheme?: ColorScheme) => void;
+  setDeviceTheme: (deviceTheme: DeviceThemeName) => void;
+  setShuffleMode: (mode: ShuffleMode) => void;
+  setRepeatMode: (mode: RepeatMode) => void;
+  setHapticsEnabled: (enabled: boolean) => void;
+};
+
+export const useSettings = (): SettingsHook => {
+  const [state, setState] = useContext(SettingsContext);
+
+  const setYoutubeToken = useCallback(
+    (token?: string) =>
+      setState((prevState) => ({
+        ...prevState,
+        youtubeToken: token,
+        isYoutubeAuthorized: !!token,
+      })),
+    [setState]
+  );
+
+  const setDeviceTheme = useCallback(
+    (deviceTheme: DeviceThemeName) => {
+      setState((prevState) => ({ ...prevState, deviceTheme }));
+      localStorage.setItem(DEVICE_COLOR_KEY, deviceTheme);
+    },
+    [setState]
+  );
+
+  const setColorScheme = useCallback(
+    (colorScheme?: ColorScheme) => {
+      setState((prevState) => {
+        const updatedColorScheme =
+          (colorScheme ?? prevState.colorScheme === "dark")
+            ? "default"
+            : "dark";
+
+        localStorage.setItem(COLOR_SCHEME_KEY, `${updatedColorScheme}`);
+
+        return {
+          ...prevState,
+          colorScheme: updatedColorScheme,
+        };
+      });
+    },
+    [setState]
+  );
+
+  const setShuffleMode = useCallback(
+    (mode: ShuffleMode) => {
+      setState((prevState) => ({ ...prevState, shuffleMode: mode }));
+      localStorage.setItem(SHUFFLE_MODE_KEY, mode);
+    },
+    [setState]
+  );
+
+  const setRepeatMode = useCallback(
+    (mode: RepeatMode) => {
+      setState((prevState) => ({ ...prevState, repeatMode: mode }));
+      localStorage.setItem(REPEAT_MODE_KEY, mode);
+    },
+    [setState]
+  );
+
+  const setHapticsEnabled = useCallback(
+    (enabled: boolean) => {
+      setState((prevState) => ({ ...prevState, hapticsEnabled: enabled }));
+      localStorage.setItem(HAPTICS_ENABLED_KEY, enabled ? "true" : "false");
+    },
+    [setState]
+  );
+
+  return {
+    ...state,
+    isAuthorized: true, // Always true for Hybrid Mode (Guest + User)
+    isOffline: false, // Bypass offline check for Guest Mode
+    setYoutubeToken,
+    setColorScheme,
+    setDeviceTheme,
+    setShuffleMode,
+    setRepeatMode,
+    setHapticsEnabled,
+  };
+};
+
+interface Props {
+  children: React.ReactNode;
+  initialTheme?: DeviceThemeName;
+  hasGoogleAuth?: boolean;
+}
+
+export const SettingsProvider = ({ children, initialTheme, hasGoogleAuth = false }: Props) => {
+  const [settingsState, setSettingsState] = useState<SettingsState>({
+    isYoutubeAuthorized: false,
+    hasGoogleAuth,
+    youtubeToken: undefined,
+    isOffline: false,
+    colorScheme: "default",
+    deviceTheme: initialTheme || "black",
+    shuffleMode: "off",
+    repeatMode: "off",
+    hapticsEnabled: true,
+  });
+
+  const handleMount = useCallback(() => {
+    setSettingsState((prevState) => {
+      const savedTheme = localStorage.getItem(DEVICE_COLOR_KEY) as DeviceThemeName;
+      return {
+        ...prevState,
+        hasGoogleAuth,
+        isOffline: typeof navigator !== "undefined" ? !navigator.onLine : false,
+        colorScheme:
+          (localStorage.getItem(COLOR_SCHEME_KEY) as ColorScheme) ?? "default",
+        deviceTheme: initialTheme || savedTheme || "black",
+        shuffleMode:
+          (localStorage.getItem(SHUFFLE_MODE_KEY) as ShuffleMode) ?? "off",
+        repeatMode:
+          (localStorage.getItem(REPEAT_MODE_KEY) as RepeatMode) ?? "off",
+        hapticsEnabled: localStorage.getItem(HAPTICS_ENABLED_KEY) !== "false", // Default to true
+      };
+    });
+  }, [initialTheme, hasGoogleAuth]);
+
+  useEffect(() => {
+    handleMount();
+  }, [handleMount]);
+
+  useEffect(() => {
+    const syncOnlineStatus = () =>
+      setSettingsState((prev) => {
+        const offline = !navigator.onLine;
+        if (prev.isOffline === offline) return prev;
+        return { ...prev, isOffline: offline };
+      });
+
+    window.addEventListener("offline", syncOnlineStatus);
+    window.addEventListener("online", syncOnlineStatus);
+
+    return () => {
+      window.removeEventListener("offline", syncOnlineStatus);
+      window.removeEventListener("online", syncOnlineStatus);
+    };
+  }, []);
+
+  return (
+    <SettingsContext.Provider value={[settingsState, setSettingsState]}>
+      {children}
+    </SettingsContext.Provider>
+  );
+};
+
+export default useSettings;

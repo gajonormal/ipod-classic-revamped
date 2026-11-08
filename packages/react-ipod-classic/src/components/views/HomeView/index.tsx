@@ -1,0 +1,112 @@
+import { useCallback, useMemo } from "react";
+
+import { getConditionalOption } from "@/components/SelectableList";
+import SelectableList, {
+  SelectableListOption,
+} from "@/components/SelectableList";
+import { SplitScreenPreview } from "@/components/previews";
+import {
+  useAudioPlayer,
+  useEventListener,
+  useSelectableList,
+  useSettings,
+  useViewContext,
+} from "@/hooks";
+import { IpodEvent } from "@/utils/events";
+
+const strings = {
+  nowPlaying: "Now Playing",
+};
+
+const HomeView = () => {
+  const { isAuthorized, isOffline, shuffleMode } = useSettings();
+  const { nowPlayingItem, setShuffleMode } = useAudioPlayer();
+  const { showView, viewStack } = useViewContext();
+
+  const options: SelectableListOption[] = useMemo(
+    () => [
+      {
+        type: "view",
+        label: "Cover Flow",
+        viewId: "coverFlow",
+        preview: SplitScreenPreview.Music,
+      },
+      {
+        type: "view",
+        label: "Music",
+        viewId: "music",
+        preview: SplitScreenPreview.Music,
+      },
+      {
+        type: "view",
+        label: "Videos",
+        viewId: "videos",
+        preview: SplitScreenPreview.Settings,
+      },
+
+
+      ...getConditionalOption(isAuthorized, {
+        type: "actionSheet",
+        id: "shuffle-mode-action-sheet",
+        label: "Shuffle",
+        listOptions: [
+          {
+            type: "action",
+            isSelected: shuffleMode === "off",
+            label: `Off ${shuffleMode === "off" ? "(Current)" : ""}`,
+            onSelect: () => setShuffleMode("off"),
+          },
+          {
+            type: "action",
+            isSelected: shuffleMode === "songs",
+            label: `Songs ${shuffleMode === "songs" ? "(Current)" : ""}`,
+            onSelect: () => setShuffleMode("songs"),
+          },
+          {
+            type: "action",
+            isSelected: shuffleMode === "albums",
+            label: `Albums ${shuffleMode === "albums" ? "(Current)" : ""}`,
+            onSelect: () => setShuffleMode("albums"),
+          },
+        ],
+        preview: SplitScreenPreview.Music,
+      }),
+      ...getConditionalOption(!!nowPlayingItem, {
+        type: "view",
+        label: strings.nowPlaying,
+        viewId: "nowPlaying",
+        preview: SplitScreenPreview.NowPlaying,
+      }),
+
+      {
+        type: "view",
+        label: "Settings",
+        viewId: "settings",
+        preview: SplitScreenPreview.Settings,
+      },
+    ],
+    [isAuthorized, isOffline, nowPlayingItem, shuffleMode, setShuffleMode]
+  );
+
+  const { activeIndex: scrollIndex } = useSelectableList({ viewId: "home", options });
+
+  const handleIdleState = useCallback(() => {
+    const activeView = viewStack[viewStack.length - 1];
+
+    const shouldShowNowPlaying =
+      !!nowPlayingItem &&
+      activeView.id !== "nowPlaying" &&
+      activeView.id !== "coverFlow" &&
+      activeView.id !== "keyboard";
+
+    if (shouldShowNowPlaying) {
+      showView("nowPlaying");
+    }
+  }, [nowPlayingItem, showView, viewStack]);
+
+  useEventListener<IpodEvent>("idle", handleIdleState);
+
+  return <SelectableList options={options} activeIndex={scrollIndex} />;
+};
+
+export default HomeView;

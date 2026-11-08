@@ -1,7 +1,13 @@
 import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 import withBundleAnalyzer from "@next/bundle-analyzer";
 
-initOpenNextCloudflareForDev();
+if (process.env.NODE_ENV === "development") {
+  try {
+    initOpenNextCloudflareForDev();
+  } catch (e) {
+    // Ignore in sandboxed / non-Cloudflare environments
+  }
+}
 
 const analyzer = withBundleAnalyzer({
   enabled: process.env.ANALYZE === "true",

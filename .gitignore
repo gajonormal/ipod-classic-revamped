@@ -4,9 +4,16 @@
 .cursor
 
 # dependencies
+node_modules
 /node_modules
 /.pnp
 .pnp.js
+
+# build output
+dist/
+**/dist/
+apps/demo/public/sw.js
+apps/demo/public/sw.js.map
 
 # testing
 /coverage
