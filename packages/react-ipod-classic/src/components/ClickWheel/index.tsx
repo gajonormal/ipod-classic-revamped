@@ -1,19 +1,9 @@
 import React, { useCallback, useMemo, useRef } from "react";
-
 import styled, { css } from "styled-components";
-
 import FastForwardIcon from "./icons/FastForwardIcon";
 import MenuIcon from "./icons/MenuIcon";
 import PlayPauseIcon from "./icons/PlayPauseIcon";
 import RewindIcon from "./icons/RewindIcon";
-import { motion, PanInfo } from "motion/react";
-import {
-  checkIsPointWithinElement,
-  getAngleBetweenPoints,
-  getCircularBoundingInfo,
-  getScrollDirection,
-  normalizeAngleDelta,
-} from "./helpers";
 import { DeviceThemeName, getTheme } from "@/utils/themes";
 import { useEventListener, useSettings } from "@/hooks";
 import {
@@ -27,36 +17,34 @@ import {
   dispatchMenuClickEvent,
   dispatchMenuLongPressEvent,
   dispatchPlayPauseClickEvent,
-  dispatchScrollEvent,
 } from "@/utils/events";
-import { useLongPressHandler } from "@/hooks/navigation/useLongPressHandler";
-import { Screen } from "@/utils/constants";
-import {
-  ANGLE_OFFSET_THRESHOLD,
-  PAN_THRESHOLD,
-  TOUCH_ANGLE_OFFSET_THRESHOLD,
-  TOUCH_PAN_THRESHOLD,
-  VELOCITY_TIMEOUT_MS,
-} from "./constants";
-import { ScrollDirection } from "./sharedTypes";
+
+const WHEEL_SIZE = 220;
+const CENTER_BUTTON_SIZE = 90;
+const DEGREES_PER_TICK = 8; // cada 8 graus de rotação circular contínua = 1 passo no som / coverflow / listas
 
 type RootContainerProps = {
   $deviceTheme: DeviceThemeName;
   size?: number;
 };
 
-const RootContainer = styled(motion.div)<RootContainerProps>`
+const RootContainer = styled.div<RootContainerProps>`
   display: grid;
   position: relative;
   border-radius: 50%;
   touch-action: none;
+  cursor: grab;
 
-  /* Prevent text selection and context menus on touch devices */
+  /* Prevent text selection and context menus */
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
 
-  ${({ size = 220, $deviceTheme }) => css`
+  &:active {
+    cursor: grabbing;
+  }
+
+  ${({ size = WHEEL_SIZE, $deviceTheme }) => css`
     width: ${size}px;
     height: ${size}px;
     background-color: ${getTheme($deviceTheme).clickwheel.background};
@@ -70,8 +58,7 @@ const ButtonContainer = styled.div<{
   position: absolute;
   place-self: ${(props) => props.$placement};
   padding: 12px;
-
-  /* Prevent text selection and touch callouts on long press */
+  pointer-events: none; /* Deixa o ponteiro passar para a superfície 360 da ClickWheel */
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
@@ -85,6 +72,7 @@ type CenterButtonProps = {
 const CenterButton = styled.div<CenterButtonProps>`
   user-select: none;
   border-radius: 50%;
+  pointer-events: none;
 
   ${({ $deviceTheme, size }) => css`
     width: ${size}px;
@@ -94,22 +82,8 @@ const CenterButton = styled.div<CenterButtonProps>`
     box-shadow: ${getTheme($deviceTheme).clickwheel.centerButton.boxShadow} 0px
       1em 3em inset;
   `}
-
-  &:active {
-    opacity: 0.8;
-  }
 `;
 
-// Extract constant for center button size
-const CENTER_BUTTON_SIZE = 90;
-
-/**
- * The ClickWheel component is a circular input that allows the user to interact with the iPod.
- * It contains four buttons: Menu, Rewind, Fast Forward, and Play/Pause.
- *
- * This component dispatches events based on the user's interactions with the ClickWheel
- * which can be listened to by other components.
- */
 export const ClickWheel = () => {
   const { deviceTheme } = useSettings();
 
@@ -119,222 +93,226 @@ export const ClickWheel = () => {
   );
 
   const rootContainerRef = useRef<HTMLDivElement>(null);
-  const menuButtonRef = useRef<HTMLDivElement>(null);
-  const rewindButtonRef = useRef<HTMLDivElement>(null);
-  const fastForwardButtonRef = useRef<HTMLDivElement>(null);
-  const playPauseButtonRef = useRef<HTMLDivElement>(null);
 
-  const hasScrolledRef = useRef(false);
-  const startPointRef = useRef({ x: 0, y: 0 });
-  const isTouchRef = useRef(false);
+  // Gesture tracking refs
+  const isPointerDownRef = useRef(false);
+  const isDraggingWheelRef = useRef(false);
+  const hasRotatedRef = useRef(false);
+  const lastAngleRef = useRef(0);
+  const accumulatedAngleRef = useRef(0);
+  const longPressTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const wasLongPressTriggeredRef = useRef(false);
 
-  const lastScrollTimeRef = useRef(0);
-  const velocityRef = useRef(0);
-  const lastDirectionRef = useRef<ScrollDirection | null>(null);
-
-  const handleWheelPress = useCallback((point: { x: number; y: number }) => {
-    // Menu button is handled by its own pointer event handlers (long press support)
-    // so we exclude it from the pan gesture system
-    if (checkIsPointWithinElement(point, rewindButtonRef.current)) {
-      dispatchBackClickEvent();
-    } else if (checkIsPointWithinElement(point, fastForwardButtonRef.current)) {
-      dispatchForwardClickEvent();
-    } else if (checkIsPointWithinElement(point, playPauseButtonRef.current)) {
-      dispatchPlayPauseClickEvent();
+  const clearLongPress = useCallback(() => {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
     }
   }, []);
 
-  const handlePan = useCallback((_: PointerEvent, info: PanInfo) => {
-    if (!rootContainerRef.current) {
+  const handlePointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (!rootContainerRef.current) return;
+
+    // Captura o ponteiro para que o movimento em 360 graus NUNCA se perca
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {}
+
+    const rect = rootContainerRef.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const dx = e.clientX - centerX;
+    const dy = e.clientY - centerY;
+    const distFromCenter = Math.sqrt(dx * dx + dy * dy);
+
+    isPointerDownRef.current = true;
+    hasRotatedRef.current = false;
+    wasLongPressTriggeredRef.current = false;
+    accumulatedAngleRef.current = 0;
+
+    const initialAngle = Math.atan2(dy, dx) * (180 / Math.PI);
+    lastAngleRef.current = initialAngle;
+
+    // Botão central (raio <= 45px)
+    if (distFromCenter <= CENTER_BUTTON_SIZE / 2) {
+      isDraggingWheelRef.current = false;
+      clearLongPress();
+      longPressTimerRef.current = setTimeout(() => {
+        wasLongPressTriggeredRef.current = true;
+        dispatchCenterLongClickEvent();
+      }, 500);
       return;
     }
 
-    const { centerPoint } = getCircularBoundingInfo(
-      rootContainerRef.current.getBoundingClientRect()
-    );
-    const startPoint = startPointRef.current;
-    const currentPoint = info.point;
+    // Anel tátil exterior da ClickWheel (360 graus)
+    isDraggingWheelRef.current = true;
 
-    const startAngleDeg = getAngleBetweenPoints(startPoint, centerPoint);
-    const currentAngleDeg = getAngleBetweenPoints(currentPoint, centerPoint);
-    const rawDelta = currentAngleDeg - startAngleDeg;
-    const angleDelta = normalizeAngleDelta(rawDelta);
-
-    const threshold = isTouchRef.current
-      ? TOUCH_ANGLE_OFFSET_THRESHOLD
-      : ANGLE_OFFSET_THRESHOLD;
-    const direction = getScrollDirection(angleDelta);
-    const hasScrolled = Math.abs(angleDelta) >= threshold;
-
-    if (hasScrolled) {
-      hasScrolledRef.current = true;
-      startPointRef.current = currentPoint;
-
-      const now = performance.now();
-      const timeSinceLastTick = now - lastScrollTimeRef.current;
-      const directionChanged = direction !== lastDirectionRef.current;
-
-      if (
-        directionChanged ||
-        lastScrollTimeRef.current === 0 ||
-        timeSinceLastTick > VELOCITY_TIMEOUT_MS
-      ) {
-        velocityRef.current = 0;
-      } else {
-        const rawVelocity = 1000 / timeSinceLastTick;
-        velocityRef.current =
-          (15 * velocityRef.current + rawVelocity) / 16;
-      }
-
-      lastScrollTimeRef.current = now;
-      lastDirectionRef.current = direction;
-
-      dispatchScrollEvent(direction, velocityRef.current);
+    // Menu long press se clicar e segurar no topo
+    if (initialAngle >= -135 && initialAngle <= -45) {
+      clearLongPress();
+      longPressTimerRef.current = setTimeout(() => {
+        if (!hasRotatedRef.current) {
+          wasLongPressTriggeredRef.current = true;
+          dispatchMenuLongPressEvent();
+        }
+      }, 500);
     }
-  }, []);
+  }, [clearLongPress]);
 
-  const handleWheel = useCallback((event: React.WheelEvent) => {
-    if (Math.abs(event.deltaY) < 2) return;
-    if (event.deltaY > 0) {
+  const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isPointerDownRef.current || !rootContainerRef.current) return;
+
+    const rect = rootContainerRef.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const dx = e.clientX - centerX;
+    const dy = e.clientY - centerY;
+    const distFromCenter = Math.sqrt(dx * dx + dy * dy);
+
+    // Se começou no centro e arrastou para a roda, inicia o tracking 360
+    if (!isDraggingWheelRef.current) {
+      if (distFromCenter > CENTER_BUTTON_SIZE / 2 + 5) {
+        clearLongPress();
+        isDraggingWheelRef.current = true;
+        lastAngleRef.current = Math.atan2(dy, dx) * (180 / Math.PI);
+      }
+      return;
+    }
+
+    // Ângulo contínuo em 360 graus em relação ao centro da ClickWheel
+    const currentAngle = Math.atan2(dy, dx) * (180 / Math.PI);
+    let delta = currentAngle - lastAngleRef.current;
+
+    // Normalização do salto na fronteira de -180 / +180 graus
+    while (delta > 180) delta -= 360;
+    while (delta < -180) delta += 360;
+    lastAngleRef.current = currentAngle;
+
+    accumulatedAngleRef.current += delta;
+
+    // Cancela long press assim que começar a rodar
+    if (Math.abs(accumulatedAngleRef.current) >= 3) {
+      clearLongPress();
+      hasRotatedRef.current = true;
+    }
+
+    // Dispara eventos contínuos a cada DEGREES_PER_TICK (8 graus)
+    // Sentido dos ponteiros do relógio (clockwise) = aumenta som / avança
+    while (accumulatedAngleRef.current >= DEGREES_PER_TICK) {
+      dispatchForwardScrollEvent();
+      accumulatedAngleRef.current -= DEGREES_PER_TICK;
+    }
+    // Sentido anti-horário (counter-clockwise) = diminui som / retrocede
+    while (accumulatedAngleRef.current <= -DEGREES_PER_TICK) {
+      dispatchBackwardScrollEvent();
+      accumulatedAngleRef.current += DEGREES_PER_TICK;
+    }
+  }, [clearLongPress]);
+
+  const handlePointerUp = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isPointerDownRef.current) return;
+    isPointerDownRef.current = false;
+    clearLongPress();
+
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {}
+
+    // Se rodou a roda ou ativou long press, não dispara clique de botão
+    if (wasLongPressTriggeredRef.current || hasRotatedRef.current) {
+      hasRotatedRef.current = false;
+      return;
+    }
+
+    // Clique estático simples: identifica qual o botão clicado
+    if (!rootContainerRef.current) return;
+    const rect = rootContainerRef.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const dx = e.clientX - centerX;
+    const dy = e.clientY - centerY;
+    const distFromCenter = Math.sqrt(dx * dx + dy * dy);
+
+    // Botão central
+    if (distFromCenter <= CENTER_BUTTON_SIZE / 2) {
+      dispatchCenterClickEvent();
+      return;
+    }
+
+    // Botões cardeais na ClickWheel
+    const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+    if (angle >= -135 && angle <= -45) {
+      // Topo: MENU
+      dispatchMenuClickEvent();
+    } else if (angle >= -45 && angle <= 45) {
+      // Direita: FAST FORWARD
+      dispatchForwardClickEvent();
+    } else if (angle >= 45 && angle <= 135) {
+      // Base: PLAY / PAUSE
+      dispatchPlayPauseClickEvent();
+    } else {
+      // Esquerda: REWIND
+      dispatchBackClickEvent();
+    }
+  }, [clearLongPress]);
+
+  const handlePointerCancel = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    isPointerDownRef.current = false;
+    hasRotatedRef.current = false;
+    clearLongPress();
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {}
+  }, [clearLongPress]);
+
+  // Suporte a scroll físico do rato / trackpad sobre a ClickWheel
+  const handleWheel = useCallback((e: React.WheelEvent) => {
+    if (Math.abs(e.deltaY) < 3) return;
+    if (e.deltaY > 0) {
       dispatchForwardScrollEvent();
     } else {
       dispatchBackwardScrollEvent();
     }
   }, []);
 
-  const handlePanEnd = useCallback(
-    (event: PointerEvent, info: PanInfo) => {
-      const deltaX = info.offset.x;
-      const deltaY = info.offset.y;
-      const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
-
-      const panThreshold = isTouchRef.current
-        ? TOUCH_PAN_THRESHOLD
-        : PAN_THRESHOLD;
-      const isPressEvent = !hasScrolledRef.current && distance < panThreshold;
-
-      if (isPressEvent) {
-        handleWheelPress({
-          x: event.clientX,
-          y: event.clientY,
-        });
-      }
-
-      velocityRef.current = 0;
-      lastScrollTimeRef.current = 0;
-      lastDirectionRef.current = null;
-
-      setTimeout(() => {
-        hasScrolledRef.current = false;
-      }, 50);
-    },
-    [handleWheelPress]
-  );
-
-  const handlePanStart = useCallback((event: PointerEvent) => {
-    isTouchRef.current = event.pointerType === "touch";
-    startPointRef.current = {
-      x: event.clientX,
-      y: event.clientY,
-    };
-  }, []);
-
-  const handlePress = useCallback(
-    (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      // If the user just scrolled, ignore the click event that might follow
-      if (hasScrolledRef.current) {
-        return;
-      }
-
-      handleWheelPress({
-        x: event.clientX,
-        y: event.clientY,
-      });
-    },
-    [handleWheelPress]
-  );
-
+  // Controlo por teclado
   const handleKeyPress = useCallback(
     (event: KeyboardEvent) => dispatchKeyboardEvent(event.key),
     []
   );
 
-  const handleCenterButtonPress = useCallback(() => {
-    // If the user scrolled during a pan gesture, don't trigger a press event
-    if (hasScrolledRef.current) {
-      return;
-    }
-
-    dispatchCenterClickEvent();
-  }, []);
-
-  const handleCenterButtonLongPress = useCallback(() => {
-    dispatchCenterLongClickEvent();
-  }, []);
-
-  const handleMenuButtonPress = useCallback(() => {
-    // If the user scrolled during a pan gesture, don't trigger a press event
-    if (hasScrolledRef.current) {
-      return;
-    }
-
-    dispatchMenuClickEvent();
-  }, []);
-
-  const handleMenuButtonLongPress = useCallback(() => {
-    // If the user scrolled, don't trigger the long press event
-    if (hasScrolledRef.current) {
-      return;
-    }
-
-    dispatchMenuLongPressEvent();
-  }, []);
-
   useEventListener("keydown", handleKeyPress);
-
-  const longPressHandlerProps = useLongPressHandler({
-    onPress: handleCenterButtonPress,
-    onLongPress: handleCenterButtonLongPress,
-  });
-
-  const menuLongPressHandlerProps = useLongPressHandler({
-    onPress: handleMenuButtonPress,
-    onLongPress: handleMenuButtonLongPress,
-  });
 
   return (
     <RootContainer
       $deviceTheme={deviceTheme}
-      onClick={handlePress}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerCancel}
       onWheel={handleWheel}
-      onPanStart={handlePanStart}
-      onPan={handlePan}
-      onPanEnd={handlePanEnd}
       ref={rootContainerRef}
     >
-      <ButtonContainer
-        ref={menuButtonRef}
-        $placement="start center"
-        {...menuLongPressHandlerProps}
-      >
+      <ButtonContainer $placement="start center">
         <MenuIcon color={iconColor} />
       </ButtonContainer>
-      <ButtonContainer ref={rewindButtonRef} $placement="center start">
+      <ButtonContainer $placement="center start">
         <RewindIcon color={iconColor} />
       </ButtonContainer>
       <ButtonContainer $placement="center">
         <CenterButton
           size={CENTER_BUTTON_SIZE}
           $deviceTheme={deviceTheme}
-          {...longPressHandlerProps}
         />
       </ButtonContainer>
-      <ButtonContainer ref={fastForwardButtonRef} $placement="center end">
+      <ButtonContainer $placement="center end">
         <FastForwardIcon color={iconColor} />
       </ButtonContainer>
-      <ButtonContainer ref={playPauseButtonRef} $placement="end center">
+      <ButtonContainer $placement="end center">
         <PlayPauseIcon color={iconColor} />
       </ButtonContainer>
     </RootContainer>
   );
 };
+
+export default ClickWheel;
