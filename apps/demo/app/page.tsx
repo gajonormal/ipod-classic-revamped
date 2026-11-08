@@ -1,17 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import dynamic from "next/dynamic";
 import type { IpodSong } from "react-ipod-classic";
-
-const FloatingIpod = dynamic(
-  () => import("react-ipod-classic").then((mod) => mod.FloatingIpod),
-  { ssr: false }
-);
-
-const Ipod = dynamic(
-  () => import("react-ipod-classic").then((mod) => mod.Ipod),
-  { ssr: false }
-);
+import { FloatingIpod, Ipod } from "./components/ClientIpod";
 
 const samplePlaylist: IpodSong[] = [
   {

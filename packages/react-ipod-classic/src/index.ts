@@ -2,7 +2,9 @@
 export { Ipod } from "./components/Ipod";
 export type { IpodProps } from "./components/Ipod/Ipod";
 
-export { FloatingIpod } from "./components/FloatingIpod";
+import FloatingIpod from "./components/FloatingIpod/FloatingIpod";
+export { FloatingIpod };
+export default FloatingIpod;
 export type {
   FloatingIpodProps,
   FloatingPosition,

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useCallback, useRef } from "react";
 import styled from "styled-components";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useDragControls } from "motion/react";
 import Ipod, { IpodProps } from "@/components/Ipod/Ipod";
 
 export type FloatingPosition =
@@ -241,6 +241,7 @@ export const FloatingIpod: React.FC<FloatingIpodProps> = ({
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrack, setCurrentTrack] = useState<string>("");
+  const dragControls = useDragControls();
   const dragConstraintsRef = useRef(null);
 
   const handleToggle = useCallback(() => {
@@ -315,13 +316,15 @@ export const FloatingIpod: React.FC<FloatingIpodProps> = ({
               $position={position}
               $offset={offset}
               drag
+              dragListener={false}
+              dragControls={dragControls}
               dragMomentum={false}
               initial={{ scale: 0.85, opacity: 0, y: 30 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.85, opacity: 0, y: 20 }}
               transition={{ type: "spring", damping: 24, stiffness: 260 }}
             >
-              <HeaderBar>
+              <HeaderBar onPointerDown={(e) => dragControls.start(e)}>
                 <DragHandle>
                   <PulseDot $isPlaying={isPlaying} />
                   <span>iPod Classic</span>
