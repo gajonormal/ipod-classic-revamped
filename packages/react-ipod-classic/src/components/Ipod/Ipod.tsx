@@ -105,6 +105,7 @@ const Ipod: React.FC<IpodProps> = ({
                   <div className={className} style={{ width: "100%", height: "100%", ...style }}>
                     <ResponsiveWrapper showReflection={showReflection}>
                       <Shell
+                        data-ipod-root=""
                         $deviceTheme={deviceTheme}
                         $showReflection={showReflection}
                         $disableAnimation={disableAnimation}

@@ -37,6 +37,7 @@ const Label = styled.h3<LabelProps>`
   margin: auto 0;
   text-align: ${(props) => props.$textAlign};
   white-space: nowrap;
+  color: #000000;
 `;
 
 interface Props {

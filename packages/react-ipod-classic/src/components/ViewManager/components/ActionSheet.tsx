@@ -45,6 +45,7 @@ const OptionText = styled.h3`
   margin: 0;
   padding: ${Unit.XS} ${Unit.XXS};
   font-size: 16px;
+  color: #000000;
   background: linear-gradient(180deg, #ffffff 0%, #cbccce 48.44%, #dfdfdf 100%);
   border: 3px solid #3e4249;
   border-radius: 12px;

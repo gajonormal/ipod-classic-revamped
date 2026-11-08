@@ -18,6 +18,8 @@ export const Container = styled(motion.div)<ContainerProps>`
   left: 0;
   right: 0;
   background: white;
+  color: #000000;
+  color-scheme: light;
 `;
 
 interface ContentTransitionContainerProps {

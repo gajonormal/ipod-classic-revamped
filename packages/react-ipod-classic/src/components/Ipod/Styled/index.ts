@@ -12,6 +12,8 @@ export const Shell = styled.div<{ $deviceTheme: DeviceThemeName; $showReflection
   margin: auto;
   border-radius: 30px;
   background: ${({ $deviceTheme }) => getTheme($deviceTheme).body.background};
+  color: #000000;
+  color-scheme: light;
   -webkit-box-reflect: ${({ $showReflection }) => 
     $showReflection ? "below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(50%, transparent), to(rgba(250, 250, 250, 0.3)))" : "none"};
   animation: ${({ $disableAnimation }) => ($disableAnimation ? "none" : "descend 1.5s ease")};
@@ -54,6 +56,8 @@ export const ScreenContainer = styled.div`
   border-radius: ${Unit.XS};
   overflow: hidden;
   background: black;
+  color: #000000;
+  color-scheme: light;
   animation: fadeFromBlack 0.5s;
 
   &::after {

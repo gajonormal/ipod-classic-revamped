@@ -26,6 +26,7 @@ const Title = styled.h3`
   margin: 0;
   font-size: 16px;
   font-weight: 900;
+  color: #000000;
 `;
 
 const Description = styled.h3`
@@ -33,6 +34,7 @@ const Description = styled.h3`
   font-size: 14px;
   font-weight: normal;
   text-align: center;
+  color: #333333;
 `;
 
 const ListContainer = styled.div`

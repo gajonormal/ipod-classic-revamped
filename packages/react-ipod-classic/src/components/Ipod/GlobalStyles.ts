@@ -1,50 +1,25 @@
 import { createGlobalStyle } from "styled-components";
-import { Screen } from "@/utils/constants";
 
 export const GlobalStyles = createGlobalStyle`
-  html, body {
-    background: transparent !important;
-  }
-  
-  body {
-    height: 100dvh;
-    display: grid;
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-      Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-    color: black;
-    min-height: 550px;
-    overflow: auto;
-
-    ${Screen.XS.MediaQuery} {
-      min-height: 480px;
-    }
+  [data-ipod-root] {
+    color: #000000;
+    color-scheme: light;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   }
 
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  * {
+  [data-ipod-root] * {
     box-sizing: border-box;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE and Edge */
   }
 
-  *::-webkit-scrollbar {
+  [data-ipod-root] *::-webkit-scrollbar {
     display: none; /* Chrome, Safari and Opera */
   }
 
-  @media (display-mode: standalone) {
-    body {
-      height: 100vh;
-    }
-  }
-
-  @media (prefers-color-scheme: dark) {
-    html {
-      color-scheme: dark;
-    }
+  [data-ipod-root] a {
+    color: inherit;
+    text-decoration: none;
   }
 `;

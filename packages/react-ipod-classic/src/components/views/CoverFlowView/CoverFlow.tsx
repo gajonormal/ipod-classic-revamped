@@ -53,6 +53,7 @@ const Text = styled.h3<TextProps>`
   padding: 0 16px;
   font-size: 16px;
   text-align: center;
+  color: #000000;
   display: -webkit-box;
   -webkit-line-clamp: ${(props) => props.$clamp ?? 1};
   -webkit-box-orient: vertical;

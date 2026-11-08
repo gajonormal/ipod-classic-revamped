@@ -13,6 +13,7 @@ const Container = styled.div`
   background: linear-gradient(180deg, #feffff 0%, #b1b6b9 100%);
   border-bottom: 1px solid #7995a3;
   min-width: 0;
+  color: #000000;
 `;
 
 const Text = styled.h3`
@@ -23,6 +24,8 @@ const Text = styled.h3`
   text-overflow: ellipsis;
   min-width: 0;
   flex: 1;
+  color: #000000;
+  font-weight: 700;
 `;
 
 const IconContainer = styled.div`

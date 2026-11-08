@@ -22,6 +22,7 @@ const Label = styled.h3`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: #000000;
 `;
 
 const Sublabel = styled(Label)`
@@ -36,6 +37,7 @@ const Container = styled.div<{ $isActive?: boolean }>`
   display: flex;
   align-items: center;
   overflow: auto;
+  color: #000000;
 
   ${(props) =>
     props.$isActive &&
@@ -45,7 +47,7 @@ const Container = styled.div<{ $isActive?: boolean }>`
       }
 
       ${Label}, ${Sublabel} {
-        color: white;
+        color: white !important;
       }
       background: linear-gradient(rgb(60, 184, 255) 0%, rgb(52, 122, 181) 100%);
     `};

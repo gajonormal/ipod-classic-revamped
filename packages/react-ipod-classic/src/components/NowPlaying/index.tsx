@@ -78,6 +78,7 @@ const Text = styled.div`
   margin: 0;
   font-size: 0.92rem;
   font-weight: 600;
+  color: #000000;
 `;
 
 const Subtext = styled(Text)`
