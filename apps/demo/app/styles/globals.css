@@ -2,37 +2,18 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: "Lucida Grande", "Geneva", Helvetica, Arial, sans-serif;
-  font-size: 12px;
-  color: #333;
-  background-color: #ffffff;
-}
-
-a {
-  color: #0062cc;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
+  font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;
+  background-color: #000000;
+  color: #d1d5db;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 * {
   box-sizing: border-box;
 }
 
-/* Force light mode — this is a retro Apple site, always light */
-html {
-  color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: light;
-    background-color: #ffffff;
-  }
-  body {
-    background-color: #ffffff;
-    color: #333;
-  }
+a {
+  color: inherit;
+  text-decoration: none;
 }
