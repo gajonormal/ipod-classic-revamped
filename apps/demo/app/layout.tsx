@@ -3,6 +3,7 @@ import StyledComponentsRegistry from "@/lib/registry";
 import { SerwistProvider } from "@/lib/serwist-provider";
 import { Metadata, Viewport } from "next";
 import Script from "next/script";
+import "./styles/globals.css";
 
 const appleTouchIconUrl = `${getRootAppUrl()}/ipod/apple-touch-icon.png`;
 const favicon32Url = `${getRootAppUrl()}/ipod/favicon-32x32.png`;
