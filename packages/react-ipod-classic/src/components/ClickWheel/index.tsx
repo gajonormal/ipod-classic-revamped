@@ -97,7 +97,9 @@ export const ClickWheel = () => {
   // Gesture tracking refs
   const isPointerDownRef = useRef(false);
   const isDraggingWheelRef = useRef(false);
-  const hasRotatedRef = useRef(false);
+  const hasScrolledTicksRef = useRef(false);
+  const pointerDownAngleRef = useRef(0);
+  const pointerDownDistRef = useRef(0);
   const lastAngleRef = useRef(0);
   const accumulatedAngleRef = useRef(0);
   const longPressTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -126,12 +128,14 @@ export const ClickWheel = () => {
     const distFromCenter = Math.sqrt(dx * dx + dy * dy);
 
     isPointerDownRef.current = true;
-    hasRotatedRef.current = false;
+    hasScrolledTicksRef.current = false;
     wasLongPressTriggeredRef.current = false;
     accumulatedAngleRef.current = 0;
 
     const initialAngle = Math.atan2(dy, dx) * (180 / Math.PI);
     lastAngleRef.current = initialAngle;
+    pointerDownAngleRef.current = initialAngle;
+    pointerDownDistRef.current = distFromCenter;
 
     // Botão central (raio <= 45px)
     if (distFromCenter <= CENTER_BUTTON_SIZE / 2) {
@@ -151,7 +155,7 @@ export const ClickWheel = () => {
     if (initialAngle >= -135 && initialAngle <= -45) {
       clearLongPress();
       longPressTimerRef.current = setTimeout(() => {
-        if (!hasRotatedRef.current) {
+        if (!hasScrolledTicksRef.current) {
           wasLongPressTriggeredRef.current = true;
           dispatchMenuLongPressEvent();
         }
@@ -191,9 +195,8 @@ export const ClickWheel = () => {
     accumulatedAngleRef.current += delta;
 
     // Cancela long press assim que começar a rodar
-    if (Math.abs(accumulatedAngleRef.current) >= 3) {
+    if (Math.abs(accumulatedAngleRef.current) >= 6) {
       clearLongPress();
-      hasRotatedRef.current = true;
     }
 
     // Dispara eventos contínuos a cada DEGREES_PER_TICK (8 graus)
@@ -201,11 +204,13 @@ export const ClickWheel = () => {
     while (accumulatedAngleRef.current >= DEGREES_PER_TICK) {
       dispatchForwardScrollEvent();
       accumulatedAngleRef.current -= DEGREES_PER_TICK;
+      hasScrolledTicksRef.current = true;
     }
     // Sentido anti-horário (counter-clockwise) = diminui som / retrocede
     while (accumulatedAngleRef.current <= -DEGREES_PER_TICK) {
       dispatchBackwardScrollEvent();
       accumulatedAngleRef.current += DEGREES_PER_TICK;
+      hasScrolledTicksRef.current = true;
     }
   }, [clearLongPress]);
 
@@ -218,20 +223,13 @@ export const ClickWheel = () => {
       e.currentTarget.releasePointerCapture(e.pointerId);
     } catch {}
 
-    // Se rodou a roda ou ativou long press, não dispara clique de botão
-    if (wasLongPressTriggeredRef.current || hasRotatedRef.current) {
-      hasRotatedRef.current = false;
+    // Se rodou a roda ativamente gerando ticks de scroll ou ativou long press, não dispara clique de botão
+    if (wasLongPressTriggeredRef.current || hasScrolledTicksRef.current) {
       return;
     }
 
-    // Clique estático simples: identifica qual o botão clicado
-    if (!rootContainerRef.current) return;
-    const rect = rootContainerRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const dx = e.clientX - centerX;
-    const dy = e.clientY - centerY;
-    const distFromCenter = Math.sqrt(dx * dx + dy * dy);
+    // Clique estático simples: identifica qual o botão clicado com base na posição inicial do toque
+    const distFromCenter = pointerDownDistRef.current;
 
     // Botão central
     if (distFromCenter <= CENTER_BUTTON_SIZE / 2) {
@@ -240,7 +238,7 @@ export const ClickWheel = () => {
     }
 
     // Botões cardeais na ClickWheel
-    const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+    const angle = pointerDownAngleRef.current;
     if (angle >= -135 && angle <= -45) {
       // Topo: MENU
       dispatchMenuClickEvent();
@@ -258,7 +256,6 @@ export const ClickWheel = () => {
 
   const handlePointerCancel = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     isPointerDownRef.current = false;
-    hasRotatedRef.current = false;
     clearLongPress();
     try {
       e.currentTarget.releasePointerCapture(e.pointerId);

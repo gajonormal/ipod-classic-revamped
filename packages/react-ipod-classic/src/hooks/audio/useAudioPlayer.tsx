@@ -9,6 +9,7 @@ import {
 
 import { useEventListener, useHapticFeedback } from "@/hooks";
 import { useSettings, VOLUME_KEY, ShuffleMode, RepeatMode } from "..";
+import { useMusicLibrary } from "@/providers/MusicLibraryProvider";
 import { IpodEvent } from "@/utils/events";
 
 const defaultPlaybackInfoState = {
@@ -55,6 +56,7 @@ interface Props {
 
 export const AudioPlayerProvider = ({ children, onSongChange, onPlayStateChange }: Props) => {
   const { shuffleMode, repeatMode, setShuffleMode, setRepeatMode } = useSettings();
+  const { songs: librarySongs } = useMusicLibrary();
   const [player, setPlayer] = useState<any>(null);
   const [volume, setVolumeState] = useState(50);
   const [nowPlayingItem, setNowPlayingItem] = useState<MediaApi.MediaItem | undefined>();
@@ -171,17 +173,49 @@ export const AudioPlayerProvider = ({ children, onSongChange, onPlayStateChange 
   }, [player]);
 
   const togglePlayPause = useCallback(async () => {
+    // Se nenhuma música está carregada, inicia a reprodução da fila ou da biblioteca
+    if (!nowPlayingItem) {
+      if (queue.length > 0) {
+        play({ songs: queue, startPosition: 0 });
+        return;
+      } else if (librarySongs && librarySongs.length > 0) {
+        play({ songs: librarySongs, startPosition: 0 });
+        return;
+      }
+      return;
+    }
+
     if (!player) return;
-    const state = player.getPlayerState();
-    const YTState = (window as any).YT.PlayerState;
-    if (state === YTState.PLAYING || state === YTState.BUFFERING) {
+
+    let isCurrentlyPlaying = playbackInfo.isPlaying && !playbackInfo.isPaused;
+    try {
+      if (typeof player.getPlayerState === "function") {
+        const state = player.getPlayerState();
+        // YouTube PlayerState: 1 = PLAYING, 3 = BUFFERING
+        if (state === 1 || state === 3) {
+          isCurrentlyPlaying = true;
+        } else if (state === 2 || state === 0 || state === -1) {
+          isCurrentlyPlaying = false;
+        }
+      }
+    } catch {}
+
+    if (isCurrentlyPlaying) {
       setPlaybackInfo((prev) => ({ ...prev, isPlaying: false, isPaused: true }));
-      player.pauseVideo();
+      try {
+        if (typeof player.pauseVideo === "function") {
+          player.pauseVideo();
+        }
+      } catch (err) {}
     } else {
       setPlaybackInfo((prev) => ({ ...prev, isPlaying: true, isPaused: false }));
-      player.playVideo();
+      try {
+        if (typeof player.playVideo === "function") {
+          player.playVideo();
+        }
+      } catch (err) {}
     }
-  }, [player]);
+  }, [player, playbackInfo.isPlaying, playbackInfo.isPaused, nowPlayingItem, queue, librarySongs, play]);
 
   const skipNext = useCallback(async () => {
     if (queue.length === 0) return;
