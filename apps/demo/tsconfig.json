@@ -38,9 +38,6 @@
       ],
       "@public/*": [
         "./public/*"
-      ],
-      "react-ipod-classic": [
-        "../../packages/react-ipod-classic/dist/index.d.ts"
       ]
     },
     "forceConsistentCasingInFileNames": true
