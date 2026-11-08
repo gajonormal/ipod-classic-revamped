@@ -50,15 +50,19 @@ export const checkIsPointWithinElement = (
   );
 };
 
-export const getScrollDirection = (
-  angleDelta: number,
-  threshold: number
-): ScrollDirection => {
-  // Upon making a full 360 degree rotation, the delta between the two angles will be very high.
-  // We reverse the check for this single scroll tick.
-  if (Math.abs(angleDelta) > threshold * 2) {
-    return angleDelta > 0 ? "counter-clockwise" : "clockwise";
-  }
+/**
+ * Normalizes an angular delta so it always represents the shortest rotation arc
+ * across the -180 / +180 boundary (-180 <= normalized <= 180).
+ */
+export const normalizeAngleDelta = (delta: number): number => {
+  let normalized = delta;
+  while (normalized > 180) normalized -= 360;
+  while (normalized < -180) normalized += 360;
+  return normalized;
+};
 
-  return angleDelta > 0 ? "clockwise" : "counter-clockwise";
+export const getScrollDirection = (
+  normalizedAngleDelta: number
+): ScrollDirection => {
+  return normalizedAngleDelta > 0 ? "clockwise" : "counter-clockwise";
 };

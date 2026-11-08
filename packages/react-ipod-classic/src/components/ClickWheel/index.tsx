@@ -12,6 +12,7 @@ import {
   getAngleBetweenPoints,
   getCircularBoundingInfo,
   getScrollDirection,
+  normalizeAngleDelta,
 } from "./helpers";
 import { DeviceThemeName, getTheme } from "@/utils/themes";
 import { useEventListener, useSettings } from "@/hooks";
@@ -20,6 +21,8 @@ import {
   dispatchCenterClickEvent,
   dispatchCenterLongClickEvent,
   dispatchForwardClickEvent,
+  dispatchForwardScrollEvent,
+  dispatchBackwardScrollEvent,
   dispatchKeyboardEvent,
   dispatchMenuClickEvent,
   dispatchMenuLongPressEvent,
@@ -154,12 +157,14 @@ export const ClickWheel = () => {
 
     const startAngleDeg = getAngleBetweenPoints(startPoint, centerPoint);
     const currentAngleDeg = getAngleBetweenPoints(currentPoint, centerPoint);
-    const angleDelta = currentAngleDeg - startAngleDeg;
+    const rawDelta = currentAngleDeg - startAngleDeg;
+    const angleDelta = normalizeAngleDelta(rawDelta);
+
     const threshold = isTouchRef.current
       ? TOUCH_ANGLE_OFFSET_THRESHOLD
       : ANGLE_OFFSET_THRESHOLD;
-    const direction = getScrollDirection(angleDelta, threshold);
-    const hasScrolled = Math.abs(angleDelta) > threshold;
+    const direction = getScrollDirection(angleDelta);
+    const hasScrolled = Math.abs(angleDelta) >= threshold;
 
     if (hasScrolled) {
       hasScrolledRef.current = true;
@@ -185,6 +190,15 @@ export const ClickWheel = () => {
       lastDirectionRef.current = direction;
 
       dispatchScrollEvent(direction, velocityRef.current);
+    }
+  }, []);
+
+  const handleWheel = useCallback((event: React.WheelEvent) => {
+    if (Math.abs(event.deltaY) < 2) return;
+    if (event.deltaY > 0) {
+      dispatchForwardScrollEvent();
+    } else {
+      dispatchBackwardScrollEvent();
     }
   }, []);
 
@@ -292,6 +306,7 @@ export const ClickWheel = () => {
     <RootContainer
       $deviceTheme={deviceTheme}
       onClick={handlePress}
+      onWheel={handleWheel}
       onPanStart={handlePanStart}
       onPan={handlePan}
       onPanEnd={handlePanEnd}
