@@ -337,26 +337,52 @@ export default function Page() {
       </section>
 
       {/* ───────────────────────────────────────────────────────────
-          3. SUB-NAVIGATION BAR (Apple 2007 Classic Glossy Bar)
+          3. SUB-NAVIGATION BAR (Exact match to Apple 2007 bar)
       ─────────────────────────────────────────────────────────── */}
       <nav
         style={{
-          background: "linear-gradient(180deg, #1f1f1f 0%, #141414 100%)",
-          borderBottom: "1px solid #282828",
-          padding: "8px 0",
+          height: "34px",
+          background: "linear-gradient(180deg, #383838 0%, #686563 49%, #282625 50%, #202020 100%)",
+          borderTop: "1px solid #4a4a4a",
+          borderBottom: "1px solid #141414",
+          boxShadow: "0 2px 6px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.18)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          position: "sticky",
+          top: "36px",
+          zIndex: 900,
         }}
       >
         <div
           style={{
             maxWidth: "960px",
-            margin: "0 auto",
-            padding: "0 16px",
+            width: "100%",
+            height: "100%",
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
+            padding: "0 16px",
           }}
         >
-          <div style={{ display: "flex", gap: "22px" }}>
+          {/* Apple Logo  on the left */}
+          <div
+            onClick={() => scrollTo("overview")}
+            style={{
+              padding: "0 18px 0 6px",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              cursor: "pointer",
+            }}
+            title="Overview"
+          >
+            <svg width="14" height="18" viewBox="0 0 170 170" fill="#f5f5f5">
+              <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.67-7.81-11.94-14.31-6.7-10.22-12-21.73-15.91-34.52-3.9-12.79-5.86-24.81-5.86-36.07 0-14.34 3.49-26.24 10.47-35.7 6.98-9.46 15.75-14.28 26.31-14.47 5.02 0 10.59 1.34 16.71 4.02 6.12 2.68 10.05 4.07 11.79 4.17 1.54 0 5.66-1.46 12.36-4.38 6.7-2.92 12.44-4.23 17.23-3.93 12.87.62 23.32 5.38 31.35 14.28-11.19 6.8-16.68 16.29-16.48 28.47.2 9.5 3.91 17.51 11.13 24.03 7.22 6.52 15.77 10.3 25.65 11.34-2.12 6.38-4.68 12.63-7.69 18.75zM119.22 33.15c0-7.39 2.67-14.43 8.01-21.13 5.34-6.7 11.83-11.16 19.47-13.38.71 7.42-1.78 14.32-7.47 20.7-5.69 6.38-12.35 10.98-19.98 13.81-.02-.33-.03-.66-.03-1z" />
+            </svg>
+          </div>
+
+          {/* Navigation Tabs with authentic vertical dividers */}
+          <div style={{ display: "flex", height: "100%", flex: 1 }}>
             {[
               { id: "overview", label: "Overview" },
               { id: "config", label: "Configuração" },
@@ -369,56 +395,96 @@ export default function Page() {
                   key={tab.id}
                   onClick={() => scrollTo(tab.id)}
                   style={{
-                    background: "transparent",
-                    border: "none",
-                    color: isActive ? "#ffffff" : "#999999",
-                    fontWeight: isActive ? "bold" : "normal",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: "0 22px",
+                    height: "100%",
                     fontSize: "12px",
+                    fontWeight: isActive ? 700 : 400,
+                    color: isActive ? "#ffffff" : "#c5c5c5",
+                    textShadow: "0 1px 2px rgba(0,0,0,0.9)",
+                    background: isActive
+                      ? "linear-gradient(180deg, #303030 0%, #4a4744 49%, #1e1d1c 50%, #181818 100%)"
+                      : "transparent",
+                    border: "none",
+                    borderLeft: isActive
+                      ? "1px solid #141414"
+                      : "1px solid rgba(255,255,255,0.08)",
+                    borderRight: isActive
+                      ? "1px solid #141414"
+                      : "1px solid rgba(0,0,0,0.6)",
+                    boxShadow: isActive
+                      ? "inset 1px 0 0 rgba(255,255,255,0.1), inset -1px 0 0 rgba(0,0,0,0.5), inset 0 2px 4px rgba(0,0,0,0.5)"
+                      : "none",
                     cursor: "pointer",
-                    padding: "3px 0",
-                    position: "relative",
                     outline: "none",
                     fontFamily: "inherit",
+                    transition: "color 0.15s ease",
                   }}
                 >
                   {tab.label}
-                  {isActive && (
-                    <div
-                      style={{
-                        position: "absolute",
-                        bottom: "-5px",
-                        left: 0,
-                        right: 0,
-                        height: "2px",
-                        background: "#38bdf8",
-                        boxShadow: "0 0 6px #38bdf8",
-                      }}
-                    />
-                  )}
                 </button>
               );
             })}
           </div>
 
-          {/* Glossy Pill Button */}
-          <button
-            onClick={() => scrollTo("docs-section")}
-            style={{
-              background: "linear-gradient(180deg, #70bdfa 0%, #2f7cbf 50%, #1c5b96 51%, #2b70af 100%)",
-              border: "1px solid #164673",
-              borderRadius: "14px",
-              padding: "4px 16px",
-              color: "#ffffff",
-              fontWeight: 700,
-              fontSize: "11px",
-              cursor: "pointer",
-              boxShadow: "0 1px 3px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.4)",
-              textShadow: "0 -1px 1px rgba(0,0,0,0.6)",
-              fontFamily: "inherit",
-            }}
-          >
-            npm install
-          </button>
+          {/* Right side controls: Search Pill + npm install button */}
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                background: "linear-gradient(180deg, #181818 0%, #303030 100%)",
+                border: "1px solid #555555",
+                borderRadius: "14px",
+                padding: "2px 8px",
+                boxShadow: "inset 0 1px 3px rgba(0,0,0,0.8), 0 1px 0 rgba(255,255,255,0.12)",
+                height: "20px",
+              }}
+            >
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#999999" strokeWidth="3" style={{ marginRight: "5px" }}>
+                <circle cx="10.5" cy="10.5" r="7.5" />
+                <line x1="21" y1="21" x2="15.8" y2="15.8" />
+              </svg>
+              <input
+                type="text"
+                placeholder="Search"
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  outline: "none",
+                  color: "#ffffff",
+                  fontSize: "11px",
+                  width: "75px",
+                  fontFamily: "inherit",
+                }}
+              />
+            </div>
+
+            {/* Glossy Blue Pill */}
+            <button
+              onClick={() => scrollTo("docs-section")}
+              style={{
+                background: "linear-gradient(180deg, #70bdfa 0%, #2f7cbf 50%, #1c5b96 51%, #2b70af 100%)",
+                border: "1px solid #164673",
+                borderRadius: "14px",
+                padding: "3px 14px",
+                color: "#ffffff",
+                fontWeight: 700,
+                fontSize: "11px",
+                cursor: "pointer",
+                boxShadow: "0 1px 3px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.4)",
+                textShadow: "0 -1px 1px rgba(0,0,0,0.6)",
+                fontFamily: "inherit",
+                height: "22px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              npm install
+            </button>
+          </div>
         </div>
       </nav>
 
