@@ -16,6 +16,9 @@ const InnerContainer = styled.div<{ $width: number; $height: number }>`
   width: ${({ $width }) => $width}px;
   height: ${({ $height }) => $height}px;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Scaler = styled.div<{ $scale: number }>`
@@ -26,6 +29,7 @@ const Scaler = styled.div<{ $scale: number }>`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
 `;
 
 export const ResponsiveWrapper: React.FC<{ children: React.ReactNode; showReflection?: boolean }> = ({

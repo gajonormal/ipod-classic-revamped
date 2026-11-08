@@ -6,11 +6,16 @@ export const Shell = styled.div<{ $deviceTheme: DeviceThemeName; $showReflection
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 100%;
   width: 370px;
-  max-height: 37em;
+  min-width: 370px;
+  max-width: 370px;
+  height: 592px;
+  min-height: 592px;
+  max-height: 592px;
+  font-size: 16px;
   margin: auto;
   border-radius: 30px;
+  box-sizing: border-box;
   background: ${({ $deviceTheme }) => getTheme($deviceTheme).body.background};
   color: #000000;
   color-scheme: light;
