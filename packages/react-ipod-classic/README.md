@@ -226,7 +226,7 @@ Host your MP3 files and artwork alongside your website. Use the iframe URL's `pl
   id="ipod"
   title="iPod Classic music player"
   loading="lazy"
-  style="width: 100%; max-width: 340px; height: 520px; border: 0"
+  style="width: 100%; max-width: 340px; height: 520px; border: 0; color-scheme: light"
 ></iframe>
 <script>
   const tracks = [
@@ -245,5 +245,7 @@ Host your MP3 files and artwork alongside your website. Use the iframe URL's `pl
 ```
 
 Add one object per track. Use publicly accessible HTTPS links for the audio and artwork. The iframe plays the demo playlist when the fragment is omitted.
+
+Keep `color-scheme: light` on the iframe so its background stays transparent when the host page uses a dark color scheme.
 
 When embedding the demo, use `/embed?parentOrigin=https%3A%2F%2Fexample.com` to set the parent origin explicitly. Otherwise the player uses the browser referrer when available, with its own origin as the fallback. Commands must come from the immediate parent window.

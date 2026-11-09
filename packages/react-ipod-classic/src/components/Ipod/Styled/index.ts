@@ -20,6 +20,9 @@ export const Shell = styled.div<{
   border-radius: 30px;
   box-sizing: border-box;
   background: ${({ $deviceTheme }) => getTheme($deviceTheme).body.background};
+  box-shadow:
+    0 3px 5px rgb(0 0 0 / 32%),
+    3px 10px 22px rgb(0 0 0 / 38%);
   color: #000000;
   color-scheme: light;
   animation: ${({ $disableAnimation }) =>
@@ -32,14 +35,12 @@ export const Shell = styled.div<{
     position: absolute;
     inset: 0;
     border-radius: 30px;
-    box-shadow: inset 0 0 2.4em #555;
+    box-shadow:
+      inset 1px 2px 3px rgb(255 255 255 / 34%),
+      inset 5px 4px 13px rgb(255 255 255 / 14%),
+      inset -8px -8px 23px rgb(0 0 0 / 48%),
+      inset 0 0 2.4em rgb(0 0 0 / 55%);
     pointer-events: none;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    &::before {
-      box-shadow: inset 0 0 2.4em black;
-    }
   }
 
   @keyframes descend {

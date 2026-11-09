@@ -10,13 +10,13 @@ export default async function EmbedPage({
   const { parentOrigin } = await searchParams;
   return (
     <div
+      data-ipod-embed=""
       style={{
         width: "100vw",
         height: "100vh",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "transparent",
         overflow: "hidden",
       }}
     >
