@@ -1,8 +1,11 @@
-import styled from "styled-components";
-import { Screen, Unit } from "@/utils/constants";
+import { styled } from "styled-components";
+import { Unit } from "@/utils/constants";
 import { DeviceThemeName, getTheme } from "@/utils/themes";
 
-export const Shell = styled.div<{ $deviceTheme: DeviceThemeName; $showReflection?: boolean; $disableAnimation?: boolean }>`
+export const Shell = styled.div<{
+  $deviceTheme: DeviceThemeName;
+  $disableAnimation?: boolean;
+}>`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -19,14 +22,13 @@ export const Shell = styled.div<{ $deviceTheme: DeviceThemeName; $showReflection
   background: ${({ $deviceTheme }) => getTheme($deviceTheme).body.background};
   color: #000000;
   color-scheme: light;
-  -webkit-box-reflect: ${({ $showReflection }) => 
-    $showReflection ? "below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(50%, transparent), to(rgba(250, 250, 250, 0.3)))" : "none"};
-  animation: ${({ $disableAnimation }) => ($disableAnimation ? "none" : "descend 1.5s ease")};
+  animation: ${({ $disableAnimation }) =>
+    $disableAnimation ? "none" : "descend 1.5s ease"};
   overflow: hidden;
-  
+
   /* Pseudo-element for inner shadow to avoid Chrome scaling bugs and translateZ side-effects */
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     border-radius: 30px;
@@ -66,29 +68,44 @@ export const ScreenContainer = styled.div`
   animation: fadeFromBlack 0.5s;
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     pointer-events: none;
     z-index: 9999;
-    
+
     /* LCD Scanlines */
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.02) 50%),
-                linear-gradient(90deg, rgba(255, 0, 0, 0.01), rgba(0, 255, 0, 0.005), rgba(0, 0, 255, 0.01));
-    background-size: 100% 3px, 3px 100%;
-    
+    background:
+      linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.02) 50%),
+      linear-gradient(
+        90deg,
+        rgba(255, 0, 0, 0.01),
+        rgba(0, 255, 0, 0.005),
+        rgba(0, 0, 255, 0.01)
+      );
+    background-size:
+      100% 3px,
+      3px 100%;
+
     /* Screen bezel depth */
-    box-shadow: inset 0 2px 10px rgba(0,0,0,0.5), inset 0 -2px 10px rgba(0,0,0,0.2);
+    box-shadow:
+      inset 0 2px 10px rgba(0, 0, 0, 0.5),
+      inset 0 -2px 10px rgba(0, 0, 0, 0.2);
   }
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     pointer-events: none;
     z-index: 9998;
     /* Subtle screen glare */
-    background: linear-gradient(115deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.01) 40%, transparent 40%);
+    background: linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.01) 40%,
+      transparent 40%
+    );
   }
 
   @keyframes fadeFromBlack {

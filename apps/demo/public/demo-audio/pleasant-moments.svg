@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+  <path fill="#315147" d="M0 0h240v240H0z"/>
+  <path fill="none" stroke="#d9c390" stroke-width="2" d="M12 12h216v216H12zM18 18h204v204H18z"/>
+  <g fill="#d9c390">
+    <g fill="none" stroke="#d9c390" stroke-width="2"><circle cx="120" cy="142" r="28"/><ellipse cx="120" cy="142" rx="13" ry="28"/><ellipse cx="120" cy="142" rx="28" ry="13"/></g>
+  </g>
+  <g fill="#f5e5be" text-anchor="middle" font-family="Georgia, serif">
+    <text x="120" y="55" font-size="13" letter-spacing="3">SCOTT JOPLIN</text>
+    <text x="120" y="88" font-size="25">Pleasant Moments</text>
+    <text x="120" y="205" font-size="12" letter-spacing="2">RAGTIME WALTZ</text>
+  </g>
+</svg>

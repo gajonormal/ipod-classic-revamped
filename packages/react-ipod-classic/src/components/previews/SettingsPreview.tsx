@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import styled from "styled-components";
+import { styled } from "styled-components";
 import { Unit } from "@/utils/constants";
 import { ASSET_LOGO } from "@/assets";
 import { previewSlideRight } from "@/animation";

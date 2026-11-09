@@ -1,7 +1,19 @@
-import React, { createContext, useContext, useEffect, useState, useMemo } from "react";
+import type { MediaApi } from "@/types/Media.API";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useMemo,
+} from "react";
 import { IpodSong, IpodPlaylist, IpodAlbum } from "@/types/custom";
-import { mockSongs, mockAlbums, mockPlaylists, mockArtists } from "@/utils/mockData";
-import { extractYouTubeId } from "@/utils/youtube";
+import {
+  mockSongs,
+  mockAlbums,
+  mockPlaylists,
+  mockArtists,
+} from "@/utils/mockData";
+import { extractYouTubeId, isDirectAudioUrl, isYouTubeId } from "@/utils/youtube";
 
 export interface MusicLibraryContextType {
   songs: MediaApi.Song[];
@@ -12,16 +24,62 @@ export interface MusicLibraryContextType {
   hasCustomMusic: boolean;
 }
 
-export const MusicLibraryContext = createContext<MusicLibraryContextType>({
+const defaultLibrary: MusicLibraryContextType = {
   songs: mockSongs,
   albums: mockAlbums,
   artists: mockArtists,
   playlists: mockPlaylists,
   isLoading: false,
   hasCustomMusic: false,
-});
+};
+
+export const MusicLibraryContext = createContext(defaultLibrary);
 
 export const useMusicLibrary = () => useContext(MusicLibraryContext);
+
+function isRemoteSong(value: unknown): value is IpodSong {
+  if (!value || typeof value !== "object") return false;
+  const song = value as Record<string, unknown>;
+  const optionalStrings = [song.id, song.artistName, song.albumName];
+  const optionalNumbers = [song.duration, song.trackNumber];
+  return (
+    typeof song.name === "string" &&
+    Boolean(song.name.trim()) &&
+    typeof song.url === "string" &&
+    (isYouTubeId(extractYouTubeId(song.url)) || isDirectAudioUrl(song.url)) &&
+    optionalStrings.every(
+      (field) => field === undefined || typeof field === "string"
+    ) &&
+    optionalNumbers.every(
+      (field) =>
+        field === undefined ||
+        (typeof field === "number" && Number.isFinite(field) && field >= 0)
+    ) &&
+    (song.artwork === undefined ||
+      (song.artwork !== null &&
+        typeof song.artwork === "object" &&
+        "url" in song.artwork &&
+        typeof song.artwork.url === "string"))
+  );
+}
+
+function normalizeSong(song: IpodSong, index: number): MediaApi.Song {
+  const url = extractYouTubeId(song.url);
+  return {
+    id: song.id || url || `song-${index}`,
+    name: song.name,
+    artistName: song.artistName || "Unknown Artist",
+    albumName: song.albumName || "Unknown Album",
+    duration: song.duration ?? 0,
+    trackNumber: song.trackNumber ?? index + 1,
+    url,
+    artwork:
+      song.artwork ??
+      (isYouTubeId(url)
+        ? { url: `https://i.ytimg.com/vi/${url}/hqdefault.jpg` }
+        : undefined),
+  };
+}
 
 interface MusicLibraryProviderProps {
   children: React.ReactNode;
@@ -38,177 +96,174 @@ export const MusicLibraryProvider: React.FC<MusicLibraryProviderProps> = ({
   playlists: initialPlaylists,
   albums: initialAlbums,
 }) => {
-  const [remoteSongs, setRemoteSongs] = useState<IpodSong[] | null>(null);
-  const [isLoading, setIsLoading] = useState(!!songsUrl);
+  const remoteUrl = initialSongs === undefined ? songsUrl : undefined;
+  const [remoteLibrary, setRemoteLibrary] = useState<{
+    url: string;
+    songs?: IpodSong[];
+  }>();
 
   useEffect(() => {
-    if (!songsUrl) return;
+    if (!remoteUrl) return;
 
-    let isMounted = true;
-    setIsLoading(true);
-
-    fetch(songsUrl)
-      .then((res) => res.json())
-      .then((data) => {
-        if (!isMounted) return;
-        if (Array.isArray(data)) {
-          setRemoteSongs(data);
-        } else if (data && Array.isArray(data.songs)) {
-          setRemoteSongs(data.songs);
+    const controller = new AbortController();
+    async function loadSongs(url: string) {
+      try {
+        const response = await fetch(url, { signal: controller.signal });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        const songs: unknown = Array.isArray(data) ? data : data?.songs;
+        if (!Array.isArray(songs) || !songs.every(isRemoteSong)) {
+          throw new Error(
+            "Expected a playlist of songs with a name and an audio URL or YouTube ID"
+          );
         }
-      })
-      .catch((err) => {
-        console.error("Failed to fetch songs from songsUrl:", err);
-      })
-      .finally(() => {
-        if (isMounted) setIsLoading(false);
-      });
+        if (!controller.signal.aborted) setRemoteLibrary({ url, songs });
+      } catch (error) {
+        if (controller.signal.aborted) return;
+        console.error("Failed to load songs:", error);
+        setRemoteLibrary({ url });
+      }
+    }
+    void loadSongs(remoteUrl);
+    return () => controller.abort();
+  }, [remoteUrl]);
 
-    return () => {
-      isMounted = false;
-    };
-  }, [songsUrl]);
-
-  const rawSongs = initialSongs || remoteSongs;
-  const hasCustomMusic = !!(rawSongs && rawSongs.length > 0);
+  const remoteSongs =
+    remoteUrl && remoteLibrary?.url === remoteUrl
+      ? remoteLibrary.songs
+      : undefined;
+  const rawSongs = initialSongs ?? remoteSongs;
+  const isLoading = Boolean(remoteUrl && remoteLibrary?.url !== remoteUrl);
 
   const library = useMemo<MusicLibraryContextType>(() => {
-    if (!rawSongs || rawSongs.length === 0) {
-      return {
-        songs: mockSongs,
-        albums: mockAlbums,
-        artists: mockArtists,
-        playlists: mockPlaylists,
-        isLoading,
-        hasCustomMusic: false,
-      };
+    if (
+      rawSongs === undefined &&
+      !initialAlbums?.length &&
+      !initialPlaylists?.length
+    ) {
+      return { ...defaultLibrary, isLoading };
     }
 
-    // Convert raw songs to MediaApi.Song format
-    const formattedSongs: MediaApi.Song[] = rawSongs.map((song, index) => {
-      const ytId = extractYouTubeId(song.url);
-      const songId = song.id || ytId || `song-${index}`;
-      const artworkUrl =
-        song.artwork?.url || (ytId ? `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg` : "");
+    const songsById = new Map<string, MediaApi.Song>();
+    const songsByUrl = new Map<string, MediaApi.Song>();
+    const addSong = (song: MediaApi.Song) => {
+      if (!songsById.has(song.id)) songsById.set(song.id, song);
+      if (!songsByUrl.has(song.url)) songsByUrl.set(song.url, song);
+      return song;
+    };
+    rawSongs?.forEach((song, index) => addSong(normalizeSong(song, index)));
 
-      return {
-        id: songId,
-        name: song.name,
-        artistName: song.artistName || "Unknown Artist",
-        albumName: song.albumName || "Unknown Album",
-        duration: song.duration || 0,
-        trackNumber: song.trackNumber || index + 1,
-        url: ytId,
-        artwork: artworkUrl ? { url: artworkUrl } : undefined,
-      };
-    });
+    const resolveTrack = (track: IpodSong | string, index: number) => {
+      if (typeof track !== "string")
+        return addSong(normalizeSong(track, index));
 
-    // Group songs into albums
-    const albumsMap = new Map<string, MediaApi.Album>();
-    formattedSongs.forEach((song) => {
-      const albumKey = `${song.albumName}___${song.artistName}`;
-      if (!albumsMap.has(albumKey)) {
-        albumsMap.set(albumKey, {
-          id: albumKey,
+      const url = extractYouTubeId(track);
+      return (
+        songsById.get(track) ??
+        songsByUrl.get(url) ??
+        addSong(normalizeSong({ id: track, name: track, url }, index))
+      );
+    };
+
+    const albums: MediaApi.Album[] = (initialAlbums ?? []).map(
+      (album, index) => {
+        const songs = (album.songs ?? []).map((track, trackIndex) =>
+          resolveTrack(
+            typeof track === "string"
+              ? track
+              : {
+                  ...track,
+                  albumName: track.albumName ?? album.name,
+                  artistName: track.artistName ?? album.artistName,
+                },
+            trackIndex
+          )
+        );
+        return {
+          id: album.id || `custom-album-${index}`,
+          name: album.name,
+          artistName: album.artistName ?? songs[0]?.artistName,
+          artwork: album.artwork ?? songs[0]?.artwork,
+          url: songs[0]?.url ?? "",
+          songs,
+        };
+      }
+    );
+    const assignedTracks = new Set(
+      albums.flatMap((album) => album.songs.map((song) => song.id))
+    );
+
+    const playlists: MediaApi.Playlist[] = (initialPlaylists ?? []).map(
+      (playlist, index) => {
+        const songs = playlist.songs.map(resolveTrack);
+        return {
+          id: playlist.id || `custom-playlist-${index}`,
+          name: playlist.name,
+          curatorName: playlist.curatorName ?? "User",
+          description: playlist.description,
+          artwork: playlist.artwork ?? songs[0]?.artwork,
+          url: songs[0]?.url ?? "",
+          songs,
+        };
+      }
+    );
+
+    const songs = Array.from(songsById.values());
+    const albumsById = new Map(albums.map((album) => [album.id, album]));
+    for (const song of songs) {
+      if (assignedTracks.has(song.id)) continue;
+      const id = `${song.albumName}___${song.artistName}`;
+      let album = albumsById.get(id);
+      if (!album) {
+        album = {
+          id,
           name: song.albumName || "Unknown Album",
           artistName: song.artistName,
           artwork: song.artwork,
           url: song.url,
           songs: [],
-        });
+        };
+        albumsById.set(id, album);
       }
-      albumsMap.get(albumKey)!.songs.push(song);
-    });
-    const parsedAlbums = Array.from(albumsMap.values());
+      album.songs.push(song);
+    }
 
-    // Group songs into artists
-    const artistsMap = new Map<string, MediaApi.Artist>();
-    formattedSongs.forEach((song) => {
-      const artistName = song.artistName || "Unknown Artist";
-      if (!artistsMap.has(artistName)) {
-        artistsMap.set(artistName, {
-          id: artistName,
-          name: artistName,
-          url: song.url,
-          artwork: song.artwork,
+    const artistsById = new Map<string, MediaApi.Artist>();
+    for (const album of albumsById.values()) {
+      const name = album.artistName || "Unknown Artist";
+      let artist = artistsById.get(name);
+      if (!artist) {
+        artist = {
+          id: name,
+          name,
+          url: album.url,
+          artwork: album.artwork,
           albums: [],
-        });
+        };
+        artistsById.set(name, artist);
       }
-    });
-
-    // Link artist albums
-    parsedAlbums.forEach((album) => {
-      const artist = artistsMap.get(album.artistName || "Unknown Artist");
-      if (artist) {
-        artist.albums = artist.albums || [];
-        artist.albums.push(album);
-      }
-    });
-    const parsedArtists = Array.from(artistsMap.values());
-
-    // Playlists
-    const parsedPlaylists: MediaApi.Playlist[] = [];
-
-    // Default "All Songs" playlist
-    parsedPlaylists.push({
-      id: "playlist-all-songs",
-      name: "All Songs",
-      curatorName: "Library",
-      url: formattedSongs[0]?.url || "",
-      artwork: formattedSongs[0]?.artwork,
-      songs: formattedSongs,
-    });
-
-    // Custom user playlists
-    if (initialPlaylists && initialPlaylists.length > 0) {
-      initialPlaylists.forEach((pl, idx) => {
-        const plSongs: MediaApi.Song[] = pl.songs.map((s, sIdx) => {
-          if (typeof s === "string") {
-            const found = formattedSongs.find((f) => f.id === s || f.url === s);
-            return (
-              found || {
-                id: s,
-                name: s,
-                duration: 0,
-                trackNumber: sIdx + 1,
-                url: extractYouTubeId(s),
-              }
-            );
-          }
-          const ytId = extractYouTubeId(s.url);
-          return {
-            id: s.id || ytId || `pl-song-${idx}-${sIdx}`,
-            name: s.name,
-            artistName: s.artistName || "Unknown Artist",
-            albumName: s.albumName || "Unknown Album",
-            duration: s.duration || 0,
-            trackNumber: s.trackNumber || sIdx + 1,
-            url: ytId,
-            artwork: s.artwork,
-          };
-        });
-
-        parsedPlaylists.push({
-          id: pl.id || `custom-playlist-${idx}`,
-          name: pl.name,
-          description: pl.description,
-          curatorName: pl.curatorName || "User",
-          url: plSongs[0]?.url || "",
-          artwork: pl.artwork || plSongs[0]?.artwork,
-          songs: plSongs,
-        });
-      });
+      artist.albums?.push(album);
     }
 
     return {
-      songs: formattedSongs,
-      albums: parsedAlbums,
-      artists: parsedArtists,
-      playlists: parsedPlaylists,
+      songs,
+      albums: Array.from(albumsById.values()),
+      artists: Array.from(artistsById.values()),
+      playlists: [
+        {
+          id: "playlist-all-songs",
+          name: "All Songs",
+          curatorName: "Library",
+          url: songs[0]?.url ?? "",
+          artwork: songs[0]?.artwork,
+          songs,
+        },
+        ...playlists,
+      ],
       isLoading,
       hasCustomMusic: true,
     };
-  }, [rawSongs, initialPlaylists, isLoading]);
+  }, [rawSongs, initialAlbums, initialPlaylists, isLoading]);
 
   return (
     <MusicLibraryContext.Provider value={library}>
@@ -216,4 +271,3 @@ export const MusicLibraryProvider: React.FC<MusicLibraryProviderProps> = ({
     </MusicLibraryContext.Provider>
   );
 };
-

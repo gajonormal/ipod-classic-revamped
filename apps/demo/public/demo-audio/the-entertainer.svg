@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+  <path fill="#193448" d="M0 0h240v240H0z"/>
+  <path fill="none" stroke="#e7b97e" stroke-width="2" d="M12 12h216v216H12zM18 18h204v204H18z"/>
+  <g fill="#e7b97e">
+    <circle cx="120" cy="142" r="24"/><circle fill="#193448" cx="120" cy="142" r="7"/>
+  </g>
+  <g fill="#f5e5be" text-anchor="middle" font-family="Georgia, serif">
+    <text x="120" y="55" font-size="13" letter-spacing="3">SCOTT JOPLIN</text>
+    <text x="120" y="88" font-size="25">The Entertainer</text>
+    <text x="120" y="205" font-size="12" letter-spacing="2">RAGTIME TWO-STEP</text>
+  </g>
+</svg>

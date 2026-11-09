@@ -7,11 +7,10 @@ export default defineConfig({
   splitting: false,
   sourcemap: true,
   clean: true,
-  treeshake: true,
-  cjsInterop: true,
   shims: true,
   banner: {
     js: '"use client";',
   },
+  noExternal: ["ios-haptics"],
   external: ["react", "react-dom", "styled-components"],
 });

@@ -1,6 +1,6 @@
 import { AnimatePresence } from "motion/react";
 import { KeyboardInstance } from "@/providers/ViewContextProvider";
-import styled from "styled-components";
+import { styled } from "styled-components";
 
 import KeyboardInput from "../components/KeyboardInput";
 
@@ -16,8 +16,6 @@ interface Props {
 }
 
 const KeyboardViewManager = ({ viewStack }: Props) => {
-  const isHidden = viewStack.length === 0;
-
   return (
     <RootContainer data-stack-type="keyboard">
       <AnimatePresence>

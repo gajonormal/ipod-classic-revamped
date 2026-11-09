@@ -2,7 +2,6 @@
 
 > An interactive, fully functional iPod Classic music player component for React applications. Drop it in your website as a floating widget or embed it directly into your page.
 
-[![npm version](https://img.shields.io/npm/v/react-ipod-classic.svg)](https://www.npmjs.com/package/react-ipod-classic)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ---
@@ -11,7 +10,7 @@
 
 - 🎧 **Interactive ClickWheel**: Scroll with mouse or touch gestures around the circular wheel, just like the real hardware.
 - 🪟 **Floating Widget Mode (`<FloatingIpod />`)**: Draggable, minimizable floating launcher button that sits on any corner of your site.
-- 📺 **YouTube Audio Integration**: Play any song or audio using standard YouTube video IDs or full URLs.
+- 🎵 **Audio Sources**: Play audio files directly or use YouTube URLs or IDs for videos that allow embedded playback.
 - 📂 **Custom Music Library**: Pass your songs via simple props or load them from a JSON file/URL.
 - 🎨 **Authentic Themes**: Choose between classic colors: `black`, `silver`, `u2`, or `mnelia`.
 - 🔍 **Menus & Views**: Cover Flow, Playlists, Artists, Albums, Songs, Search, Now Playing, and Settings.
@@ -21,15 +20,21 @@
 
 ## 📦 Installation
 
+Build the package and create its installable archive from the repository root:
+
 ```bash
-npm install react-ipod-classic styled-components motion
-# or
-pnpm add react-ipod-classic styled-components motion
-# or
-yarn add react-ipod-classic styled-components motion
+pnpm install
+pnpm build:package
+npm pack ./packages/react-ipod-classic
 ```
 
-> **Note**: `styled-components` and `motion` are peer dependencies.
+Copy the archive into your React project, then install it:
+
+```bash
+npm install ./react-ipod-classic-0.1.0.tgz styled-components
+```
+
+The package uses your site's React and React DOM (18 or 19) and styled-components (6). For the Next.js App Router, use a Client Component when passing callbacks to the player.
 
 ---
 
@@ -49,13 +54,13 @@ export default function App() {
       name: "Never Gonna Give You Up",
       artistName: "Rick Astley",
       albumName: "Whenever You Need Somebody",
-      url: "dQw4w9WgXcQ", // YouTube ID or full URL
+      url: "/music/first-track.mp3", // Serve this file from your site
     },
     {
       name: "Bohemian Rhapsody",
       artistName: "Queen",
       albumName: "A Night at the Opera",
-      url: "fJ9rUzIMcZQ",
+      url: "/music/second-track.mp3",
     },
   ];
 
@@ -92,7 +97,7 @@ export default function MusicPage() {
           {
             name: "Starboy",
             artistName: "The Weeknd",
-            url: "34Na4j8AVgA",
+            url: "/music/track.mp3", // Serve this file from your site
           }
         ]}
         theme="silver"
@@ -164,7 +169,8 @@ Inherits all `<Ipod />` props below, plus:
 | `theme` | `'black' \| 'silver' \| 'u2' \| 'mnelia'` | `'black'` | iPod shell and click wheel theme. |
 | `showReflection` | `boolean` | `false` | Shows a stylish reflection below the shell. |
 | `disableAnimation` | `boolean` | `false` | Disables entry drop animation. |
-| `googleClientId` | `string` | — | Optional Google OAuth Client ID for YouTube library sync. |
+| `albums` | `IpodAlbum[]` | — | Custom albums with songs or references to songs by ID. |
+| `parentOrigin` | `string` | — | Trusted iframe parent origin for playback commands and state updates. |
 | `onSongChange` | `(song: Song) => void` | — | Fired when currently playing song changes. |
 | `onPlayStateChange` | `(isPlaying: boolean) => void` | — | Fired when play/pause state changes. |
 
@@ -175,7 +181,7 @@ Inherits all `<Ipod />` props below, plus:
 ```typescript
 interface IpodSong {
   name: string;             // Song title (required)
-  url: string;              // YouTube ID (e.g. "dQw4w9WgXcQ") or full URL (required)
+  url: string;              // Direct audio URL, YouTube ID or YouTube URL (required)
   artistName?: string;      // Artist name
   albumName?: string;       // Album title
   duration?: number;        // Track duration in seconds
@@ -185,7 +191,7 @@ interface IpodSong {
 }
 ```
 
-*(If `artwork` is omitted, the YouTube high-res thumbnail is automatically used!)*
+Direct audio URLs can be absolute or relative to the page, such as `/music/track.mp3`. Supply `artwork` for a custom cover. YouTube tracks use the video thumbnail by default.
 
 ---
 
@@ -202,5 +208,13 @@ interface IpodSong {
 
 ## 📄 License
 
-MIT © [gajonormal](https://github.com/gajonormal)
+MIT. A fork of Tanner Villarete's React project [ipod-classic-js](https://github.com/tvillarete/ipod-classic-js), packaged as a reusable component by [gajonormal](https://github.com/gajonormal).
 
+
+## Decorative previews
+
+Use `<Ipod interactive={false} />` to render a decorative device without input listeners or audio playback.
+
+`googleClientId` is reserved for compatibility and does not initialize a sign-in flow.
+
+When embedding the demo, use `/embed?parentOrigin=https%3A%2F%2Fexample.com` to set the parent origin explicitly. Otherwise the player uses the browser referrer when available, with its own origin as the fallback. Commands must come from the immediate parent window.

@@ -8,17 +8,19 @@
     "build:package": "pnpm --filter react-ipod-classic build",
     "build:demo": "pnpm --filter ipod-demo build",
     "lint": "eslint .",
-    "type-check": "pnpm --filter react-ipod-classic type-check && pnpm --filter ipod-demo type-check"
+    "type-check": "pnpm --filter react-ipod-classic type-check && pnpm --filter ipod-demo type-check",
+    "generate:assets": "node scripts/generate-assets.js"
   },
   "devDependencies": {
+    "eslint": "9",
+    "eslint-config-next": "^16.3.0",
+    "eslint-import-resolver-node": "^0.3.10",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-unused-imports": "^4.4.1",
     "prettier": "^3.8.3",
     "typescript": "^5.7.3"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "sharp",
-      "unrs-resolver"
-    ]
   }
 }

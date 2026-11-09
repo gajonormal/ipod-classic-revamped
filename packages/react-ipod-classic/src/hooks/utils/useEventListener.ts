@@ -1,43 +1,23 @@
-import { useRef, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
+import { IpodEventsContext } from "@/providers/IpodEventsContext";
 
-// Hook
 const useEventListener = <TEvent extends string>(
   eventName: TEvent,
-  handler: (...args: any) => void,
-  element = typeof window === "undefined" ? undefined : window
+  handler: (event: any) => void
 ) => {
-  // Create a ref that stores handler
-  const savedHandler = useRef<any>(null);
+  const events = useContext(IpodEventsContext);
+  const savedHandler = useRef(handler);
 
-  // Update ref.current value if handler changes.
-  // This allows our effect below to always get latest handler ...
-  // ... without us needing to pass it in effect deps array ...
-  // ... and potentially cause effect to re-run every render.
   useEffect(() => {
     savedHandler.current = handler;
-  }, [eventName, handler]);
+  }, [handler]);
 
-  useEffect(
-    () => {
-      // Make sure element supports addEventListener
-      // On
-      const isSupported = element && element.addEventListener;
-      if (!isSupported) return;
-
-      // Create event listener that calls handler function stored in ref
-      const eventListener = (event: any) =>
-        savedHandler && savedHandler.current && savedHandler.current(event);
-
-      // Add event listener
-      element.addEventListener(eventName, eventListener);
-
-      // Remove event listener on cleanup
-      return () => {
-        element.removeEventListener(eventName, eventListener);
-      };
-    },
-    [eventName, element] // Re-run if eventName or element changes
-  );
+  useEffect(() => {
+    if (!events) return;
+    const listener = (event: Event) => savedHandler.current(event);
+    events.addEventListener(eventName, listener);
+    return () => events.removeEventListener(eventName, listener);
+  }, [events, eventName]);
 };
 
 export default useEventListener;

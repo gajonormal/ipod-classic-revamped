@@ -1,37 +1,31 @@
 "use client";
-import React, { useEffect, useState } from "react";
+
+import { useEffect, useState, type ReactNode } from "react";
 import {
   FloatingIpod as RawFloatingIpod,
   Ipod as RawIpod,
-  FloatingIpodProps,
-  IpodProps,
+  type FloatingIpodProps,
+  type IpodProps,
 } from "react-ipod-classic";
 
-export const FloatingIpod: React.FC<FloatingIpodProps> = (props) => {
-  const [isMounted, setIsMounted] = useState(false);
+function ClientOnly({ children }: { children: ReactNode }) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  return mounted ? children : null;
+}
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+export function Ipod(props: IpodProps) {
+  return (
+    <ClientOnly>
+      <RawIpod {...props} />
+    </ClientOnly>
+  );
+}
 
-  if (!isMounted) {
-    return null;
-  }
-
-  return <RawFloatingIpod {...props} />;
-};
-
-export const Ipod: React.FC<IpodProps> = (props) => {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return null;
-  }
-
-  return <RawIpod {...props} />;
-};
-
+export function FloatingIpod(props: FloatingIpodProps) {
+  return (
+    <ClientOnly>
+      <RawFloatingIpod {...props} />
+    </ClientOnly>
+  );
+}

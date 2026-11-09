@@ -1,6 +1,6 @@
 import LoadingIndicator from "@/components/LoadingIndicator";
-import { useAudioPlayer, useInterval } from "@/hooks";
-import styled from "styled-components";
+import { useAudioPlayer } from "@/hooks";
+import { styled } from "styled-components";
 import * as Utils from "@/utils";
 import { Unit } from "@/utils/constants";
 
@@ -37,23 +37,9 @@ const Label = styled.h3<LabelProps>`
 `;
 
 const TrackProgress = () => {
-  const { playbackInfo, updatePlaybackInfo, nowPlayingItem } = useAudioPlayer();
+  const { playbackInfo, nowPlayingItem } = useAudioPlayer();
 
-  const {
-    isLoading,
-    isPlaying,
-    isPaused,
-    currentTime,
-    percent,
-    timeRemaining,
-  } = playbackInfo;
-
-  /** Update the progress bar every second when playing. */
-  useInterval(
-    updatePlaybackInfo,
-    1000,
-    !(isPlaying && !isPaused) // Skip when not playing or paused
-  );
+  const { isLoading, currentTime, percent, timeRemaining } = playbackInfo;
 
   const hasNowPlayingItem = !!nowPlayingItem;
 

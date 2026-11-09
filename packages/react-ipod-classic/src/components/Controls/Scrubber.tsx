@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState, useRef } from "react";
 
 import { useAudioPlayer, useEventListener } from "@/hooks";
-import styled from "styled-components";
+import { styled } from "styled-components";
 import { useDebouncedCallback } from "use-debounce";
 import { Unit } from "@/utils/constants";
 

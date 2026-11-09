@@ -2,7 +2,7 @@ import { noAnimation, slideRightAnimation } from "@/animation";
 import { motion } from "motion/react";
 import { ViewInstance } from "@/providers/ViewContextProvider";
 import { VIEW_REGISTRY, ViewId } from "@/components/views/registry";
-import styled from "styled-components";
+import { styled } from "styled-components";
 import { ComponentType } from "react";
 
 interface ContainerProps {

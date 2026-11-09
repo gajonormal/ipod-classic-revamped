@@ -1,13 +1,10 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 
 import SelectableList, {
   SelectableListOption,
 } from "@/components/SelectableList";
 import { SplitScreenPreview } from "@/components/previews";
-import {
-  useAudioPlayer,
-  useSelectableList,
-} from "@/hooks";
+import { useAudioPlayer, useSelectableList } from "@/hooks";
 import { useMusicLibrary } from "@/providers/MusicLibraryProvider";
 
 const MusicView = () => {
@@ -68,7 +65,10 @@ const MusicView = () => {
     return arr;
   }, [nowPlayingItem, library]);
 
-  const { activeIndex: scrollIndex } = useSelectableList({ viewId: "music", options });
+  const { activeIndex: scrollIndex } = useSelectableList({
+    viewId: "music",
+    options,
+  });
 
   return <SelectableList options={options} activeIndex={scrollIndex} />;
 };

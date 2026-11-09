@@ -1,11 +1,17 @@
-import { useCallback, useMemo } from "react";
+import { IpodEventsContext } from "@/providers/IpodEventsContext";
+import { useCallback, useContext, useMemo } from "react";
 
 import { popInAnimation } from "@/animation";
 import { SelectableListOption } from "@/components";
 import { motion } from "motion/react";
-import { useKeyboardInput, useMenuHideView, useOptionSelect, useScrollHandler, useScrollIntoView } from "@/hooks";
+import {
+  useMenuHideView,
+  useOptionSelect,
+  useScrollHandler,
+  useScrollIntoView,
+} from "@/hooks";
 import { KeyboardInstance } from "@/providers/ViewContextProvider";
-import styled, { css } from "styled-components";
+import { styled, css } from "styled-components";
 import { Unit } from "@/utils/constants";
 
 interface RootContainerProps {
@@ -127,22 +133,11 @@ const KeyboardInput = ({ viewStack, index, isHidden }: Props) => {
   const viewOptions = viewStack[index];
   useMenuHideView(viewOptions.id);
 
-  useKeyboardInput({
-    initialValue: viewOptions.initialValue,
-    readOnly: false,
-  });
-
+  const events = useContext(IpodEventsContext);
   const handleSelect = useCallback(
-    (key: string) => {
-      const inputEvent = new CustomEvent("input", {
-        detail: {
-          id: viewOptions.id,
-          key,
-        },
-      });
-      window.dispatchEvent(inputEvent);
-    },
-    [viewOptions.id]
+    (key: string) =>
+      events?.dispatchEvent(new CustomEvent("input", { detail: { key } })),
+    [events]
   );
 
   const listOptions: SelectableListOption[] = useMemo(() => {
@@ -155,7 +150,11 @@ const KeyboardInput = ({ viewStack, index, isHidden }: Props) => {
 
   const [scrollIndex] = useScrollHandler(viewOptions.id, listOptions);
 
-  useOptionSelect({ id: viewOptions.id, options: listOptions, index: scrollIndex });
+  useOptionSelect({
+    id: viewOptions.id,
+    options: listOptions,
+    index: scrollIndex,
+  });
 
   const containerRef = useScrollIntoView({
     activeIndex: scrollIndex,

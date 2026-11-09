@@ -3,7 +3,7 @@ export interface IpodSong {
   name: string;
   artistName?: string;
   albumName?: string;
-  url: string; // YouTube video ID or full YouTube URL
+  url: string; // Direct audio URL, YouTube video ID or YouTube URL
   duration?: number;
   trackNumber?: number;
   artwork?: {

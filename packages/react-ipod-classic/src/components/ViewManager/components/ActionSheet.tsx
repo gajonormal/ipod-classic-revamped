@@ -9,7 +9,7 @@ import {
   useScrollHandler,
   useViewContext,
 } from "@/hooks";
-import styled, { css } from "styled-components";
+import { styled, css } from "styled-components";
 import { Unit } from "@/utils/constants";
 import { IpodEvent } from "@/utils/events";
 import { ActionSheetInstance } from "@/providers/ViewContextProvider";

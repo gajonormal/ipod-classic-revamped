@@ -5,25 +5,9 @@ import { SelectableListOption } from "@/components";
 import { ViewId } from "@/components/views/registry";
 import { PopupId, ActionSheetId } from "@/providers/ViewContextProvider";
 import useHapticFeedback from "@/hooks/useHapticFeedback";
-import { IpodEvent, ScrollEventDetail } from "@/utils/events";
-import { VELOCITY_SKIP_THRESHOLDS } from "@/components/ClickWheel/constants";
+import { IpodEvent } from "@/utils/events";
 
 import { useEventListener, useViewContext } from "@/hooks";
-
-const getSkipCount = (event: Event): number => {
-  const velocity =
-    event instanceof CustomEvent
-      ? (event as CustomEvent<ScrollEventDetail>).detail?.velocity ?? 0
-      : 0;
-
-  let skip = 1;
-  for (const tier of VELOCITY_SKIP_THRESHOLDS) {
-    if (velocity >= tier.minVelocity) {
-      skip = tier.skip;
-    }
-  }
-  return skip;
-};
 
 /** Gets the initial index for the scroll position. If there is a selected option,
  * this will initialize our initial scroll position at the selectedOption  */
@@ -77,58 +61,48 @@ const useScrollHandler = (
 
   const debouncedUpdatePreview = useDebouncedCallback(updatePreview, 750);
 
-  const handleForwardScroll = useCallback(
-    (event: Event) => {
-      if (isActive) {
-        triggerHaptics(true);
-      }
+  const handleForwardScroll = useCallback(() => {
+    if (isActive) {
+      triggerHaptics(true);
+    }
 
-      const skip = getSkipCount(event);
+    setIndex((prevIndex) => {
+      if (prevIndex < options.length - 1 && isActive) {
+        const nextIndex = prevIndex + 1;
+        debouncedUpdatePreview(nextIndex);
 
-      setIndex((prevIndex) => {
-        if (prevIndex < options.length - 1 && isActive) {
-          const nextIndex = Math.min(prevIndex + skip, options.length - 1);
-          debouncedUpdatePreview(nextIndex);
-
-          if (nextIndex >= Math.round(options.length / 2)) {
-            onNearEndOfList?.(options.length);
-          }
-
-          return nextIndex;
+        if (nextIndex >= Math.round(options.length / 2)) {
+          onNearEndOfList?.(options.length);
         }
 
-        return prevIndex;
-      });
-    },
-    [
-      debouncedUpdatePreview,
-      isActive,
-      onNearEndOfList,
-      options.length,
-      triggerHaptics,
-    ]
-  );
-
-  const handleBackwardScroll = useCallback(
-    (event: Event) => {
-      if (isActive) {
-        triggerHaptics(true);
+        return nextIndex;
       }
 
-      const skip = getSkipCount(event);
+      return prevIndex;
+    });
+  }, [
+    debouncedUpdatePreview,
+    isActive,
+    onNearEndOfList,
+    options.length,
+    triggerHaptics,
+  ]);
 
-      setIndex((prevIndex) => {
-        if (prevIndex > 0 && isActive) {
-          const nextIndex = Math.max(prevIndex - skip, 0);
-          debouncedUpdatePreview(nextIndex);
-          return nextIndex;
-        }
+  const handleBackwardScroll = useCallback(() => {
+    if (isActive) {
+      triggerHaptics(true);
+    }
 
-        return prevIndex;
-      });
-    },
-    [debouncedUpdatePreview, isActive, triggerHaptics]
-  );
+    setIndex((prevIndex) => {
+      if (prevIndex > 0 && isActive) {
+        const nextIndex = prevIndex - 1;
+        debouncedUpdatePreview(nextIndex);
+        return nextIndex;
+      }
+
+      return prevIndex;
+    });
+  }, [debouncedUpdatePreview, isActive, triggerHaptics]);
 
   /** If the list length changes and the index is larger, reset the index to 0. */
   useEffect(() => {

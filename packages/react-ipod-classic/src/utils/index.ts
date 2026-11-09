@@ -1,4 +1,4 @@
-import { SelectableListOption } from "@/components/SelectableList";
+import type { MediaApi } from "@/types/Media.API";
 import { DEFAULT_ARTWORK_URL } from "@/utils/constants";
 
 /** Accepts a url with '{w}' and '{h}' and replaces them with the specified size */
@@ -11,20 +11,6 @@ export const getArtwork = (size: number | string, url?: string) => {
   return urlWithSize;
 };
 
-export const setDocumentSongTitle = (song?: MediaApi.Song) => {
-  document.title = song
-    ? `${song.name ?? "Music"} – iPod.js`
-    : "iPod.js";
-};
-
-/** Returns a list of playback options to display in a popup for an album, song, or playlist. */
-export const getMediaOptions = (
-  type: "album" | "song" | "playlist",
-  id: string
-): SelectableListOption[] => {
-  return [];
-};
-
 export const formatPlaybackTime = (seconds: number) => {
   const dateObject = new Date();
   dateObject.setMinutes(0);
@@ -33,7 +19,6 @@ export const formatPlaybackTime = (seconds: number) => {
   const formattedSeconds = dateObject.getSeconds().toString().padStart(2, "0");
   return `${formattedMinutes}:${formattedSeconds}`;
 };
-
 
 /**
  * Extracts the song ID from queue options.

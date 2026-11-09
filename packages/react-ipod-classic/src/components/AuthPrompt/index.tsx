@@ -1,5 +1,5 @@
 import { useSettings } from "@/hooks";
-import styled from "styled-components";
+import { styled } from "styled-components";
 import { Unit } from "@/utils/constants";
 import { ASSET_SAD_MAC } from "@/assets";
 

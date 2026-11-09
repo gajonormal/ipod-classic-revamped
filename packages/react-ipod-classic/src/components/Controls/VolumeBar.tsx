@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import { styled } from "styled-components";
 import { Unit } from "@/utils/constants";
 import ProgressBar from "./ProgressBar";
 import { ASSET_VOLUME_MUTE, ASSET_VOLUME_FULL } from "@/assets";

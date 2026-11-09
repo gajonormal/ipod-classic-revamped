@@ -1,3 +1,4 @@
+import type { MediaApi } from "@/types/Media.API";
 export const mockSongs: MediaApi.Song[] = [
   {
     "id": "UgI0sKebLSk",

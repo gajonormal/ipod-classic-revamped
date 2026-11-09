@@ -1,3 +1,4 @@
+import type { MediaApi } from "@/types/Media.API";
 import { useCallback, useMemo } from "react";
 
 import AuthPrompt from "@/components/AuthPrompt";

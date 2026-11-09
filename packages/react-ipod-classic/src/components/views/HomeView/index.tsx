@@ -1,27 +1,19 @@
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 
 import { getConditionalOption } from "@/components/SelectableList";
 import SelectableList, {
   SelectableListOption,
 } from "@/components/SelectableList";
 import { SplitScreenPreview } from "@/components/previews";
-import {
-  useAudioPlayer,
-  useEventListener,
-  useSelectableList,
-  useSettings,
-  useViewContext,
-} from "@/hooks";
-import { IpodEvent } from "@/utils/events";
+import { useAudioPlayer, useSelectableList, useSettings } from "@/hooks";
 
 const strings = {
   nowPlaying: "Now Playing",
 };
 
 const HomeView = () => {
-  const { isAuthorized, isOffline, shuffleMode } = useSettings();
+  const { isAuthorized, shuffleMode } = useSettings();
   const { nowPlayingItem, setShuffleMode } = useAudioPlayer();
-  const { showView, viewStack } = useViewContext();
 
   const options: SelectableListOption[] = useMemo(
     () => [
@@ -43,7 +35,6 @@ const HomeView = () => {
         viewId: "videos",
         preview: SplitScreenPreview.Settings,
       },
-
 
       ...getConditionalOption(isAuthorized, {
         type: "actionSheet",
@@ -85,26 +76,13 @@ const HomeView = () => {
         preview: SplitScreenPreview.Settings,
       },
     ],
-    [isAuthorized, isOffline, nowPlayingItem, shuffleMode, setShuffleMode]
+    [isAuthorized, nowPlayingItem, shuffleMode, setShuffleMode]
   );
 
-  const { activeIndex: scrollIndex } = useSelectableList({ viewId: "home", options });
-
-  const handleIdleState = useCallback(() => {
-    const activeView = viewStack[viewStack.length - 1];
-
-    const shouldShowNowPlaying =
-      !!nowPlayingItem &&
-      activeView.id !== "nowPlaying" &&
-      activeView.id !== "coverFlow" &&
-      activeView.id !== "keyboard";
-
-    if (shouldShowNowPlaying) {
-      showView("nowPlaying");
-    }
-  }, [nowPlayingItem, showView, viewStack]);
-
-  useEventListener<IpodEvent>("idle", handleIdleState);
+  const { activeIndex: scrollIndex } = useSelectableList({
+    viewId: "home",
+    options,
+  });
 
   return <SelectableList options={options} activeIndex={scrollIndex} />;
 };

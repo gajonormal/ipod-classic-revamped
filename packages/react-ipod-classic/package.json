@@ -23,9 +23,14 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
     }
   },
   "files": [
@@ -43,22 +48,14 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.100.4",
-    "he": "^1.2.0",
     "ios-haptics": "^0.1.4",
     "motion": "^12.38.0",
-    "query-string": "^9.3.1",
-    "use-debounce": "^10.1.1",
-    "uuid": "^14.0.0"
+    "use-debounce": "^10.1.1"
   },
   "devDependencies": {
-    "@types/he": "^1.2.3",
-    "@types/musickit-js": "^1.0.11",
     "@types/node": "^20.19.39",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "@types/spotify-api": "^0.0.25",
-    "@types/spotify-web-playback-sdk": "^0.1.19",
-    "@types/styled-components": "^5.1.36",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "styled-components": "^6.4.1",
@@ -66,4 +63,3 @@
     "typescript": "^5.7.3"
   }
 }
-

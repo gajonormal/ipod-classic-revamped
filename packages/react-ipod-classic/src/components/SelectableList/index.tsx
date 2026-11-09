@@ -1,3 +1,4 @@
+import type { MediaApi } from "@/types/Media.API";
 import { useMemo } from "react";
 
 import { LoadingIndicator, LoadingScreen } from "@/components";
@@ -7,7 +8,7 @@ import { ViewId, ViewProps } from "@/components/views/registry";
 import { PopupId, ActionSheetId } from "@/providers/ViewContextProvider";
 import { AnimatePresence, motion } from "motion/react";
 import { useScrollIntoView } from "@/hooks";
-import styled from "styled-components";
+import { styled } from "styled-components";
 
 import SelectableListItem from "./SelectableListItem";
 

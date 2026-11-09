@@ -1,5 +1,5 @@
 import { useBattery } from "@/hooks/battery";
-import styled, { css } from "styled-components";
+import { styled, css } from "styled-components";
 import { Bolt } from "./icons/bolt";
 import { Plug } from "./icons/plug";
 

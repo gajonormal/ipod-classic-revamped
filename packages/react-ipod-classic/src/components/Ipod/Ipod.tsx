@@ -1,5 +1,6 @@
 "use client";
-import React, { memo, useState, useEffect } from "react";
+import type { MediaApi } from "@/types/Media.API";
+import React, { memo, useState } from "react";
 import {
   AudioPlayerProvider,
   SettingsContext,
@@ -20,12 +21,16 @@ import ViewContextProvider from "@/providers/ViewContextProvider";
 import { MusicLibraryProvider } from "@/providers/MusicLibraryProvider";
 import { GlobalStyles } from "@/components/Ipod/GlobalStyles";
 import { ResponsiveWrapper } from "./ResponsiveWrapper";
-import { loadYouTubeIframeApi } from "@/utils/youtube";
 import { IpodSong, IpodPlaylist, IpodAlbum } from "@/types/custom";
 import { DeviceThemeName } from "@/utils/themes";
+import { IpodEventsContext } from "@/providers/IpodEventsContext";
 
 export interface IpodProps {
-  /** Custom songs list (YouTube IDs or full URLs supported) */
+  /** Render a decorative device without input listeners or audio playback. */
+  interactive?: boolean;
+  /** Trusted parent origin for iframe controls. Defaults to the embedding page origin when available. */
+  parentOrigin?: string;
+  /** Custom songs list with direct audio URLs, YouTube IDs or YouTube URLs. */
   songs?: IpodSong[];
   /** Remote URL to a JSON array of songs */
   songsUrl?: string;
@@ -39,7 +44,7 @@ export interface IpodProps {
   showReflection?: boolean;
   /** Disable initial pop-in animation */
   disableAnimation?: boolean;
-  /** Optional Google Client ID for YouTube user account authentication */
+  /** @deprecated Reserved for compatibility. Does not initialize a sign-in flow. */
   googleClientId?: string;
   /** Callback fired whenever the current playing song changes */
   onSongChange?: (song: MediaApi.Song) => void;
@@ -52,6 +57,8 @@ export interface IpodProps {
 }
 
 const Ipod: React.FC<IpodProps> = ({
+  interactive = true,
+  parentOrigin,
   songs,
   songsUrl,
   playlists,
@@ -59,76 +66,74 @@ const Ipod: React.FC<IpodProps> = ({
   theme,
   showReflection = false,
   disableAnimation = false,
-  googleClientId,
   onSongChange,
   onPlayStateChange,
   className,
   style,
 }) => {
+  const [events] = useState(() => new EventTarget());
   const [queryClient] = useState(() => new QueryClient());
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffectOnce(() => {
-    setIsLoading(false);
-    loadYouTubeIframeApi();
-  });
-
-  useEffect(() => {
-    loadYouTubeIframeApi();
-  }, []);
+  useEffectOnce(() => setIsLoading(false));
 
   if (isLoading) {
     return null;
   }
 
   const content = (
-    <QueryClientProvider client={queryClient}>
-      <GlobalStyles />
-      <MusicLibraryProvider
-        songs={songs}
-        songsUrl={songsUrl}
-        playlists={playlists}
-        albums={albums}
-      >
-        <SettingsProvider initialTheme={theme}>
-          <ViewContextProvider>
-            <AudioPlayerProvider
-              onSongChange={onSongChange}
-              onPlayStateChange={onPlayStateChange}
-            >
-              <div
-                id="youtube-player"
-                style={{ display: "none", width: 0, height: 0 }}
-              />
-              <SettingsContext.Consumer>
-                {([{ deviceTheme }]) => (
-                  <div className={className} style={{ width: "100%", height: "100%", ...style }}>
-                    <ResponsiveWrapper showReflection={showReflection}>
-                      <Shell
-                        data-ipod-root=""
-                        $deviceTheme={deviceTheme}
-                        $showReflection={showReflection}
-                        $disableAnimation={disableAnimation}
-                      >
-                        <Sticker $deviceTheme={deviceTheme} />
-                        <Sticker2 $deviceTheme={deviceTheme} />
-                        <Sticker3 $deviceTheme={deviceTheme} />
-                        <ScreenContainer>
-                          <ViewManager />
-                        </ScreenContainer>
-                        <ClickWheelContainer>
-                          <ClickWheel />
-                        </ClickWheelContainer>
-                      </Shell>
-                    </ResponsiveWrapper>
-                  </div>
-                )}
-              </SettingsContext.Consumer>
-            </AudioPlayerProvider>
-          </ViewContextProvider>
-        </SettingsProvider>
-      </MusicLibraryProvider>
-    </QueryClientProvider>
+    <IpodEventsContext.Provider value={interactive ? events : null}>
+      <QueryClientProvider client={queryClient}>
+        <GlobalStyles />
+        <MusicLibraryProvider
+          songs={songs}
+          songsUrl={songsUrl}
+          playlists={playlists}
+          albums={albums}
+        >
+          <SettingsProvider initialTheme={theme}>
+            <ViewContextProvider>
+              <AudioPlayerProvider
+                parentOrigin={parentOrigin}
+                onSongChange={onSongChange}
+                onPlayStateChange={onPlayStateChange}
+              >
+                <SettingsContext.Consumer>
+                  {([{ deviceTheme }]) => (
+                    <div
+                      ref={(element) => {
+                        if (element) element.inert = !interactive;
+                      }}
+                      aria-hidden={!interactive || undefined}
+                      className={className}
+                      style={{ width: "100%", height: "100%", ...style }}
+                    >
+                      <ResponsiveWrapper showReflection={showReflection}>
+                        <Shell
+                          data-ipod-root=""
+                          $deviceTheme={deviceTheme}
+                          $disableAnimation={disableAnimation}
+                        >
+                          <Sticker $deviceTheme={deviceTheme} />
+                          <Sticker2 $deviceTheme={deviceTheme} />
+                          <Sticker3 $deviceTheme={deviceTheme} />
+                          <ScreenContainer>
+                            <ViewManager />
+                          </ScreenContainer>
+                          <ClickWheelContainer>
+                            <ClickWheel />
+                          </ClickWheelContainer>
+                        </Shell>
+                      </ResponsiveWrapper>
+                    </div>
+                  )}
+                </SettingsContext.Consumer>
+              </AudioPlayerProvider>
+            </ViewContextProvider>
+          </SettingsProvider>
+        </MusicLibraryProvider>
+      </QueryClientProvider>
+    </IpodEventsContext.Provider>
   );
 
   return content;

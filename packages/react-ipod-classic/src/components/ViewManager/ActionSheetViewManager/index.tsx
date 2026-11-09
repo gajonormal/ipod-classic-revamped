@@ -1,5 +1,5 @@
 import { AnimatePresence } from "motion/react";
-import styled from "styled-components";
+import { styled } from "styled-components";
 
 import ActionSheet from "../components/ActionSheet";
 import { ActionSheetInstance } from "@/providers/ViewContextProvider";

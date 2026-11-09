@@ -1,3 +1,4 @@
+import type { MediaApi } from "@/types/Media.API";
 import { ComponentType } from "react";
 import { SplitScreenPreview } from "@/components/previews";
 

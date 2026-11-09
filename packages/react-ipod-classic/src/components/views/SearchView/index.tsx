@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import AuthPrompt from "@/components/AuthPrompt";
 import { getConditionalOption } from "@/components/SelectableList";
@@ -127,7 +127,10 @@ const SearchView = () => {
     }
   });
 
-  const { activeIndex: scrollIndex } = useSelectableList({ viewId: "search", options });
+  const { activeIndex: scrollIndex } = useSelectableList({
+    viewId: "search",
+    options,
+  });
 
   return isAuthorized ? (
     <SelectableList

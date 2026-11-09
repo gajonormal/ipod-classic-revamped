@@ -8,94 +8,6 @@ importers:
 
   .:
     devDependencies:
-      prettier:
-        specifier: ^3.8.3
-        version: 3.8.3
-      typescript:
-        specifier: ^5.7.3
-        version: 5.9.3
-
-  apps/demo:
-    dependencies:
-      '@react-oauth/google':
-        specifier: ^0.13.5
-        version: 0.13.5(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
-      '@tanstack/react-query':
-        specifier: ^5.100.4
-        version: 5.100.4(react@19.2.5)
-      he:
-        specifier: ^1.2.0
-        version: 1.2.0
-      ios-haptics:
-        specifier: ^0.1.4
-        version: 0.1.4
-      motion:
-        specifier: ^12.38.0
-        version: 12.38.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
-      next:
-        specifier: ^16.3.0
-        version: 16.3.0(@babel/core@7.29.0(supports-color@10.2.2))(@types/node@20.19.39)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
-      query-string:
-        specifier: ^9.3.1
-        version: 9.3.1
-      react:
-        specifier: ^19.2.5
-        version: 19.2.5
-      react-dom:
-        specifier: ^19.2.5
-        version: 19.2.5(react@19.2.5)
-      react-ipod-classic:
-        specifier: workspace:*
-        version: link:../../packages/react-ipod-classic
-      styled-components:
-        specifier: ^6.4.1
-        version: 6.4.1(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
-      use-debounce:
-        specifier: ^10.1.1
-        version: 10.1.1(react@19.2.5)
-      uuid:
-        specifier: ^14.0.0
-        version: 14.0.0
-    devDependencies:
-      '@next/bundle-analyzer':
-        specifier: ^16.3.0
-        version: 16.3.0
-      '@opennextjs/cloudflare':
-        specifier: ^1.20.2
-        version: 1.20.2(next@16.3.0(@babel/core@7.29.0(supports-color@10.2.2))(@types/node@20.19.39)(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(supports-color@10.2.2)(wrangler@4.120.0)
-      '@serwist/cli':
-        specifier: ^9.5.12
-        version: 9.5.12(@types/node@20.19.39)(browserslist@4.28.6)(esbuild@0.28.1)(typescript@5.9.3)
-      '@serwist/next':
-        specifier: ^9.5.12
-        version: 9.5.12(@serwist/cli@9.5.12(@types/node@20.19.39)(browserslist@4.28.6)(esbuild@0.28.1)(typescript@5.9.3))(next@16.3.0(@babel/core@7.29.0(supports-color@10.2.2))(@types/node@20.19.39)(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(react@19.2.5)(typescript@5.9.3)
-      '@types/he':
-        specifier: ^1.2.3
-        version: 1.2.3
-      '@types/musickit-js':
-        specifier: ^1.0.11
-        version: 1.0.11
-      '@types/node':
-        specifier: ^20.19.39
-        version: 20.19.39
-      '@types/react':
-        specifier: ^19.2.14
-        version: 19.2.14
-      '@types/react-dom':
-        specifier: ^19.2.3
-        version: 19.2.3(@types/react@19.2.14)
-      '@types/spotify-api':
-        specifier: ^0.0.25
-        version: 0.0.25
-      '@types/spotify-web-playback-sdk':
-        specifier: ^0.1.19
-        version: 0.1.19
-      '@types/styled-components':
-        specifier: ^5.1.36
-        version: 5.1.36
-      esbuild:
-        specifier: ^0.28.0
-        version: 0.28.1
       eslint:
         specifier: '9'
         version: 9.39.4(supports-color@10.2.2)
@@ -123,6 +35,55 @@ importers:
       prettier:
         specifier: ^3.8.3
         version: 3.8.3
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
+  apps/demo:
+    dependencies:
+      next:
+        specifier: ^16.3.0
+        version: 16.3.0(@babel/core@7.29.0(supports-color@10.2.2))(@types/node@20.19.39)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      react:
+        specifier: ^19.2.5
+        version: 19.2.5
+      react-dom:
+        specifier: ^19.2.5
+        version: 19.2.5(react@19.2.5)
+      react-ipod-classic:
+        specifier: workspace:*
+        version: link:../../packages/react-ipod-classic
+      styled-components:
+        specifier: ^6.4.1
+        version: 6.4.1(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+    devDependencies:
+      '@next/bundle-analyzer':
+        specifier: ^16.3.0
+        version: 16.3.0
+      '@opennextjs/cloudflare':
+        specifier: ^1.20.2
+        version: 1.20.2(next@16.3.0(@babel/core@7.29.0(supports-color@10.2.2))(@types/node@20.19.39)(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(supports-color@10.2.2)(wrangler@4.120.0)
+      '@serwist/cli':
+        specifier: ^9.5.12
+        version: 9.5.12(@types/node@20.19.39)(browserslist@4.28.6)(esbuild@0.28.1)(typescript@5.9.3)
+      '@serwist/next':
+        specifier: ^9.5.12
+        version: 9.5.12(@serwist/cli@9.5.12(@types/node@20.19.39)(browserslist@4.28.6)(esbuild@0.28.1)(typescript@5.9.3))(next@16.3.0(@babel/core@7.29.0(supports-color@10.2.2))(@types/node@20.19.39)(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(react@19.2.5)(typescript@5.9.3)
+      '@types/node':
+        specifier: ^20.19.39
+        version: 20.19.39
+      '@types/react':
+        specifier: ^19.2.14
+        version: 19.2.14
+      '@types/react-dom':
+        specifier: ^19.2.3
+        version: 19.2.3(@types/react@19.2.14)
+      esbuild:
+        specifier: ^0.28.0
+        version: 0.28.1
+      prettier:
+        specifier: ^3.8.3
+        version: 3.8.3
       serwist:
         specifier: ^9.5.7
         version: 9.5.12(browserslist@4.28.6)(typescript@5.9.3)
@@ -138,31 +99,16 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.100.4
         version: 5.100.4(react@19.2.5)
-      he:
-        specifier: ^1.2.0
-        version: 1.2.0
       ios-haptics:
         specifier: ^0.1.4
         version: 0.1.4
       motion:
         specifier: ^12.38.0
         version: 12.38.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
-      query-string:
-        specifier: ^9.3.1
-        version: 9.3.1
       use-debounce:
         specifier: ^10.1.1
         version: 10.1.1(react@19.2.5)
-      uuid:
-        specifier: ^14.0.0
-        version: 14.0.0
     devDependencies:
-      '@types/he':
-        specifier: ^1.2.3
-        version: 1.2.3
-      '@types/musickit-js':
-        specifier: ^1.0.11
-        version: 1.0.11
       '@types/node':
         specifier: ^20.19.39
         version: 20.19.39
@@ -172,15 +118,6 @@ importers:
       '@types/react-dom':
         specifier: ^19.2.3
         version: 19.2.3(@types/react@19.2.14)
-      '@types/spotify-api':
-        specifier: ^0.0.25
-        version: 0.0.25
-      '@types/spotify-web-playback-sdk':
-        specifier: ^0.1.19
-        version: 0.1.19
-      '@types/styled-components':
-        specifier: ^5.1.36
-        version: 5.1.36
       react:
         specifier: ^19.2.5
         version: 19.2.5
@@ -1741,12 +1678,6 @@ packages:
   '@poppinss/exception@1.2.3':
     resolution: {integrity: sha512-dCED+QRChTVatE9ibtoaxc+WkdzOSjYTKi/+uacHWIsfodVfpsueo3+DKpgU5Px8qXjgmXkSvhXvSCz3fnP9lw==}
 
-  '@react-oauth/google@0.13.5':
-    resolution: {integrity: sha512-xQWri2s/3nNekZJ4uuov2aAfQYu83bN3864KcFqw2pK1nNbFurQIjPFDXhWaKH3IjYJ2r/9yyIIpsn5lMqrheQ==}
-    peerDependencies:
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-
   '@rollup/rollup-android-arm-eabi@4.68.0':
     resolution: {integrity: sha512-Ta2n0ntLfzP0LqwwcXOIh2z0mnHjlxMS+h4Y9lo+w33Quyf9KFKEi9QZ2IKqeEBKr0qxNpXc/DQjz5KVIs8AEA==}
     cpu: [arm]
@@ -2136,25 +2067,11 @@ packages:
   '@types/estree@1.0.10':
     resolution: {integrity: sha512-lTyOMnOcmRBzdCv6/4zUZCrEhV0xrqQiUZBZtVcbmLHBXKLnN8q89v/wKRF/Q0HbwVsqbIG3o5HDoFl9sduM+g==}
 
-  '@types/estree@1.0.8':
-    resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
-
-  '@types/he@1.2.3':
-    resolution: {integrity: sha512-q67/qwlxblDzEDvzHhVkwc1gzVWxaNxeyHUBF4xElrvjL11O+Ytze+1fGpBHlr/H9myiBUaUXNnNPmBHxxfAcA==}
-
-  '@types/hoist-non-react-statics@3.3.7':
-    resolution: {integrity: sha512-PQTyIulDkIDro8P+IHbKCsw7U2xxBYflVzW/FgWdCAePD9xGSidgA76/GeJ6lBKoblyhf9pBY763gbrN+1dI8g==}
-    peerDependencies:
-      '@types/react': '*'
-
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
-
-  '@types/musickit-js@1.0.11':
-    resolution: {integrity: sha512-Y7fpbd6BJl6Zyz+J7VK6TeGQnkUSOOS5GlkrXr6dj7pFH+YAgIaSCJtUAsA2jzbfCmEXVHaWKJKIeZmVTxPCag==}
 
   '@types/node-fetch@2.6.13':
     resolution: {integrity: sha512-QGpRVpzSaUs30JBSGPjOg4Uveu384erbHBoT1zeONvyCfwQxIkUshLAOqN/k9EjGviPRmWTTe6aH2qySWKTVSw==}
@@ -2172,15 +2089,6 @@ packages:
 
   '@types/react@19.2.14':
     resolution: {integrity: sha512-ilcTH/UniCkMdtexkoCN0bI7pMcJDvmQFPvuPvmEaYA/NSfFTAgdUSLAoVjaRJm7+6PvcM+q1zYOwS4wTYMF9w==}
-
-  '@types/spotify-api@0.0.25':
-    resolution: {integrity: sha512-okhoy0U9fPWtwqCfbDyW8VxamhqvXE0gXIVeMOh5HcvEFQvWW2X0VsvdiX/OyiGQpZbZiOJXIGrbnIPfK0AIpA==}
-
-  '@types/spotify-web-playback-sdk@0.1.19':
-    resolution: {integrity: sha512-Is7x9gMIMoERxE0uvb2SPFQoy5OR7nO1B24CJiaDAUIdq195OLTQedN95XJQtxB2mfm+zi2j3LvEtpPdHKnB3w==}
-
-  '@types/styled-components@5.1.36':
-    resolution: {integrity: sha512-pGMRNY5G2rNDKEv2DOiFYa7Ft1r0jrhmgBwHhOMzPTgCjO76bCot0/4uEfqj7K0Jf1KdQmDtAuaDk9EAs9foSw==}
 
   '@types/trusted-types@2.0.7':
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
@@ -2749,10 +2657,6 @@ packages:
       supports-color:
         optional: true
 
-  decode-uri-component@0.4.1:
-    resolution: {integrity: sha512-+8VxcR21HhTy8nOt6jf20w0c9CADrw1O8d+VZ/YzzCt4bJ3uBjw+D1q2osAB8RnpwwaeYBxy0HyKQxD5JBMuuQ==}
-    engines: {node: '>=14.16'}
-
   deep-extend@0.6.0:
     resolution: {integrity: sha512-LOHxIOaPYdHlJRtCQfDIVZtfw/ufM8+rVj649RIHzcm/vGwQRXFt6OPqIFWsm2XEMrNIEtWR64sY1LEKD2vAOA==}
     engines: {node: '>=4.0.0'}
@@ -3106,10 +3010,6 @@ packages:
     resolution: {integrity: sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg==}
     engines: {node: '>=8'}
 
-  filter-obj@5.1.0:
-    resolution: {integrity: sha512-qWeTREPoT7I0bifpPUXtxkZJ1XJzxWtfoWWkdVGqa+eCr3SHW/Ocp89o8vLvbUuQnadybJpjOKu4V+RwO6sGng==}
-    engines: {node: '>=14.16'}
-
   finalhandler@2.1.1:
     resolution: {integrity: sha512-S8KoZgRZN+a5rNwqTxlZZePjT/4cnm0ROV70LedRHZ0p8u9fRID0hJUZQpkKLzro8LfmC8sx23bY6tVNxv8pQA==}
     engines: {node: '>= 18.0.0'}
@@ -3309,18 +3209,11 @@ packages:
     resolution: {integrity: sha512-T2UbfbBEF32wiepXIsMlTW9+dDYC6wMh/t/vYA4tuOMKqWz/n3vr1NFSxQiyP+zk2mXsoMA/i/7qV6LKut1t1A==}
     engines: {node: '>= 0.4'}
 
-  he@1.2.0:
-    resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
-    hasBin: true
-
   hermes-estree@0.25.1:
     resolution: {integrity: sha512-0wUoCcLp+5Ev5pDW2OriHC2MJCbwLwuRx+gAqMTOkGKJJiBCLjtrvy4PWUGn6MIVefecRpzoOZ/UV6iGdOr+Cw==}
 
   hermes-parser@0.25.1:
     resolution: {integrity: sha512-6pEjquH3rqaI6cYAXYPcz9MS4rY6R4ngRgrgfDshRptUZIc3lw0MCIJIGDj9++mfySOuPTHB4nrSW99BCvOPIA==}
-
-  hoist-non-react-statics@3.3.2:
-    resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
 
   html-escaper@2.0.2:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
@@ -4040,10 +3933,6 @@ packages:
     resolution: {integrity: sha512-O9gl3zCl5h5blw1KGUzQKhA5oUXSl8rwUIM5o0S3nCXMliSvy5Dzx7/DJcI+SwgICv+IneSZwhBh1oSyEHA71A==}
     engines: {node: '>=0.6'}
 
-  query-string@9.3.1:
-    resolution: {integrity: sha512-5fBfMOcDi5SA9qj5jZhWAcTtDfKF5WFdd2uD9nVNlbxVv1baq65aALy6qofpNEGELHvisjjasxQp7BlM9gvMzw==}
-    engines: {node: '>=18'}
-
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
@@ -4259,10 +4148,6 @@ packages:
   source-map@0.8.0:
     resolution: {integrity: sha512-d8EqvL+k/SOXCreS/SUzg2ciyHqBBLcN/yuRjFsbvVhHTE2pgei7oAhmPM7kWFbkX6OSMQfUq4KbkF3au9lhYQ==}
     engines: {node: '>= 12'}
-
-  split-on-first@3.0.0:
-    resolution: {integrity: sha512-qxQJTx2ryR0Dw0ITYyekNQWpz6f8dGd7vffGNflQQ3Iqj9NJ6qiZ7ELpZsJ/QBhIVAiDfXdag3+Gp8RvWa62AA==}
-    engines: {node: '>=12'}
 
   stable-hash-x@0.2.0:
     resolution: {integrity: sha512-o3yWv49B/o4QZk5ZcsALc6t0+eCelPc44zZsLtCQnZPDwFpDYSWcDnrv2TtMmMbQ7uKo3J0HTURCqckw23czNQ==}
@@ -4576,10 +4461,6 @@ packages:
     engines: {node: '>= 16.0.0'}
     peerDependencies:
       react: '*'
-
-  uuid@14.0.0:
-    resolution: {integrity: sha512-Qo+uWgilfSmAhXCMav1uYFynlQO7fMFiMVZsQqZRMIXp0O7rR7qjkj+cPvBHLgBqi960QCoo/PH2/6ZtVqKvrg==}
-    hasBin: true
 
   vary@1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
@@ -6283,11 +6164,6 @@ snapshots:
 
   '@poppinss/exception@1.2.3': {}
 
-  '@react-oauth/google@0.13.5(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
-    dependencies:
-      react: 19.2.5
-      react-dom: 19.2.5(react@19.2.5)
-
   '@rollup/rollup-android-arm-eabi@4.68.0':
     optional: true
 
@@ -6664,20 +6540,9 @@ snapshots:
 
   '@types/estree@1.0.10': {}
 
-  '@types/estree@1.0.8': {}
-
-  '@types/he@1.2.3': {}
-
-  '@types/hoist-non-react-statics@3.3.7(@types/react@19.2.14)':
-    dependencies:
-      '@types/react': 19.2.14
-      hoist-non-react-statics: 3.3.2
-
   '@types/json-schema@7.0.15': {}
 
   '@types/json5@0.0.29': {}
-
-  '@types/musickit-js@1.0.11': {}
 
   '@types/node-fetch@2.6.13':
     dependencies:
@@ -6698,16 +6563,6 @@ snapshots:
 
   '@types/react@19.2.14':
     dependencies:
-      csstype: 3.2.3
-
-  '@types/spotify-api@0.0.25': {}
-
-  '@types/spotify-web-playback-sdk@0.1.19': {}
-
-  '@types/styled-components@5.1.36':
-    dependencies:
-      '@types/hoist-non-react-statics': 3.3.7(@types/react@19.2.14)
-      '@types/react': 19.2.14
       csstype: 3.2.3
 
   '@types/trusted-types@2.0.7': {}
@@ -7263,8 +7118,6 @@ snapshots:
     optionalDependencies:
       supports-color: 10.2.2
 
-  decode-uri-component@0.4.1: {}
-
   deep-extend@0.6.0: {}
 
   deep-is@0.1.4: {}
@@ -7753,7 +7606,7 @@ snapshots:
       '@humanfs/node': 0.16.8
       '@humanwhocodes/module-importer': 1.0.1
       '@humanwhocodes/retry': 0.4.3
-      '@types/estree': 1.0.8
+      '@types/estree': 1.0.10
       ajv: 6.15.0
       chalk: 4.1.2
       cross-spawn: 7.0.6
@@ -7887,8 +7740,6 @@ snapshots:
   fill-range@7.1.1:
     dependencies:
       to-regex-range: 5.0.1
-
-  filter-obj@5.1.0: {}
 
   finalhandler@2.1.1(supports-color@10.2.2):
     dependencies:
@@ -8092,17 +7943,11 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
-  he@1.2.0: {}
-
   hermes-estree@0.25.1: {}
 
   hermes-parser@0.25.1:
     dependencies:
       hermes-estree: 0.25.1
-
-  hoist-non-react-statics@3.3.2:
-    dependencies:
-      react-is: 16.13.1
 
   html-escaper@2.0.2: {}
 
@@ -8744,12 +8589,6 @@ snapshots:
       es-define-property: 1.0.1
       side-channel: 1.1.1
 
-  query-string@9.3.1:
-    dependencies:
-      decode-uri-component: 0.4.1
-      filter-obj: 5.1.0
-      split-on-first: 3.0.0
-
   queue-microtask@1.2.3: {}
 
   quote-js-string@0.1.0: {}
@@ -9083,8 +8922,6 @@ snapshots:
   source-map@0.7.6: {}
 
   source-map@0.8.0: {}
-
-  split-on-first@3.0.0: {}
 
   stable-hash-x@0.2.0: {}
 
@@ -9460,8 +9297,6 @@ snapshots:
   use-debounce@10.1.1(react@19.2.5):
     dependencies:
       react: 19.2.5
-
-  uuid@14.0.0: {}
 
   vary@1.1.2: {}
 

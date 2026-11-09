@@ -1,3 +1,4 @@
+import type { MediaApi } from "@/types/Media.API";
 import { useCallback, useMemo } from "react";
 
 import LoadingScreen from "@/components/LoadingScreen";
@@ -5,7 +6,7 @@ import SelectableList, {
   SelectableListOption,
 } from "@/components/SelectableList";
 import { useEventListener, useSelectableList, useViewContext } from "@/hooks";
-import styled from "styled-components";
+import { styled } from "styled-components";
 
 import { IpodEvent } from "@/utils/events";
 import { useFetchAlbum } from "@/hooks/utils/useDataFetcher";

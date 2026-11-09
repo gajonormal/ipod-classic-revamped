@@ -1,43 +1,32 @@
 [
   {
-    "id": "dQw4w9WgXcQ",
-    "name": "Never Gonna Give You Up",
-    "artistName": "Rick Astley",
-    "albumName": "Whenever You Need Somebody",
-    "url": "dQw4w9WgXcQ",
+    "id": "the-entertainer",
+    "name": "The Entertainer",
+    "artistName": "Scott Joplin",
+    "albumName": "Ragtime Two-Step",
+    "url": "/demo-audio/the-entertainer.mp3",
     "artwork": {
-      "url": "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg"
+      "url": "/demo-audio/the-entertainer.svg"
     }
   },
   {
-    "id": "fJ9rUzIMcZQ",
-    "name": "Bohemian Rhapsody",
-    "artistName": "Queen",
-    "albumName": "A Night at the Opera",
-    "url": "fJ9rUzIMcZQ",
+    "id": "maple-leaf-rag",
+    "name": "Maple Leaf Rag",
+    "artistName": "Scott Joplin",
+    "albumName": "Ragtime",
+    "url": "/demo-audio/maple-leaf-rag.mp3",
     "artwork": {
-      "url": "https://i.ytimg.com/vi/fJ9rUzIMcZQ/hqdefault.jpg"
+      "url": "/demo-audio/maple-leaf-rag.svg"
     }
   },
   {
-    "id": "HyHNuVaZJ-k",
-    "name": "Feel Good Inc.",
-    "artistName": "Gorillaz",
-    "albumName": "Demon Days",
-    "url": "HyHNuVaZJ-k",
+    "id": "pleasant-moments",
+    "name": "Pleasant Moments",
+    "artistName": "Scott Joplin",
+    "albumName": "Ragtime Waltz",
+    "url": "/demo-audio/pleasant-moments.mp3",
     "artwork": {
-      "url": "https://i.ytimg.com/vi/HyHNuVaZJ-k/hqdefault.jpg"
-    }
-  },
-  {
-    "id": "kJQP7kiw5Fk",
-    "name": "Despacito",
-    "artistName": "Luis Fonsi ft. Daddy Yankee",
-    "albumName": "Vida",
-    "url": "kJQP7kiw5Fk",
-    "artwork": {
-      "url": "https://i.ytimg.com/vi/kJQP7kiw5Fk/hqdefault.jpg"
+      "url": "/demo-audio/pleasant-moments.svg"
     }
   }
 ]
-

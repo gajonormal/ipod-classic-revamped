@@ -10,28 +10,28 @@ interface KeyboardInputHook {
 
 interface Props {
   initialValue?: string;
-  /** By default, we only allow dispatching of keypresses by the keyboard.
-   * This can be overridden by setting `readOnly` to false. */
-  readOnly?: boolean;
   onEnterPress?: () => void;
   onChange?: (value: string) => void;
 }
 
 const useKeyboardInput = ({
   initialValue = "",
-  readOnly = true,
   onEnterPress = () => {},
   onChange = () => {},
 }: Props = {}): KeyboardInputHook => {
-  const { showKeyboard: showKeyboardView, hideView } = useViewContext();
+  const {
+    showKeyboard: showKeyboardView,
+    hideView,
+    viewStack,
+  } = useViewContext();
   const [value, setValue] = useState(initialValue);
 
   const showKeyboard = useCallback(() => {
     showKeyboardView({ id: "keyboard" });
   }, [showKeyboardView]);
 
-  useEventListener("input", ({ detail }) => {
-    // TODO: Only trigger keyboard input for one screen at a time.
+  useEventListener("input", ({ detail }: CustomEvent<{ key: string }>) => {
+    if (viewStack.at(-1)?.type !== "keyboard") return;
     const { key } = detail;
 
     if (key === "Enter") {
@@ -55,35 +55,6 @@ const useKeyboardInput = ({
       return newValue;
     });
   });
-
-  const handleKeypress = useCallback(
-    ({ key }: KeyboardEvent) => {
-      if (readOnly) {
-        return;
-      }
-
-      const inputEvent = new CustomEvent("input", {
-        detail: {
-          key,
-        },
-      });
-
-      window.dispatchEvent(inputEvent);
-    },
-    [readOnly]
-  );
-
-  const handleKeydown = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.key === "Backspace") {
-        handleKeypress(event);
-      }
-    },
-    [handleKeypress]
-  );
-
-  useEventListener("keypress", handleKeypress);
-  useEventListener("keydown", handleKeydown);
 
   return {
     value,

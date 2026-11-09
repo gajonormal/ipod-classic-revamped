@@ -1,4 +1,4 @@
-declare namespace MediaApi {
+export declare namespace MediaApi {
   interface Artwork {
     url: string;
   }
@@ -14,7 +14,6 @@ declare namespace MediaApi {
   }
 
   interface Album {
-    // TODO: set up artists support
     artistName?: string;
     artwork?: Artwork;
     id: string;

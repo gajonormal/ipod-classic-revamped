@@ -1,72 +1,48 @@
-<div align="center">
+# iPod Classic Revamped
 
-# iPod Classic Revamped 
+An interactive iPod Classic player for React, with a demo inspired by the Apple website of 2007.
 
-**The iconic iPod Classic, rebuilt for the modern web and powered by YouTube Music.**
+A fork of Tanner Villarete's React project [ipod-classic-js](https://github.com/tvillarete/ipod-classic-js), packaged as a reusable component by [gajonormal](https://github.com/gajonormal). Licensed under MIT.
 
-This is a modified fork of Tanner Villarete's brilliant [ipod-classic-js](https://github.com/tvillarete/ipod-classic-js), revamped by **gajonormal** to serve as a standalone interactive portfolio component.
+## Workspace
 
-![ipod](https://user-images.githubusercontent.com/21055469/71572818-c877a780-2a95-11ea-9e4e-6b0476ff172b.gif)
+- `packages/react-ipod-classic`: the reusable player, themes, music library, and controls.
+- `apps/demo`: the Next.js landing page, configuration examples, and embed route. All routes use the shared package.
+- `scripts/generate-assets.js`: embeds player assets from `apps/demo/public` into the package so consuming sites do not need to host them separately.
 
-</div>
+## Development
 
----
-
-## What's New in this Revamp?
-
-I completely gutted the original music engine and visual aesthetic to create a more authentic, standalone experience:
-
-- **Powered by YouTube Music**: Replaced the legacy Apple Music and Spotify integrations with a custom YouTube scraping engine (via `youtubei.js` and `@tanstack/react-query`).
-- **Google OAuth Login**: Users can log in with their Google account to instantly fetch and play their own YouTube Music library.
-- **Hybrid / Guest Mode**: No login required! If no account is linked, the iPod boots into a custom **Default Library** featuring 4 hand-picked albums (Kanye West, Frank Ocean, Yung Lean, etc.) that work perfectly out of the box.
-- **Retro LCD Aesthetics**: Added an authentic retro screen filter with subtle scanlines, RGB subpixel emulation, and screen glare for that nostalgic 2000s hardware feel.
-
-## Quick Start
-
-```bash
+```sh
 pnpm install
+pnpm build:package
 pnpm dev
 ```
 
-Visit **[http://localhost:3000/ipod](http://localhost:3000/ipod)** to start.
+Open [localhost:3000](http://localhost:3000). Rebuild the package after changing its source, or run `pnpm --filter react-ipod-classic dev` in another terminal to watch for changes.
 
-## Configuration
+Available routes:
 
-Create a `.env.local` file in the root directory to enable Google Login:
+- `/`: landing page, interactive demo, configuration, and React examples.
+- `/embed`: full-window player for iframe embedding.
+- `/test-resize`: manual responsive sizing playground.
+- `/~offline`: offline fallback.
 
-```bash
-NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_client_id
+## Checks and builds
+
+```sh
+pnpm lint
+pnpm type-check
+pnpm build
 ```
 
-### Google OAuth Setup
-1. Go to the [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project and configure the OAuth consent screen.
-3. Create OAuth client ID credentials (Web application).
-4. Add `http://localhost:3000` to Authorized JavaScript origins.
-5. Copy your Client ID into the `.env.local` file.
+`pnpm build` builds the package first, then the demo and its service worker. Use `pnpm generate:assets` after changing the player assets listed in the generator.
 
-## Embedding as an Iframe
+## Using the component
 
-This project is specifically tailored to be deployed on Vercel and embedded into other sites via an iframe to prevent CSS/React conflicts:
+See the [component documentation](packages/react-ipod-classic/README.md) for installation, props, floating mode, playlists, and Next.js integration.
 
-```html
-<iframe
-  src="https://your-deployed-url.vercel.app"
-  style="width: 370px; height: 600px; border: none; border-radius: 30px; background: transparent;"
-  allow="autoplay; encrypted-media; clipboard-read; clipboard-write"
-  title="iPod Classic Revamped"
-></iframe>
-```
+Songs can be supplied through `songs` or `songsUrl`. Use direct audio URLs or YouTube videos that allow embedded playback. The demo uses local MP3 files and runs without streaming service credentials.
 
-## Built With
+## Deployment
 
-- **Framework**: Next.js (React), TypeScript
-- **Styling**: Styled Components, Motion
-- **Data & APIs**: `@tanstack/react-query`, `youtubei.js`, Google OAuth
-
-## Credits & License
-
-- Original project and UI implementation by **[Tanner Villarete](https://github.com/tvillarete/ipod-classic-js)**.
-- Music Engine migration, visual tweaks, and portfolio adaptation by **gajonormal**.
-
-Released under the MIT License.
+The demo includes OpenNext/Cloudflare configuration. From `apps/demo`, use `pnpm preview` to build and preview the Worker or `pnpm cf-deploy` to deploy it. Set `NEXT_PUBLIC_APP_URL` to the site's public origin for metadata.

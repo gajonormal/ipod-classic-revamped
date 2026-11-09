@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import { styled, css } from "styled-components";
 import { Unit } from "@/utils/constants";
 
 import { SelectableListOption } from ".";

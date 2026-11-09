@@ -1,5 +1,5 @@
 import { SadMacIcon } from "@/components/icons";
-import styled from "styled-components";
+import { styled } from "styled-components";
 import { Unit } from "@/utils/constants";
 
 const RootContainer = styled.div`

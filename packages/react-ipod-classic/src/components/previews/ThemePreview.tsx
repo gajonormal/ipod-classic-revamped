@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import styled from "styled-components";
+import { styled } from "styled-components";
 import { ASSET_THEMES_PREVIEW } from "@/assets";
 import { previewSlideRight } from "@/animation";
 

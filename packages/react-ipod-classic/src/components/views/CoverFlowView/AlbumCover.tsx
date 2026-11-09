@@ -1,6 +1,7 @@
+import type { MediaApi } from "@/types/Media.API";
 import { fadeScale } from "@/animation";
 import { AnimatePresence, motion } from "motion/react";
-import styled, { css } from "styled-components";
+import { styled, css } from "styled-components";
 import * as Utils from "@/utils";
 
 import BacksideContent from "./BacksideContent";
@@ -32,23 +33,42 @@ const Container = styled.div.attrs({
 })<ContainerProps>`
   z-index: ${(props) => 1 - Math.abs(props.$index - props.$activeIndex)};
   position: absolute;
+  top: 20px;
+  left: 0;
   height: 8em;
   width: 8em;
-  transition: transform 0.25s, opacity 0.35s, background 0.35s;
+  transition:
+    transform 0.25s,
+    opacity 0.35s,
+    background 0.35s;
   transform-style: preserve-3d;
-  -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(70%, transparent), to(rgba(240, 240, 240, 0.2)));
+  -webkit-box-reflect: below
+    0px -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      from(transparent),
+      color-stop(70%, transparent),
+      to(rgba(240, 240, 240, 0.2))
+    );
   opacity: ${(props) => props.$isHidden && 0};
 
   ${(props) =>
     props.$isActive &&
     css`
-      transition: transform 0.3s, opacity 0.35s, background 0.35s;
-      transform: translate3d(${props.$midpoint.x - 60}px, 4px, 20px)
+      transition:
+        transform 0.3s,
+        opacity 0.35s,
+        background 0.35s;
+      transform: translate3d(${props.$midpoint.x - 64}px, 4px, 20px)
         ${props.$isSelected && "rotateY(-180deg) translateY(25%) scale(0.96)"};
 
       ${props.$isSelected &&
       css`
-        transition: transform 0.5s, opacity 0.35s, background 0.35s;
+        transition:
+          transform 0.5s,
+          opacity 0.35s,
+          background 0.35s;
         -webkit-box-reflect: none;
 
         ${Artwork} {
@@ -77,6 +97,8 @@ const Container = styled.div.attrs({
 const Artwork = styled.img`
   z-index: 0;
   position: absolute;
+  inset: 0;
+  display: block;
   height: 8em;
   width: 8em;
   object-fit: cover;
@@ -124,7 +146,10 @@ const AlbumCover = ({
       $activeIndex={activeIndex}
       $isPlaying={isSelected && playingAlbum}
     >
-      <Artwork src={Utils.getArtwork(300, album.artwork?.url)} />
+      <Artwork
+        src={Utils.getArtwork(300, album.artwork?.url)}
+        alt={album.name}
+      />
       <AnimatePresence>
         {isSelected && !playingAlbum && (
           <Backside {...fadeScale}>

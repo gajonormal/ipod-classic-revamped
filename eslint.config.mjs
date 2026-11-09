@@ -1,11 +1,27 @@
+import { createRequire } from "node:module";
+
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextCoreWebVitals from "eslint-config-next/core-web-vitals";
 import unusedImports from "eslint-plugin-unused-imports";
 
+const require = createRequire(import.meta.url);
+const espree = createRequire(require.resolve("eslint"))("espree");
+
 const eslintConfig = defineConfig([
   ...nextCoreWebVitals,
-  globalIgnores(["**/build/**", "next.config.mjs"]),
+  { files: ["**/*.{js,mjs,cjs}"], languageOptions: { parser: espree } },
+  globalIgnores([
+    "**/node_modules/**",
+    "**/.next/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/.open-next/**",
+    "**/.wrangler/**",
+    "**/public/sw.js",
+    "**/public/sw.js.map",
+  ]),
   {
+    settings: { next: { rootDir: "apps/demo/" } },
     plugins: {
       "unused-imports": unusedImports,
     },

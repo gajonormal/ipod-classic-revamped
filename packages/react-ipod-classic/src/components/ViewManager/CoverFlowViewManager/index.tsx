@@ -2,7 +2,7 @@ import { fade } from "@/animation";
 import { CoverFlowView, Header } from "@/components";
 import { AnimatePresence, motion } from "motion/react";
 import { ViewInstance } from "@/providers/ViewContextProvider";
-import styled from "styled-components";
+import { styled } from "styled-components";
 
 const Container = styled(motion.div)`
   z-index: 0;

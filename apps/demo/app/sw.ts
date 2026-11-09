@@ -3,7 +3,7 @@
 /// <reference lib="webworker" />
 import { defaultCache } from "@serwist/next/worker";
 import type { PrecacheEntry, SerwistGlobalConfig } from "serwist";
-import { ExpirationPlugin, NetworkOnly, Serwist, StaleWhileRevalidate } from "serwist";
+import { Serwist } from "serwist";
 
 declare global {
   interface WorkerGlobalScope extends SerwistGlobalConfig {
@@ -18,28 +18,11 @@ const serwist = new Serwist({
   skipWaiting: true,
   clientsClaim: true,
   navigationPreload: false,
-  runtimeCaching: [
-    {
-      matcher: /\/ipod\/api\/.*/,
-      handler: new NetworkOnly(),
-    },
-    {
-      matcher: ({ url }) =>
-        url.hostname === "sdk.scdn.co" ||
-        url.hostname === "js-cdn.music.apple.com",
-      handler: new StaleWhileRevalidate({
-        cacheName: "third-party-sdks",
-        plugins: [
-          new ExpirationPlugin({ maxEntries: 4, maxAgeSeconds: 60 * 60 * 24 }),
-        ],
-      }),
-    },
-    ...defaultCache,
-  ],
+  runtimeCaching: defaultCache,
   fallbacks: {
     entries: [
       {
-        url: "/ipod/~offline",
+        url: "/~offline",
         matcher({ request }) {
           return request.destination === "document";
         },

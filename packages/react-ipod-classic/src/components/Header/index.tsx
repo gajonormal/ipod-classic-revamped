@@ -1,7 +1,7 @@
 import BatteryIndicator from "@/components/BatteryIndicator";
 import LoadingIndicator from "@/components/LoadingIndicator";
 import { useAudioPlayer, useViewContext } from "@/hooks";
-import styled from "styled-components";
+import { styled } from "styled-components";
 import { ASSET_PLAY, ASSET_PAUSE } from "@/assets";
 
 const Container = styled.div`

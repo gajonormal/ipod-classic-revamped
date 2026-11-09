@@ -1,6 +1,6 @@
 import { fade } from "@/animation";
 import { motion } from "motion/react";
-import styled from "styled-components";
+import { styled } from "styled-components";
 
 interface ContainerProps {
   $backgroundColor?: string;

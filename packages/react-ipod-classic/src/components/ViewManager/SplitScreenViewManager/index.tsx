@@ -3,7 +3,7 @@ import PreviewPanel from "@/components/ViewManager/SplitScreenViewManager/Previe
 import View from "@/components/ViewManager/components/View";
 import { AnimatePresence } from "motion/react";
 import { ScreenViewInstance } from "@/providers/ViewContextProvider";
-import styled, { css } from "styled-components";
+import { styled, css } from "styled-components";
 import { Screen } from "@/utils/constants";
 
 const Container = styled.div`

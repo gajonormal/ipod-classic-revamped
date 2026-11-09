@@ -4,7 +4,6 @@ import SelectableList, {
   SelectableListOption,
 } from "@/components/SelectableList";
 import { useSelectableList } from "@/hooks";
-import * as Utils from "@/utils";
 import { useFetchAlbum } from "@/hooks/utils/useDataFetcher";
 
 interface Props {
@@ -14,7 +13,6 @@ interface Props {
 }
 
 const AlbumView = ({ id, inLibrary = false }: Props) => {
-
   const { data: album, isLoading } = useFetchAlbum({
     id,
     inLibrary,
@@ -30,12 +28,14 @@ const AlbumView = ({ id, inLibrary = false }: Props) => {
           startPosition: index,
         },
         showNowPlayingView: true,
-        longPressOptions: Utils.getMediaOptions("song", song.id),
       })) ?? [],
     [album]
   );
 
-  const { activeIndex: scrollIndex } = useSelectableList({ viewId: "album", options });
+  const { activeIndex: scrollIndex } = useSelectableList({
+    viewId: "album",
+    options,
+  });
 
   return (
     <SelectableList

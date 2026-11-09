@@ -1,22 +1,13 @@
-import { useCallback, useMemo } from "react";
-
+import { useMemo } from "react";
 
 import { getConditionalOption } from "@/components/SelectableList";
 import SelectableList, {
   SelectableListOption,
 } from "@/components/SelectableList";
 import { SplitScreenPreview } from "@/components/previews";
-import {
-  useAudioPlayer,
-  useSelectableList,
-  useSettings,
-} from "@/hooks";
+import { useAudioPlayer, useSelectableList, useSettings } from "@/hooks";
 
 const THEMES = ["silver", "black", "u2"] as const;
-
-const SERVICE_LABELS = {
-  youtube: "YouTube",
-} as const;
 
 const formatCurrentLabel = (label: string, isCurrent: boolean) =>
   `${label}${isCurrent ? " (Current)" : ""}`;
@@ -29,7 +20,6 @@ const getThemeLabel = (theme: (typeof THEMES)[number]) => {
 const SettingsView = () => {
   const {
     isAuthorized,
-    isOffline,
     deviceTheme,
     setDeviceTheme,
 
@@ -37,9 +27,7 @@ const SettingsView = () => {
     hapticsEnabled,
     setHapticsEnabled,
   } = useSettings();
-  const { setRepeatMode, reset } = useAudioPlayer();
-
-
+  const { setRepeatMode } = useAudioPlayer();
 
   const themeOptions: SelectableListOption[] = useMemo(
     () =>
@@ -51,8 +39,6 @@ const SettingsView = () => {
       })),
     [deviceTheme, setDeviceTheme]
   );
-
-
 
   const options: SelectableListOption[] = useMemo(
     () => [
@@ -116,7 +102,6 @@ const SettingsView = () => {
         ],
         preview: SplitScreenPreview.Settings,
       },
-
     ],
     [
       isAuthorized,
@@ -128,7 +113,10 @@ const SettingsView = () => {
     ]
   );
 
-  const { activeIndex: scrollIndex } = useSelectableList({ viewId: "settings", options });
+  const { activeIndex: scrollIndex } = useSelectableList({
+    viewId: "settings",
+    options,
+  });
 
   return <SelectableList options={options} activeIndex={scrollIndex} />;
 };

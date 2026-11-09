@@ -1,3 +1,4 @@
+import type { MediaApi } from "@/types/Media.API";
 import { useCallback, useMemo } from "react";
 
 import AuthPrompt from "@/components/AuthPrompt";
@@ -38,7 +39,6 @@ const PlaylistsView = ({ playlists, inLibrary = true }: Props) => {
         viewId: "playlist",
         headerTitle: playlist.name,
         props: { id: playlist.id, inLibrary },
-        longPressOptions: Utils.getMediaOptions("playlist", playlist.id),
       })) ?? []
     );
   }, [fetchedPlaylists?.pages, inLibrary, playlists]);

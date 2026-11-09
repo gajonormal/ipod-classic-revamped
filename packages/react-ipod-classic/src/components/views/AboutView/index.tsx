@@ -1,6 +1,6 @@
 import { SelectableList, SelectableListOption } from "@/components";
 import { useSelectableList } from "@/hooks";
-import styled from "styled-components";
+import { styled } from "styled-components";
 import { Unit } from "@/utils/constants";
 import { ASSET_IPOD_LOGO } from "@/assets";
 

@@ -11,7 +11,7 @@ import {
   useViewContext,
 } from "@/hooks";
 import { PopupInstance } from "@/providers/ViewContextProvider";
-import styled, { css } from "styled-components";
+import { styled, css } from "styled-components";
 import { Unit } from "@/utils/constants";
 import { IpodEvent } from "@/utils/events";
 

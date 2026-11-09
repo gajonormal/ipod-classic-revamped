@@ -1,6 +1,6 @@
 import { AnimatePresence } from "motion/react";
 import { PopupInstance } from "@/providers/ViewContextProvider";
-import styled from "styled-components";
+import { styled } from "styled-components";
 
 import Popup from "../components/Popup";
 

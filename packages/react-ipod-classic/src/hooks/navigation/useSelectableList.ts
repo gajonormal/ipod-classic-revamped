@@ -15,8 +15,6 @@ interface UseSelectableListOptions {
    * Register menu-button-to-hide-view behavior. Default: true.
    * Safe to leave on even for root views (hideView is a no-op when stack length is 1).
    * Set to false for sub-components like BacksideContent that don't own their view lifecycle.
-   *
-   * This value must be constant for the lifetime of the component (do not derive from state).
    */
   hideOnMenu?: boolean;
 }
@@ -32,8 +30,7 @@ const useSelectableList = ({
   onNearEndOfList,
   hideOnMenu = true,
 }: UseSelectableListOptions): UseSelectableListResult => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  if (hideOnMenu) useMenuHideView(viewId);
+  useMenuHideView(viewId, hideOnMenu);
 
   const [activeIndex] = useScrollHandler(
     viewId,

@@ -1,25 +1,20 @@
-const getRootAppUrl = () => process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 import StyledComponentsRegistry from "@/lib/registry";
 import { SerwistProvider } from "@/lib/serwist-provider";
 import { Metadata, Viewport } from "next";
-import Script from "next/script";
 import "./styles/globals.css";
-
-const appleTouchIconUrl = `${getRootAppUrl()}/ipod/apple-touch-icon.png`;
-const favicon32Url = `${getRootAppUrl()}/ipod/favicon-32x32.png`;
-const favicon16Url = `${getRootAppUrl()}/ipod/favicon-16x16.png`;
+const appUrl = process.env.NEXT_PUBLIC_APP_URL || undefined;
 
 export const metadata: Metadata = {
   title: "iPod.js",
   description: "An iPod Classic built for the web.",
-  metadataBase: new URL(getRootAppUrl()),
+  metadataBase: appUrl ? new URL(appUrl) : undefined,
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
     title: "iPod.js",
   },
   openGraph: {
-    url: "http://tannerv.com/ipod",
+    url: appUrl,
     title: "iPod.js",
     description: "An iPod Classic built for the web.",
     type: "website",
@@ -36,19 +31,19 @@ export const metadata: Metadata = {
     {
       rel: "apple-touch-icon",
       sizes: "180x180",
-      url: appleTouchIconUrl,
+      url: "/apple-touch-icon.png",
     },
     {
       rel: "icon",
       type: "image/png",
       sizes: "32x32",
-      url: favicon32Url,
+      url: "/favicon-32x32.png",
     },
     {
       rel: "icon",
       type: "image/png",
       sizes: "16x16",
-      url: favicon16Url,
+      url: "/favicon-16x16.png",
     },
   ],
 };
@@ -65,11 +60,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html>
-      <head>
-      </head>
+    <html lang="en">
       <body>
-        <SerwistProvider swUrl="/ipod/sw.js" options={{ scope: "/ipod/" }}>
+        <SerwistProvider swUrl="/sw.js" options={{ scope: "/" }}>
           <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
         </SerwistProvider>
       </body>

@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "motion/react";
 import { useAudioPlayer } from "@/hooks";
-import styled from "styled-components";
+import { styled } from "styled-components";
 import * as Utils from "@/utils";
 
 const Container = styled(motion.div)`

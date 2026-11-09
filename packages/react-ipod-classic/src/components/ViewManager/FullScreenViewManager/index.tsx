@@ -2,7 +2,7 @@ import { Header } from "@/components";
 import View from "@/components/ViewManager/components/View";
 import { AnimatePresence } from "motion/react";
 import { ScreenViewInstance } from "@/providers/ViewContextProvider";
-import styled from "styled-components";
+import { styled } from "styled-components";
 
 interface ContainerProps {
   $isHidden: boolean;

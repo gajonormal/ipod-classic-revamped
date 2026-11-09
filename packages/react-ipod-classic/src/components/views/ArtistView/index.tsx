@@ -29,13 +29,15 @@ const ArtistView = ({ id, inLibrary = false }: Props) => {
           imageUrl: Utils.getArtwork(100, album.artwork?.url),
           viewId: "album",
           props: { id: album.id ?? "", inLibrary },
-          longPressOptions: Utils.getMediaOptions("album", album.id),
         })
       ) ?? [],
     [albums, inLibrary]
   );
 
-  const { activeIndex: scrollIndex } = useSelectableList({ viewId: "artist", options });
+  const { activeIndex: scrollIndex } = useSelectableList({
+    viewId: "artist",
+    options,
+  });
 
   return (
     <SelectableList

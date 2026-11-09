@@ -13,7 +13,7 @@ import {
   PopupInstance,
   KeyboardInstance,
 } from "@/providers/ViewContextProvider";
-import styled from "styled-components";
+import { styled } from "styled-components";
 import { IpodEvent } from "@/utils/events";
 
 /** Prevents the user from scrolling the display with a mouse. */

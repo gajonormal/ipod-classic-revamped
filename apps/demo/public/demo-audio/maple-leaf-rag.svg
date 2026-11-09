@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+  <path fill="#6e2c2d" d="M0 0h240v240H0z"/>
+  <path fill="none" stroke="#e5bd79" stroke-width="2" d="M12 12h216v216H12zM18 18h204v204H18z"/>
+  <g fill="#e5bd79">
+    <path d="m120 104 10 22 11-5-2 17 19-5-5 12 8 3-36 20v15h-6v-15l-40-20 9-3-5-12 19 5-2-17 11 5z"/>
+  </g>
+  <g fill="#f5e5be" text-anchor="middle" font-family="Georgia, serif">
+    <text x="120" y="55" font-size="13" letter-spacing="3">SCOTT JOPLIN</text>
+    <text x="120" y="88" font-size="25">Maple Leaf Rag</text>
+    <text x="120" y="205" font-size="12" letter-spacing="2">RAGTIME</text>
+  </g>
+</svg>

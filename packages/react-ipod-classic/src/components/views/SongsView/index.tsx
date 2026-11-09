@@ -1,3 +1,4 @@
+import type { MediaApi } from "@/types/Media.API";
 import { useMemo } from "react";
 
 import SelectableList, {
@@ -23,12 +24,14 @@ const SongsView = ({ songs }: Props) => {
         },
         imageUrl: Utils.getArtwork(50, song.artwork?.url),
         showNowPlayingView: true,
-        longPressOptions: Utils.getMediaOptions("song", song.id),
       })) ?? [],
     [songs]
   );
 
-  const { activeIndex: scrollIndex } = useSelectableList({ viewId: "songs", options });
+  const { activeIndex: scrollIndex } = useSelectableList({
+    viewId: "songs",
+    options,
+  });
 
   return (
     <SelectableList

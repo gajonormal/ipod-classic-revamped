@@ -1,9 +1,7 @@
-import { useCallback } from "react";
-
 import { Controls } from "@/components";
 import { useAudioPlayer, useEffectOnce } from "@/hooks";
 import { motion, AnimatePresence } from "motion/react";
-import styled from "styled-components";
+import { styled } from "styled-components";
 import { Unit } from "@/utils/constants";
 import * as Utils from "@/utils";
 
@@ -97,30 +95,31 @@ const ControlsContainer = styled.div`
   height: 30%;
 `;
 
+const PlaybackError = styled.div`
+  padding: 0 ${Unit.SM};
+  font-size: 0.75rem;
+  color: #842525;
+`;
+
 interface Props {
   hideArtwork?: boolean;
   onHide: () => void;
 }
 
-const NowPlaying = ({ hideArtwork, onHide }: Props) => {
+const NowPlaying = ({ hideArtwork }: Props) => {
   const {
     nowPlayingItem,
     updateNowPlayingItem,
     updatePlaybackInfo,
     shuffleMode,
     repeatMode,
+    playbackError,
   } = useAudioPlayer();
-
-  const handlePlaybackChange = useCallback(() => {
-    // To be implemented for YouTube
-  }, []);
 
   useEffectOnce(() => {
     updateNowPlayingItem();
     updatePlaybackInfo();
   });
-
-  // useMKEventListener("playbackStateDidChange", handlePlaybackChange);
 
   const artworkUrl = Utils.getArtwork(300, nowPlayingItem?.artwork?.url);
 
@@ -156,7 +155,11 @@ const NowPlaying = ({ hideArtwork, onHide }: Props) => {
         </InfoContainer>
       </MetadataContainer>
       <ControlsContainer>
-        <Controls />
+        {playbackError ? (
+          <PlaybackError role="alert">{playbackError}</PlaybackError>
+        ) : (
+          <Controls />
+        )}
       </ControlsContainer>
     </Container>
   );

@@ -1,8 +1,8 @@
 // Public Components
+import FloatingIpod from "./components/FloatingIpod/FloatingIpod";
+
 export { Ipod } from "./components/Ipod";
 export type { IpodProps } from "./components/Ipod/Ipod";
-
-import FloatingIpod from "./components/FloatingIpod/FloatingIpod";
 export { FloatingIpod };
 export default FloatingIpod;
 export type {
@@ -26,9 +26,5 @@ export { getTheme } from "./utils/themes";
 export type { DeviceThemeName } from "./utils/themes";
 
 // Types
-export type {
-  IpodSong,
-  IpodPlaylist,
-  IpodAlbum,
-} from "./types/custom";
-
+export type { IpodSong, IpodPlaylist, IpodAlbum } from "./types/custom";
+export type { MediaApi } from "./types/Media.API";

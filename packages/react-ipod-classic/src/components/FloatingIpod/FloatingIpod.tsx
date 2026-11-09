@@ -1,6 +1,7 @@
 "use client";
+import type { MediaApi } from "@/types/Media.API";
 import React, { useState, useCallback, useRef } from "react";
-import styled from "styled-components";
+import { styled } from "styled-components";
 import { motion, AnimatePresence, useDragControls } from "motion/react";
 import Ipod, { IpodProps } from "@/components/Ipod/Ipod";
 

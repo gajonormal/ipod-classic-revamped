@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import { styled } from "styled-components";
 import {
   ASSET_GLOSS_OVERLAY,
   ASSET_GLOSS_BLUE,

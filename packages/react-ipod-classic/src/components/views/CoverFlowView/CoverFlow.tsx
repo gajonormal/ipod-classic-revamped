@@ -1,10 +1,11 @@
+import type { MediaApi } from "@/types/Media.API";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { fade } from "@/animation";
 import NowPlaying from "@/components/NowPlaying";
 import { AnimatePresence, motion } from "motion/react";
-import { useEventListener, useViewContext } from "@/hooks";
-import styled from "styled-components";
+import { useAudioPlayer, useEventListener, useViewContext } from "@/hooks";
+import { styled } from "styled-components";
 
 import AlbumCover from "./AlbumCover";
 import { IpodEvent } from "@/utils/events";
@@ -71,7 +72,9 @@ interface Props {
 }
 
 const CoverFlow = ({ albums }: Props) => {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const { playbackError } = useAudioPlayer();
+  const [index, setActiveIndex] = useState(0);
+  const activeIndex = Math.min(index, Math.max(0, albums.length - 1));
   const [midpoint, setMidpoint] = useState<Point>({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedAlbum, setSelectedAlbum] = useState<MediaApi.Album>();
@@ -99,15 +102,17 @@ const CoverFlow = ({ albums }: Props) => {
 
   const forwardScroll = useCallback(() => {
     if (activeIndex < albums.length - 1 && !selectedAlbum && !playingAlbum) {
-      setActiveIndex(activeIndex + 1);
+      setActiveIndex((current) => Math.min(current + 1, albums.length - 1));
     }
   }, [activeIndex, albums.length, playingAlbum, selectedAlbum]);
 
   const backwardScroll = useCallback(() => {
     if (activeIndex > 0 && !selectedAlbum && !playingAlbum) {
-      setActiveIndex(activeIndex - 1);
+      setActiveIndex((current) =>
+        Math.max(Math.min(current, albums.length - 1) - 1, 0)
+      );
     }
-  }, [activeIndex, playingAlbum, selectedAlbum]);
+  }, [activeIndex, albums.length, playingAlbum, selectedAlbum]);
 
   const updateMidpoint = useCallback(() => {
     if (containerRef.current) {
@@ -153,10 +158,16 @@ const CoverFlow = ({ albums }: Props) => {
       </AlbumsContainer>
 
       <AnimatePresence>
-        {albums.length && !playingAlbum && (
+        {albums.length > 0 && !playingAlbum && (
           <InfoContainer {...fade}>
             <Text $clamp={1}>{albums[activeIndex]?.name}</Text>
-            <Text $clamp={1}>{albums[activeIndex]?.artistName}</Text>
+            {playbackError ? (
+              <Text role="alert" $clamp={2}>
+                {playbackError}
+              </Text>
+            ) : (
+              <Text $clamp={1}>{albums[activeIndex]?.artistName}</Text>
+            )}
           </InfoContainer>
         )}
         {playingAlbum && (
