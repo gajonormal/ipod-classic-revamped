@@ -13,6 +13,7 @@ export type {
 // Providers & Hooks
 export {
   MusicLibraryProvider,
+  parseIpodSongs,
   useMusicLibrary,
 } from "./providers/MusicLibraryProvider";
 export type { MusicLibraryContextType } from "./providers/MusicLibraryProvider";

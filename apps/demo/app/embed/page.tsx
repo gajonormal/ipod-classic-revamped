@@ -1,6 +1,4 @@
-import { Suspense } from "react";
-import { Ipod } from "@/components/ClientIpod";
-import samplePlaylist from "../../public/demo-songs.json";
+import EmbedIpod from "./EmbedIpod";
 
 export const dynamic = "force-dynamic";
 
@@ -22,15 +20,11 @@ export default async function EmbedPage({
         overflow: "hidden",
       }}
     >
-      <Suspense fallback={null}>
-        <Ipod
-          disableAnimation
-          songs={samplePlaylist}
-          parentOrigin={
-            typeof parentOrigin === "string" ? parentOrigin : undefined
-          }
-        />
-      </Suspense>
+      <EmbedIpod
+        parentOrigin={
+          typeof parentOrigin === "string" ? parentOrigin : undefined
+        }
+      />
     </div>
   );
 }

@@ -23,7 +23,7 @@ Open [localhost:3000](http://localhost:3000). Rebuild the package after changing
 Available routes:
 
 - `/`: landing page, interactive demo, configuration, and React examples.
-- `/embed`: full-window player for iframe embedding.
+- `/embed`: full-window player for [HTML embeds with custom playlists](packages/react-ipod-classic/README.md#embed-in-html).
 - `/test-resize`: manual responsive sizing playground.
 - `/~offline`: offline fallback.
 

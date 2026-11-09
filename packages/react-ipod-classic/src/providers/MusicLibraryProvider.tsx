@@ -63,6 +63,12 @@ function isRemoteSong(value: unknown): value is IpodSong {
   );
 }
 
+export function parseIpodSongs(data: unknown): IpodSong[] | undefined {
+  const songs =
+    data && typeof data === "object" && "songs" in data ? data.songs : data;
+  return Array.isArray(songs) && songs.every(isRemoteSong) ? songs : undefined;
+}
+
 function normalizeSong(song: IpodSong, index: number): MediaApi.Song {
   const url = extractYouTubeId(song.url);
   return {
@@ -110,9 +116,8 @@ export const MusicLibraryProvider: React.FC<MusicLibraryProviderProps> = ({
       try {
         const response = await fetch(url, { signal: controller.signal });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = await response.json();
-        const songs: unknown = Array.isArray(data) ? data : data?.songs;
-        if (!Array.isArray(songs) || !songs.every(isRemoteSong)) {
+        const songs = parseIpodSongs(await response.json());
+        if (!songs) {
           throw new Error(
             "Expected a playlist of songs with a name and an audio URL or YouTube ID"
           );

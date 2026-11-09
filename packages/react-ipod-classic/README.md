@@ -217,4 +217,33 @@ Use `<Ipod interactive={false} />` to render a decorative device without input l
 
 `googleClientId` is reserved for compatibility and does not initialize a sign-in flow.
 
+## Embed in HTML
+
+Host your MP3 files and artwork alongside your website. Use the iframe URL's `playlist` fragment to supply your tracks to the hosted player.
+
+```html
+<iframe
+  id="ipod"
+  title="iPod Classic music player"
+  loading="lazy"
+  style="width: 100%; max-width: 340px; height: 520px; border: 0"
+></iframe>
+<script>
+  const tracks = [
+    {
+      name: "Track title",
+      artistName: "Artist name",
+      albumName: "Album name",
+      url: new URL("./music/track.mp3", document.baseURI).href,
+      artwork: { url: new URL("./music/cover.jpg", document.baseURI).href }
+    }
+  ];
+  const player = new URL("https://ipod-classic-revamped.vercel.app/embed");
+  player.hash = new URLSearchParams({ playlist: JSON.stringify(tracks) }).toString();
+  document.getElementById("ipod").src = player.href;
+</script>
+```
+
+Add one object per track. Use publicly accessible HTTPS links for the audio and artwork. The iframe plays the demo playlist when the fragment is omitted.
+
 When embedding the demo, use `/embed?parentOrigin=https%3A%2F%2Fexample.com` to set the parent origin explicitly. Otherwise the player uses the browser referrer when available, with its own origin as the fallback. Commands must come from the immediate parent window.
